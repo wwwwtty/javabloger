@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd"
+	default-autowire="autodetect">
+
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="configLocation"
+			value="classpath:hibernate.cfg.xml">
+		</property>
+	</bean>
+	<bean id="templet" class="org.springframework.orm.hibernate3.HibernateTemplate">
+		<!--  
+		<property name="sessionFactory" ref="sessionFactory" />
+		-->
+        <property name="fetchSize" value="20" />
+	</bean>
+	<bean id="studentDAO" class="com.exam.dao.imp.StudentDAOImp"></bean>
+	<bean id="teacherDAO" class="com.exam.dao.imp.TeacherDAOImp"></bean>
+	<bean id="professionDAO" class="com.exam.dao.imp.ProfessionDAOImp"></bean>
+	<bean id="questDAO" class="com.exam.dao.imp.QuestDAOImp"></bean>
+	<bean id="examPaperDAO" class="com.exam.dao.imp.ExamPaperDAOImp"></bean>
+	<bean id="examDAO" class="com.exam.dao.imp.ExamDAOImp"></bean>
+	<bean id="courseDAO" class="com.exam.dao.imp.CourseDAOImp"></bean>
+	<bean id="classInfoDAO" class="com.exam.dao.imp.ClassInfoDAOImp"></bean>
+	<bean id="answerDAO" class="com.exam.dao.imp.AnswerDAOImp"></bean>
+	
+	<import resource="spring_action.xml" />
+	<import resource="spring_service.xml" />
+</beans>

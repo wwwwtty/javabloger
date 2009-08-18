@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee   http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>WEB-INF/classes/applicationContext.xml</param-value>
+	</context-param>
+	<context-param>
+		<param-name>jmesaPreferencesLocation</param-name>
+		<param-value>WEB-INF/classes/jmesa.properties</param-value>
+	</context-param>
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+ 
+ <!-- 处理系统中的Ajax请求 -->
+	<filter>
+		<display-name>ajaxFilter</display-name>
+		<filter-name>ajaxFilter</filter-name>
+		<filter-class>com.exam.utils.AjaxFilter</filter-class>
+	</filter>
+ 
+ <!-- Struts2拦截器 -->
+	<filter>
+		<filter-name>struts</filter-name>
+		<filter-class>org.apache.struts2.dispatcher.FilterDispatcher</filter-class>
+	</filter>
+ 	<!-- OpenSessionInView -->
+	<filter>
+		<filter-name>OpenSessionInView</filter-name>
+		<filter-class>
+			org.springframework.orm.hibernate3.support.OpenSessionInViewFilter 
+		</filter-class>
+       <!-- singleSession默认为true,若设为false则等于没用OpenSessionInView -->
+		<init-param>
+			<param-name>singleSession</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>  
+   
+
+
+	
+   <!-- OpenSessionInView -->
+	<filter-mapping>
+		<filter-name>OpenSessionInView</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>ajaxFilter</filter-name>
+		<url-pattern>/ajax/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>struts</filter-name>
+		<url-pattern>/struts/*</url-pattern>
+	</filter-mapping>
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+	<login-config>
+		<auth-method>BASIC</auth-method>
+	</login-config>
+</web-app>
