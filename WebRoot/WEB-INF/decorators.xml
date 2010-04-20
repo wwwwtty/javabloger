@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<decorators defaultdir="/manager">
+	<excludes>
+         <pattern>/manager/json/*</pattern>
+    </excludes>
+	<decorator name="main" page="main.jsp">
+		<pattern>/manager/*</pattern>
+	</decorator>
+</decorators>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<b:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:b="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/security
+    http://www.springframework.org/schema/security/spring-security-3.0.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+	
+	<http access-decision-manager-ref="accessDecisionManager">
+		<intercept-url pattern="/login.jsp"	access="IS_AUTHENTICATED_ANONYMOUSLY" filters="none" />
+		<intercept-url pattern="/**" access="IS_AUTHENTICATED_FULLY" />
+		<form-login login-page='/login.jsp'	login-processing-url="/j_spring_security_check.do"
+			authentication-success-handler-ref="authenticationSuccessHandler"
+			authentication-failure-handler-ref="AuthenticationFailureHandler" />
+		<logout success-handler-ref="logoutHandle" logout-url="/logout.jsp" />
+		<remember-me />
+	</http>
+
+	<authentication-manager alias="authenticationManager">
+		<authentication-provider user-service-ref="authService">
+		</authentication-provider>
+	</authentication-manager>
+</b:beans>
