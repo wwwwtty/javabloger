@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd  http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+	
+	<bean class="org.spring.web.json.CMSAnnotationHandlerMapping"></bean>
+
+	<bean name="viewResolver"   
+        class="org.springframework.web.servlet.view.XmlViewResolver" >
+        <property name="location" value='classpath:view/xmlView.xml'></property>
+        </bean>
+
+	<bean name="statusError"
+		class="org.springframework.web.servlet.view.json.error.HttpStatusError">
+		<property name="errorCode">
+			<value>311</value>
+		</property>
+	</bean>
+	<bean name="modelflagError"
+		class="org.springframework.web.servlet.view.json.error.ModelFlagError">
+		<property name="name">
+			<value>failure</value>
+		</property>
+		<property name="value">
+			<value>true</value>
+		</property>
+	</bean>
+
+	<bean name="stackTraceExceptionHandler"
+		class="org.springframework.web.servlet.view.json.exception.StackTraceExceptionHandler" />
+
+	<bean name="exceptionMessageExceptionHandler"
+		class="org.springframework.web.servlet.view.json.exception.ExceptionMessageExceptionHandler" />
+
+	<bean id="exceptionResolver"
+		class="org.springframework.web.servlet.view.json.exception.JsonExceptionResolver">
+		<property name="exceptionView">
+			<value>jsonView</value>
+		</property>
+		<property name="errorHandler">
+			<list>
+				<ref bean="statusError" />
+				<ref bean="modelflagError" />
+			</list>
+		</property>
+		<property name="exceptionHandler">
+			<list>
+				<ref bean="stackTraceExceptionHandler" />
+				<ref bean="exceptionMessageExceptionHandler" />
+			</list>
+		</property>
+	</bean> 
+</beans>
