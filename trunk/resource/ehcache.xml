@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache>
+	<diskStore path="java.io.tmpdir/ehcache-security" />
+	<defaultCache maxElementsInMemory="1000000" eternal="false"
+		timeToIdleSeconds="18000" timeToLiveSeconds="18000" overflowToDisk="true"
+		diskPersistent="false" diskExpiryThreadIntervalSeconds="600"
+		memoryStoreEvictionPolicy='LFU' />
+
+	<!-- security cache-->
+	<cache name="userCache" maxElementsInMemory="100000" eternal="false"
+		overflowToDisk="true" timeToIdleSeconds="18000" timeToLiveSeconds="18000"
+		diskPersistent="false" diskExpiryThreadIntervalSeconds="600"
+		memoryStoreEvictionPolicy='LFU' />
+
+</ehcache>

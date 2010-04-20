@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd" >
+
+<hibernate-reverse-engineering>
+  <table-filter match-catalog="tinyCms" match-name="Function"/>
+  <table-filter match-catalog="tinyCms" match-name="User"/>
+  <table-filter match-catalog="tinyCms" match-name="CategoryRefNews"/>
+  <table-filter match-catalog="tinyCms" match-name="Comment"/>
+  <table-filter match-catalog="tinyCms" match-name="News"/>
+  <table-filter match-catalog="tinyCms" match-name="NewsRefContent"/>
+  <table-filter match-catalog="tinyCms" match-name="Property"/>
+  <table-filter match-catalog="tinyCms" match-name="Operation"/>
+  <table-filter match-catalog="tinyCms" match-name="Page"/>
+  <table-filter match-catalog="tinyCms" match-name="Site"/>
+</hibernate-reverse-engineering>
