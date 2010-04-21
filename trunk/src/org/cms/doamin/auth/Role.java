@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.cms.core.SiteUtils;
 import org.hibernate.annotations.GenericGenerator;
 
 /**
@@ -27,10 +29,12 @@ public class Role implements java.io.Serializable {
 	private String roleName;
 	@Column(name = "role_desc", length = 100)
 	private String roleDesc;
+	/**
+	 * 角色简写Code,可通过系统分隔符来实现父子的分级;
+	 */
 	@Column(name = "role_code", length = 30)
 	private String roleCode;
-	@Column(name = "grade", length = 20)
-	private String grade;
+	
 	@Column(name = "enabled")
 	private Boolean enabled=true;
 
@@ -75,15 +79,25 @@ public class Role implements java.io.Serializable {
 	public void setRoleDesc(String roleDesc) {
 		this.roleDesc = roleDesc;
 	}
-
-	public String getRoleCode() {
+	public String getFullRoleCode() {
 		return this.roleCode;
+	}
+	/**获得当前节点的Code;
+	 * @return
+	 */
+	public String getRoleCode() {
+		int index=roleCode.lastIndexOf(SiteUtils.SEPARATOR_CONTACT);
+		index=index>0?index+1:0;
+		return this.roleCode.substring(index);
 	}
 
 	public void setRoleCode(String roleCode) {
-		this.roleCode = roleCode;
+		this.roleCode = this.getParentRoleCode()+roleCode;
 	}
 
+	public void setRoleAndParentCode(String roleCode) {
+		this.roleCode = roleCode;
+	} 
 	public Boolean getEnabled() {
 		return this.enabled;
 	}
@@ -92,12 +106,13 @@ public class Role implements java.io.Serializable {
 		this.enabled = enable;
 	}
 
-	public void setGrade(String grade) {
-		this.grade = grade;
+	public void setParentRoleCode(String parentRoleCode) {
+		this.roleCode=parentRoleCode+this.getRoleCode();
 	}
 
-	public String getGrade() {
-		return grade;
+	public String getParentRoleCode() {
+		int index=roleCode.lastIndexOf(SiteUtils.SEPARATOR_CONTACT);
+		index=index>0?index:0;
+		return this.roleCode.substring(0,index);
 	}
-
 }

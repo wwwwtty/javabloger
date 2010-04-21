@@ -66,6 +66,14 @@ public interface BaseDAO {
 	/**自定义查询HQL语句 */
 	public List<? extends Serializable> findByHql(final String queryString,final PramasMap values);
 	
+	
+	/**自定义查询HQL语句；不支持事务；
+	 * @param queryString
+	 * @param values
+	 * @return
+	 */
+	public List<? extends Serializable> findBySql(final String queryString, Class<?> clazz);
+
 	/**自定义查询HQL语句；不支持事务；
 	 * @param queryString
 	 * @param values
