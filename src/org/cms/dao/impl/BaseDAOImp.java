@@ -151,7 +151,14 @@ public class BaseDAOImp implements BaseDAO{
 				}		
 			    });
 	}	
-	
+	@Override
+	public List<? extends Serializable> findBySql(String queryString,
+			Class<?> clazz) {
+		PramasMap paras=new PramasMap();
+		paras.setEntity(clazz);
+		return this.findBySql(queryString, paras);
+	}
+
 	@Override
 	public List findBySql(final String queryString, final PramasMap Paras) throws DataAccessException {
 	    if(log.isDebugEnabled()){
@@ -257,7 +264,6 @@ public class BaseDAOImp implements BaseDAO{
 	public void setTemplet(HibernateTemplate templet) {
 	    this.templet = templet;
 	}
-
 }
 
 class HibernateNamedQueryUtils implements HibernateCallback{

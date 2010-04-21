@@ -4,7 +4,10 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TreeNode {
+import org.cms.doamin.auth.Role;
+
+public class TreeNode implements Serializable{
+	private static final long serialVersionUID = 1L;
 	private String id;
 	private String text ;
 	private boolean leaf ;

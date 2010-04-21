@@ -44,14 +44,15 @@ public class AuthDataControl{
 	 */
 	@RequestMapping(params = "action=findFunctions") 
 	public ModelAndView findFunctions(HttpServletRequest request){
-		String code=request.getParameter("code").toString();
-		code=StringUtils.isEmpty(code)||code.equals("root")?"00":code;
+		String code=request.getParameter("code");
 		List<TreeNode> tree=new ArrayList<TreeNode>();
-		List<Role> roles=rs.findByGradeCode(code);
+		List<Role> roles=rs.findByParentCode(code);
 		//获得角色;
 		if(roles!=null&&roles.size()>0){
 			for(Role r: roles){
-				tree.add(new TreeNode(r.getGrade(),r.getRoleName(),false));
+				TreeNode node=new TreeNode(r.getRoleCode(),r.getRoleName(),false);
+				node.addAttribute("entity",r);
+				tree.add(node);
 			}
 			return WebUtils.buildReturnView(tree);
 		}
@@ -61,6 +62,7 @@ public class AuthDataControl{
 				for(Function f: funs){
 					TreeNode node=new TreeNode(f.getCode(),f.getName(),true);
 					node.addAttribute("url", f.getUrl());
+					node.addAttribute("entity",f);
 					tree.add(node);
 				}
 			}
@@ -79,7 +81,7 @@ public class AuthDataControl{
 		//获得角色;
 		if(roles!=null&&roles.size()>0){
 			for(Role r: roles){
-				tree.add(new TreeNode(r.getGrade(),r.getRoleName(),false));
+				tree.add(new TreeNode(r.getRoleCode(),r.getRoleName(),false));
 			}
 		}
 		return WebUtils.buildReturnView(tree);
