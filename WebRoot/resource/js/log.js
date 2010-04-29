@@ -75,7 +75,7 @@
             return new DefaultConsoleLogger();
         }
         else {
-            return DefaultNullLogger
+            return DefaultNullLogger()
         }
     }
 	
