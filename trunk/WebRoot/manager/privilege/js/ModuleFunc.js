@@ -5,6 +5,7 @@ function getModlueMess(node){
 		url :basePath+'manager/BaseDataService.do?action=findEntity',
 		params : {
 		   entity :'org.cms.doamin.auth.Role',
+		   columns:'roleName:name;roleCode:value',
 		   filter:'grade:'+node.attributes.id
 		},
 		success : function(msg, opt) {

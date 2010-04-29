@@ -62,16 +62,21 @@ var extendsConfig={
 			listeners: {
 				movenode: saveNewTree,
 				click: function(node,e){
+					log.dir(that.editPanel);
 					if(node.attributes.leaf){
-						that.roleEditPanel.hide();
-						that.functionEditPanel.show();
-						that.functionEditPanel.getEl().mask("请等待,正在加载!")
-						panel_initData(that.functionEditPanel,node.attributes.attributs.entity)
+						that.editPanel.getLayout().setActiveItem(that.functionEditPanel);
+					//	that.roleEditPanel.hide();
+					//	that.functionEditPanel.show();
+					//	that.functionEditPanel.getEl().mask("请等待,正在加载!")
+						panel_initData(that.functionEditPanel,null,node.attributes.attributs.entity)
+					//	that.functionEditPanel.getEl().unmask() ;
 					}else{
-						that.functionEditPanel.hide();
-						that.roleEditPanel.show();
-						that.roleEditPanel.getEl().mask("请等待,正在加载!")
-						panel_initData(that.roleEditPanel,node.attributes.attributs.entity)
+						that.editPanel.getLayout().setActiveItem(that.roleEditPanel);
+//						that.functionEditPanel.hide();
+//						that.roleEditPanel.show();
+					//	that.roleEditPanel.getEl().mask("请等待,正在加载!")
+						panel_initData(that.roleEditPanel,null,node.attributes.attributs.entity)
+					//	that.roleEditPanel.getEl().unmask() ;
 					}
 									}
 			}
@@ -86,7 +91,37 @@ var extendsConfig={
 	editPanel:null,
 	functionEditPanel:null,	
 	roleEditPanel:null,	
-	
+	rolesCombox:null,
+	createRolesCombox:function(){
+        var rolesStore = new Ext.data.JsonStore({
+            url: 'manager/BaseDataService.do?action=findEntity',
+            baseParams: {
+                entity: 'org.cms.doamin.auth.Role',
+                columns: 'roleName:name;roleCode:value',
+                filter: 'enabled:' + true,
+            }
+        })
+		    var resultTpl = new Ext.XTemplate(
+		        '<tpl for="."><div class="search-item">',
+		            '<h3><span>{lastPost:date("M j, Y")}<br />by {author}</span>{title}</h3>',
+		            '{excerpt}',
+		        '</div></tpl>'
+		    );
+		    
+		   return new Ext.form.ComboBox({
+		        store: rolesStore,
+		        displayField:'name',
+				displayValue:'value',
+		        typeAhead: false,
+		        loadingText: 'Searching...',
+		        width: 570,
+		        pageSize:10,
+		        hideTrigger:true,
+		        tpl: resultTpl,
+		        applyTo: 'search',
+		        itemSelector: 'div.search-item',
+		    });
+	},
 	createFunctionEditPanel:function(){
 		var that=this;
 		this.functionEditPanel=new Ext.Panel({
@@ -110,29 +145,28 @@ var extendsConfig={
 				allowBlank: false,
 			},
 			items: [{
-				id: 'funccode',
-				name:'funccode',
+				id: 'funccode_fl',
+				name:'code',
 				xtype: 'textfield',
 				fieldLabel: '功能代码',
 			}, {
-				id: 'text',
+				id: 'name_fl',
+				name:'name',
 				xtype: 'textfield',
 				fieldLabel: '功能名称',
-			}, {
-				id: 'parentName',
-				fieldLabel: '功能分组',
-				xtype: 'textfield',
-				disabled: true
-			}, {
+			}, that.rolesCombox, {
 				id: 'enabled',
+				name:'enabled',
 				fieldLabel: '是否锁定',
 				store: that.editPanel_isblockStore,
-			}, {
+			}, that.createRolesCombox(),{
 				id: 'url',
+				name:'url',
 				fieldLabel: '功能链接',
 				xtype: 'textfield',
 			}, {
-				id: 'memo',
+				id: 'info',
+				name:'info',
 				xtype: 'textfield',
 				fieldLabel: '备注',
 				height: 70
@@ -180,28 +214,18 @@ var extendsConfig={
 				name: 'roleName',
 				xtype: 'textfield',
 				fieldLabel: '角色名称',
-			}, {
-				id: 'roleDesc_fl',
-				name:'roleDesc',
-				fieldLabel: '角色描述',
-				xtype: 'textfield',
-				disabled: true
-			},{
-				id: 'parentRoleCode_fl',
-				name:'parentRoleCode',
-				fieldLabel: '角色分组',
-				xtype: 'textfield',
-				disabled: true
-			}, {
+			},that.createRolesCombox(), {
 				id: 'enabled_role_fl',
 				name:'enabled',
 				fieldLabel: '是否锁定',
 				store: that.editPanel_isblockStore,
 			}, {
-				id: 'memo',
+				id: 'roleDesc_fl',
+				name:'roleDesc',
+				fieldLabel: '角色描述',
 				xtype: 'textfield',
-				fieldLabel: '备注',
-				height: 70
+				disabled: true,
+				height:60
 			}],
 			bbar: [{
 				text: '保存',
@@ -215,8 +239,7 @@ var extendsConfig={
 	
 	createEditPanel: function(){
 		var that=this;
-		return new Ext.Panel({
-			labelAlign: 'left',
+		this.editPanel= new Ext.Panel({
 			bodyStyle: 'padding:0;maggin:0;',
 			height: 430,
 			width: 300,
@@ -225,7 +248,9 @@ var extendsConfig={
 			frame: true,
 			items:[that.createFunctionEditPanel(),that.createRoleEditPanel()]
 		});
+		return this.editPanel;
 	}
+	
 };
 
 Ext.namespace("cms.auth");
