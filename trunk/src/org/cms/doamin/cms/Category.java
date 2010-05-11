@@ -7,6 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.NotNull;
+
 
 /**
  * CmsCategory entity. @author MyEclipse Persistence Tools
@@ -25,6 +27,7 @@ public class Category extends Object implements java.io.Serializable {
 	@Column(name = "createUserID")
 	private String createUserId;
 	@Column(name = "Categoryname", length = 20)
+	@NotNull
 	private String name;
 	@Column(name = "categoryDesc", length = 100)
 	private String desc;

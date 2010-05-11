@@ -1,47 +1,44 @@
 package org.cms.core;
 
-import java.util.List;
-
+import java.io.Serializable;
+import java.util.Map;
 import net.sf.json.JSONObject;
-import net.sf.json.JSONSerializer;
 
-public class JsonMSG {
+/**服务端返回数据展现形式的封装;
+ * @author heshencao
+ */
+public class JSONResponse {
 
 	private String msg;
 	private boolean success;
-	private List list;
+	/**
+	 *服务器端返回的数据;可以是一个Object对象 ,亦可是List对象;
+	 */
 	private Object obj;
-	
-	public static JsonMSG sucess(String msg){
-		JsonMSG jmsg=new JsonMSG();
+	private Map<String,? extends Serializable> attributes;
+	public static JSONResponse sucess(String msg){
+		JSONResponse jmsg=new JSONResponse();
 		jmsg.msg=msg;
 		jmsg.success=true;
 		return jmsg;
 	}
-	public static JsonMSG sucess(Object obj){
-		JsonMSG jmsg=new JsonMSG();
+	public static JSONResponse sucess(Object obj){
+		JSONResponse jmsg=new JSONResponse();
 		jmsg.setObj(obj);
 		jmsg.success=true;
 		return jmsg;
 	}
-	public static JsonMSG   failed(String msg){
-		JsonMSG jmsg=new JsonMSG();
+	public static JSONResponse   failed(String msg){
+		JSONResponse jmsg=new JSONResponse();
 		jmsg.msg=msg;
 		jmsg.success=false;
 		return jmsg;
 	}
-	
-	public static JsonMSG   sucess(List list){
-		JsonMSG jmsg=new JsonMSG();
-		jmsg.list=list;
-		jmsg.success=true;
-		return jmsg;
-	}
-	
-	public static JsonMSG   failed(List list){
-		JsonMSG jmsg=new JsonMSG();
-		jmsg.list=list;
+	public static JSONResponse   failed(JSONError e){
+		JSONResponse jmsg=new JSONResponse();
+		jmsg.msg=e.getMsg();
 		jmsg.success=false;
+		jmsg.obj=e;
 		return jmsg;
 	}
 	
@@ -65,13 +62,6 @@ public class JsonMSG {
 		this.success = sucess;
 	}
 
-	public List getList() {
-		return list;
-	}
-
-	public void setList(List list) {
-		this.list = list;
-	}
 	public void setObj(Object obj) {
 		this.obj = obj;
 	}

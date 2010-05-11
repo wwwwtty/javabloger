@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 
 public class WebUtils {
-	public static String Data_alias="value";
+	public static String Data_alias="json";
 	public static ModelAndView buildReturnView(Object obj){
 		Map<String, Object> map=new HashMap<String, Object>();
 		map.put(Data_alias, obj);

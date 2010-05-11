@@ -26,6 +26,9 @@ public interface BaseService<T> {
 	
 	public void update(T t);
 	
+	/**只查所有的有效数据;
+	 * @return
+	 */
 	public List<T> findValid();
 	
 }
