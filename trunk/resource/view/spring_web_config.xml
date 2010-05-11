@@ -5,7 +5,8 @@
 	http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 	
 	<bean class="org.spring.web.json.CMSAnnotationHandlerMapping"></bean>
-
+	<bean id="viewNameTranslator" class="org.spring.web.json.CMSRequestToViewNameTranslator"></bean>
+	
 	<bean name="viewResolver"   
         class="org.springframework.web.servlet.view.XmlViewResolver" >
         <property name="location" value='classpath:view/xmlView.xml'></property>
