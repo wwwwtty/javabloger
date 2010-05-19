@@ -10,5 +10,6 @@
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="lib" path="/TPLSuiteWeb/WebRoot/WEB-INF/lib/spring.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/org.springframework.web.servlet-3.0.0.RELEASE.jar" sourcepath="/Spring_SRC"/>
+	<classpathentry kind="lib" path="/TPLSuiteWeb/WebRoot/WEB-INF/lib/hibernate-validator.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>

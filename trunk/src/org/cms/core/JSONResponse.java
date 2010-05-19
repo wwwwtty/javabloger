@@ -22,6 +22,13 @@ public class JSONResponse {
 		jmsg.success=true;
 		return jmsg;
 	}
+	public static JSONResponse sucess(String msg,Object obj){
+		JSONResponse jmsg=new JSONResponse();
+		jmsg.msg=msg;
+		jmsg.obj=obj;
+		jmsg.success=true;
+		return jmsg;
+	}
 	public static JSONResponse sucess(Object obj){
 		JSONResponse jmsg=new JSONResponse();
 		jmsg.setObj(obj);

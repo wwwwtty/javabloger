@@ -20,25 +20,23 @@ var Connection=new function(config){
 		}
 		var that=this;
 		this.ResponseCallback=function (opt,suc,rep){
+			that.hideMsg();
 			if (typeof(that.callback) == 'function') {
-				that.hideMsg();
 				that.callback(opt, suc, rep);
 			} 
 			if(suc){
 				if (typeof(that.success) == 'function') {
-					that.hideMsg();
 					that.success(Ext.decode(rep.responseText),opt);
 				}
 			}else{
 				if (typeof(that.failure) == 'function') {
-					that.hideMsg();
 					that.failure(Ext.decode(rep.responseText), opt);
 				}
 			}
 		}
 
 	this.submit=function(config){
-		config=config||{};
+		var config=config||{};
 		Ext.apply(this,config)
 		
 		if (this.model != false) {

@@ -7,6 +7,7 @@ var extendsConfig={
 		if(this.editPanel===null){
 			this.editPanel=this.createEditPanel();
 		}
+		
 		Ext.apply(this, {
 	        layout: 'fit',
 	        items: [{
@@ -19,12 +20,16 @@ var extendsConfig={
 				items:[this.functionTreePanel,this.editPanel]
 			}]
     	})
+		
+		
+		
 		cms.auth.AuthManagerPanel.superclass.initComponent.apply(this);
 	},
 	functionTreePanel:null,
 	createFunctionTreePanel:function(){
 		var functionTreePanel_loader = new Ext.tree.TreeLoader( {
 			dataUrl:basePath+'manager/auth/AuthDataService.do?action=findFunctions',
+			root:'obj',
 			listeners:{
 				'beforeload': function(treeLoader, node) {
 					this.baseParams.code = node.attributes.id;
@@ -62,21 +67,12 @@ var extendsConfig={
 			listeners: {
 				movenode: saveNewTree,
 				click: function(node,e){
-					log.dir(that.editPanel);
 					if(node.attributes.leaf){
 						that.editPanel.getLayout().setActiveItem(that.functionEditPanel);
-					//	that.roleEditPanel.hide();
-					//	that.functionEditPanel.show();
-					//	that.functionEditPanel.getEl().mask("请等待,正在加载!")
 						panel_initData(that.functionEditPanel,null,node.attributes.attributs.entity)
-					//	that.functionEditPanel.getEl().unmask() ;
 					}else{
 						that.editPanel.getLayout().setActiveItem(that.roleEditPanel);
-//						that.functionEditPanel.hide();
-//						that.roleEditPanel.show();
-					//	that.roleEditPanel.getEl().mask("请等待,正在加载!")
 						panel_initData(that.roleEditPanel,null,node.attributes.attributs.entity)
-					//	that.roleEditPanel.getEl().unmask() ;
 					}
 									}
 			}
@@ -87,46 +83,21 @@ var extendsConfig={
 		   			{name:'是',value:'Y'}],
 		   fields:['name','value']
 	    }),
-		
-	editPanel:null,
-	functionEditPanel:null,	
-	roleEditPanel:null,	
-	rolesCombox:null,
-	createRolesCombox:function(){
-        var rolesStore = new Ext.data.JsonStore({
-            url: 'manager/BaseDataService.do?action=findEntity',
-            baseParams: {
-                entity: 'org.cms.doamin.auth.Role',
-                columns: 'roleName:name;roleCode:value',
-                filter: 'enabled:' + true,
-            }
-        })
-		    var resultTpl = new Ext.XTemplate(
-		        '<tpl for="."><div class="search-item">',
-		            '<h3><span>{lastPost:date("M j, Y")}<br />by {author}</span>{title}</h3>',
-		            '{excerpt}',
-		        '</div></tpl>'
-		    );
-		    
-		   return new Ext.form.ComboBox({
-		        store: rolesStore,
-		        displayField:'name',
-				displayValue:'value',
-		        typeAhead: false,
-		        loadingText: 'Searching...',
-		        width: 570,
-		        pageSize:10,
-		        hideTrigger:true,
-		        tpl: resultTpl,
-		        applyTo: 'search',
-		        itemSelector: 'div.search-item',
-		    });
-	},
+	rolesStore : new Ext.data.JsonStore({
+			url:basePath+'manager/auth/AuthDataService.do?action=findAllRole',
+			autoLoad:true,
+			root:'obj',
+			fields:['name','tip','value']
+		}),
+
+		editPanel:null,
+		functionEditPanel:null,	
+		roleEditPanel:null,	
+	
 	createFunctionEditPanel:function(){
 		var that=this;
-		this.functionEditPanel=new Ext.Panel({
-			labelAlign: 'left',
-			bodyStyle: 'padding:5px 5px 0',
+		
+		this.functionEditPanel=new Ext.form.FormPanel({
 			title: '编辑功能信息',
 			height: 430,
 			width: 300,
@@ -134,48 +105,71 @@ var extendsConfig={
 			layout: 'form',
 			frame: true,
 			defaults: {
-				displayField: 'name',
-				valueField: 'value',
-				width: 190,
-				listWidth: 190,
-				mode: 'local',
-				triggerAction: 'all',
-				selectOnFocus: true,
-				xtype: 'combo',
+				xtype: 'textfield',
 				allowBlank: false,
+				anchor:'95%'
 			},
 			items: [{
-				id: 'funccode_fl',
-				name:'code',
-				xtype: 'textfield',
-				fieldLabel: '功能代码',
-			}, {
-				id: 'name_fl',
-				name:'name',
-				xtype: 'textfield',
-				fieldLabel: '功能名称',
-			}, that.rolesCombox, {
-				id: 'enabled',
-				name:'enabled',
-				fieldLabel: '是否锁定',
-				store: that.editPanel_isblockStore,
-			}, that.createRolesCombox(),{
-				id: 'url',
-				name:'url',
-				fieldLabel: '功能链接',
-				xtype: 'textfield',
-			}, {
-				id: 'info',
-				name:'info',
-				xtype: 'textfield',
-				fieldLabel: '备注',
-				height: 70
-			}],
+					id: 'funccode_fl',
+					name:'code',
+					fieldLabel: '功能代码'
+				}, {
+					id: 'name_fl',
+					name:'name',
+					fieldLabel: '功能名称'
+				},{
+					id: 'url_FL',
+					name:'url',
+					fieldLabel: '功能链接'
+				},{
+					name:'groupCode',
+					xtype:'combotree',
+					minListWidth:60,
+					fieldLabel: '角色分组',
+					repRoot:'obj',
+					url:basePath+'manager/auth/AuthDataService.do?action=findAllRole',
+		            onSelect: function() { alert('good'); },
+		            emptyText: '请选择'
+				},{
+					id: 'enabled_FL',
+					name:'enabled',
+					displayField: 'name',
+					valueField: 'value',
+					mode: 'local',
+					triggerAction: 'all',
+					selectOnFocus: true,
+					xtype: 'combo',
+					fieldLabel: '是否锁定',
+					store: that.editPanel_isblockStore
+				},{
+					id: 'info_FL',
+					name:'info',
+					fieldLabel: '备注',
+					xtype:'textarea',
+					height: 70
+				}],
 			bbar: [{
+					text:"新增功能点",
+					handler: function(bt,e){
+						this.functionEditPanel.getForm().reset();
+					}.createDelegate(this)
+				},{
 				text: '保存',
 				iconCls: 'save',
-				handler: function(){
-				//	 commit();
+				handler: function(bt,e){
+					var parent=bt.ownerCt.ownerCt;
+					if(parent.getForm().isValid()){
+						var data=panel_gatherData(parent);
+						Connection.submit({
+							url:basePath+'manager/auth/AuthDataService.do?action=saveFunction',
+							params:{
+								json:Ext.encode(data)
+							},
+							success:function(){
+								Ext.Msg.alert("成功","功能保存成功");
+							}
+						})
+					}
 				}
 			}]
 		})
@@ -184,56 +178,85 @@ var extendsConfig={
 	
 	createRoleEditPanel:function(){
 		var that=this;
-		this.roleEditPanel=new Ext.Panel({
+		var rp=new Ext.form.FormPanel({
 			labelAlign: 'left',
 			bodyStyle: 'padding:5px 5px 0',
 			title: '编辑角色信息',
 			height: 430,
 			width: 300,
 			labelWidth: 80,
-			layout: 'form',
 			frame: true,
 			defaults: {
+				anchor:'95%',
 				displayField: 'name',
 				valueField: 'value',
-				width: 190,
-				listWidth: 190,
 				mode: 'local',
 				triggerAction: 'all',
 				selectOnFocus: true,
 				xtype: 'combo',
-				allowBlank: false,
+				allowBlank: false
 			},
 			items: [{
+				name:'roleId',
+				xtype: 'hidden',
+				fieldLabel: '角色代码'
+			},{
 				id: 'roleCode_fl',
 				name:'roleCode',
 				xtype: 'textfield',
-				fieldLabel: '角色代码',
+				fieldLabel: '角色代码'
 			}, {
 				id: 'roleName_fl',
 				name: 'roleName',
 				xtype: 'textfield',
-				fieldLabel: '角色名称',
-			},that.createRolesCombox(), {
+				fieldLabel: '角色名称'
+			},{
 				id: 'enabled_role_fl',
 				name:'enabled',
 				fieldLabel: '是否锁定',
-				store: that.editPanel_isblockStore,
+				store: that.editPanel_isblockStore
 			}, {
+				name:'ParentRoleCode',
+				xtype:'combotree',
+				minListWidth:60,
+				fieldLabel: '角色分组',
+				repRoot:'obj',
+				url:basePath+'manager/auth/AuthDataService.do?action=findAllRole',
+	            onSelect: function() { alert('good'); },
+	            emptyText: '请选择'
+			},{
 				id: 'roleDesc_fl',
 				name:'roleDesc',
 				fieldLabel: '角色描述',
-				xtype: 'textfield',
+				xtype: 'textarea',
 				disabled: true,
 				height:60
 			}],
 			bbar: [{
+					text:"新增角色",
+					handler: function(bt,e){
+						rp.getForm().reset();
+					}
+				},{
 				text: '保存',
 				iconCls: 'save',
-				handler: function(){
-				//	 commit();
+				handler: function(bt,e){
+					var parent=bt.ownerCt.ownerCt;
+					if(parent.getForm().isValid()){
+						var data=panel_gatherData(parent);
+						Connection.submit({
+							url:basePath+'manager/auth/AuthDataService.do?action=saveRole',
+							params:{
+								json:Ext.encode(data)
+							},
+							success:function(){
+								Ext.Msg.alert("成功","角色保存成功");
+							}
+						})
+					}
 				}
 			}]});
+			this.roleEditPanel=rp;
 		return this.roleEditPanel;
 	},
 	

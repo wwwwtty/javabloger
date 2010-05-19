@@ -2,13 +2,11 @@ package org.cms.dao.impl;
 
 
 import java.io.Serializable;
-import java.lang.reflect.ParameterizedType;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.ArrayUtils;
@@ -17,12 +15,9 @@ import org.cms.dao.BaseDAO;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
-import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.loader.criteria.CriteriaLoader;
-import org.hibernate.transform.Transformers;
 import org.springframework.dao.DataAccessException;
 import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.HibernateTemplate;
@@ -31,8 +26,6 @@ import org.springframework.orm.hibernate3.HibernateTemplate;
 public class BaseDAOImp implements BaseDAO{
     
     private HibernateTemplate templet;	
-	//private Class clazz=null;
-	//private String clazzName="";
 	protected static Logger log=Logger.getLogger(BaseDAOImp.class);
 
 	/* 将对象持久化；
@@ -91,7 +84,12 @@ public class BaseDAOImp implements BaseDAO{
 		if(log.isDebugEnabled()){
 			log.debug("查询全部信息: "+clazz.getName());
 		    }
-		return templet.find("from "+clazz.getName());
+		//templet.set
+	
+//		return templet.find("from "+clazz.getName());
+	DetachedCriteria  cra=DetachedCriteria.forClass(clazz);
+		
+		return templet.findByCriteria(cra);
 	}
 
 	/** 存储或更新数据，当数据不存在时，类似save方法,更新时类似update
@@ -166,22 +164,25 @@ public class BaseDAOImp implements BaseDAO{
 	    }
 	    return (List) templet.executeWithNativeSession(new HibernateCallback() {
 		public Object doInHibernate(final Session session) throws HibernateException {
-		    final SQLQuery queryObject = session.createSQLQuery(queryString);
+			  
+		    Query queryObject = session.createSQLQuery(queryString);
+		    if(Paras.getEntity()!=null){//设置转换器,由JDBC数据到对象的转换;
+            	queryObject=queryObject.setResultTransformer(new BeanTransformer(Paras.getEntity()));
+            }
 		    if (Paras != null) {
 		    	Set<String> ks=Paras.keySet();
 		    	for(String k:ks){
 		    		queryObject.setParameter(k, Paras.get(k));
 		    	}
             }
+		    //限定查询结果集;
             if(Paras.getFirstNum()>0){
                 queryObject.setFirstResult(Paras.getFirstNum());
             }
             if(Paras.getLimiNum()>0){
                 queryObject.setMaxResults(Paras.getLimiNum());
             }
-            if(Paras.getEntity()!=null){
-            	queryObject.addEntity(Paras.getEntity());
-            }
+          
 		    return queryObject.list();
 		}		
 	    });
@@ -287,7 +288,6 @@ class HibernateNamedQueryUtils implements HibernateCallback{
 			SQLException {
 		//实例转换为可用对象;
 		Query query = session.getNamedQuery(queryName).setResultTransformer(new BeanTransformer(queryMap.getEntity()));
-//		Query query = session.getNamedQuery(queryName).setResultTransformer(Transformers.aliasToBean(queryMap.getEntity()));
 		
 		String[] namedParam = query.getNamedParameters();
 		if (queryMap != null) {
@@ -326,9 +326,6 @@ class HibernateNamedQueryUtils implements HibernateCallback{
 			if (queryMap.getLimiNum() > 0) {
 				query.setMaxResults(queryMap.getLimiNum());
 			}
-//			if (queryMap.getEntity() != null && this.queryType == QUERY) {
-//				query.addEntity(queryMap.getEntity());
-//			}
 		}
 
 		// 返回结果;

@@ -16,7 +16,6 @@ public class Function implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
 	// Fields
-	
 	@Id
 	@GeneratedValue(generator = "generator")
 	@GenericGenerator(name = "generator", strategy = "uuid")

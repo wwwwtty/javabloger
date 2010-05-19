@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.apache.commons.lang.StringUtils;
 import org.cms.core.SiteUtils;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -25,19 +26,19 @@ public class Role implements java.io.Serializable {
 	@Column(name = "role_id", unique = true, nullable = false, length = 32)
 	private String roleId;
 	
-	@Column(name = "role_name", nullable = false, length = 30)
+	@Column(name = "role_name", nullable = false, length = 30, unique=true)
 	private String roleName;
 	@Column(name = "role_desc", length = 100)
 	private String roleDesc;
 	/**
 	 * 角色简写Code,可通过系统分隔符来实现父子的分级;
 	 */
-	@Column(name = "role_code", length = 30)
+	@Column(name = "role_code", length = 100,nullable=false, unique=true)
 	private String roleCode;
 	
 	@Column(name = "enabled")
 	private Boolean enabled=true;
-
+	
 	// Constructors
 	public Role() {
 	}
@@ -92,7 +93,12 @@ public class Role implements java.io.Serializable {
 	}
 
 	public void setRoleCode(String roleCode) {
-		this.roleCode = this.getParentRoleCode()+roleCode;
+		if(StringUtils.isEmpty(this.roleCode)){
+			this.roleCode=roleCode;
+		}else{
+			this.roleCode = this.getParentRoleCode()+roleCode;
+		}
+		
 	}
 
 	public void setRoleAndParentCode(String roleCode) {

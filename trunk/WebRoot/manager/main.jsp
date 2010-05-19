@@ -14,10 +14,15 @@
 	<title>TinyCms测试环境</title>
 	<link rel="stylesheet" type="text/css" href="<%=basePath%>common/site.css" />
 	<link rel="stylesheet" type="text/css" href="<%=basePath%>resource/css/ext-all.css" />
+	<link rel="stylesheet" type="text/css" href="<%=basePath%>common/site_ext.css" />
 	<script type="text/javascript" src="<%=basePath%>resource/js/ext-base.js"></script>
+	<script type="text/javascript" src="<%=basePath%>resource/js/jquery-1.4.2-debug.js"></script>
+	<script type="text/javascript" src="<%=basePath%>resource/js/ext-jquery-adapter-debug.js"></script>
 	<script type="text/javascript" src="<%=basePath%>resource/js/ext-all-debug.js"></script>
+	<script type="text/javascript" src="<%=basePath%>resource/js/ext-patch.js"></script>
 	<script type="text/javascript" src="<%=basePath%>resource/js/ext-lang-zh_CN.js"></script>
 	<script type="text/javascript" src="<%=basePath%>resource/js/log.js"></script>
+	<script type="text/javascript" src="<%=basePath%>common/utils.js"></script>
 	<meta http-equiv="content-type" content="text/html;charset=utf-8">
 	<script type="text/javascript">
 			window.basePath = '<%=basePath%>';
