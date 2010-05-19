@@ -71,11 +71,11 @@
 	DefaultConsoleLogger.prototype=window.console;
 
 	function LogRepository(){
-        if (window.console||window._firebug) {
+        if (!Ext.isIE && window.console||window._firebug) {
             return new DefaultConsoleLogger();
         }
         else {
-            return DefaultNullLogger()
+            return DefaultNullLogger
         }
     }
 	

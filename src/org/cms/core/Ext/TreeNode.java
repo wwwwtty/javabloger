@@ -1,30 +1,47 @@
 package org.cms.core.Ext;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-
-import org.cms.doamin.auth.Role;
 
 public class TreeNode implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private String id;
 	private String text ;
 	private boolean leaf ;
-	/**
-	 * 扩展属性;方便扩展;
-	 */
+	/**父节点ID;方便ExtBuilder构建父子结构;*/
+	private String parentNodeId;
+	/**扩展属性;方便扩展;*/
 	private Map<String,Object> attributs;
+	/** 子项, */
+	private List<TreeNode> childNodes;
 	public TreeNode(){
 		
 	}
+	/**
+	 * @param id
+	 * @param text
+	 * @param leaf
+	 * @param parentId
+	 */
+	public TreeNode(String id, String text, boolean leaf,String parentId) {
+		super();
+		this.id = id;
+		this.text  = text;
+		this.leaf  = leaf;
+		this.parentNodeId=parentId;
+	}
+
 	public TreeNode(String id, String text, boolean leaf) {
 		super();
 		this.id = id;
 		this.text  = text;
 		this.leaf  = leaf;
 	}
-
+	
 	public String getId() {
 		return id;
 	}
@@ -59,5 +76,23 @@ public class TreeNode implements Serializable{
 			this.attributs=new HashMap<String, Object>();
 		}
 		this.attributs.put(k, v);
+	}
+	public void setParentNodeId(String parentNodeId) {
+		this.parentNodeId = parentNodeId;
+	}
+	public String getParentNodeId() {
+		return parentNodeId;
+	}
+	public void setChildNodes(List<TreeNode> childNodes) {
+		this.childNodes = childNodes;
+	}
+	public void addChildNodes(TreeNode node) {
+		if(this.childNodes==null){
+			this.childNodes=new ArrayList<TreeNode>();
+		}
+		this.childNodes .add(node);
+	}
+	public List<TreeNode> getChildNodes() {
+		return childNodes;
 	}
 }

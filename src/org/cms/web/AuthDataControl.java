@@ -3,13 +3,13 @@ package org.cms.web;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
-import net.sf.json.util.JSONUtils;
+import javax.servlet.http.HttpSession;
 
 import org.cms.core.JSONResponse;
 import org.cms.core.Ext.ComboxRecord;
 import org.cms.core.Ext.TreeNode;
+import org.cms.core.exception.ActionException;
+import org.cms.core.utils.ExtBuilder;
 import org.cms.core.utils.JsonUtils;
 import org.cms.core.utils.SessionUtils;
 import org.cms.core.utils.WebUtils;
@@ -17,6 +17,9 @@ import org.cms.doamin.auth.Function;
 import org.cms.doamin.auth.Role;
 import org.cms.service.core.AuthRoleService;
 import org.cms.service.core.FunctionService;
+import org.cms.web.vo.RoleVo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -28,7 +31,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/manager/auth/AuthDataService.do")
 public class AuthDataControl{
-
+private Logger log=LoggerFactory.getLogger(AuthDataControl.class);
 	@Autowired
 	private FunctionService fs;
 	@Autowired
@@ -54,11 +57,9 @@ public class AuthDataControl{
 	 */
 	@RequestMapping(params = "action=findFunctions") 
 	@ModelAttribute("json")
-	public JSONResponse findRolesAndFunctions(HttpServletRequest request){
-		String code=request.getParameter("code");
+	public JSONResponse findRolesAndFunctions(@RequestParam(value="code",required=false,defaultValue="root") String code,HttpSession session){
 		
-		
-		String userId=SessionUtils.getUserID(request.getSession());
+		String userId=SessionUtils.getUserID(session);
 		if("admin".equals(userId)){
 			
 		}
@@ -71,7 +72,6 @@ public class AuthDataControl{
 				node.addAttribute("entity",r);
 				tree.add(node);
 			}
-			//return WebUtils.buildReturnView(tree);
 			return JSONResponse.sucess(tree);
 		}
 		else{//获得对应角色下面的功能点!
@@ -90,20 +90,34 @@ public class AuthDataControl{
 	}
 	
 	/**获得权限分组;用于页面左边Ext树展现;
-	 * @param code
+	 * @param isValide查询类型,
+	 * 	valid:查询全部有效数据;
+	 * 	invalid 查询全部无效数据;
+	 * 	all:查询全部数据;默认为此参数;
 	 * @return
 	 */
 	@RequestMapping(params = "action=findAllRole") 
 	@ModelAttribute("json")
-	public JSONResponse findAllRole(){
-		List<ComboxRecord> tree=new ArrayList<ComboxRecord>();
-		List<Role> roles=rs.findValid();
+	public JSONResponse findAllRole(@RequestParam(value="isValide",required=false,defaultValue="all") String isValide){
+		List<TreeNode> tree=new ArrayList<TreeNode>();
+		List<Role> roles=null;
 		//获得角色;
+		if("valid".equals(isValide)){
+			roles=rs.findValid();
+		}else if("invalid".equals(isValide)){
+			
+		}else if("all".equals(isValide)) {
+			roles=rs.findAll();
+		}else{
+			throw new ActionException("查询参数出错...");
+		}
+		//组装成TreeNode形式;
 		if(roles!=null&&roles.size()>0){
 			for(Role r: roles){
-				tree.add(new ComboxRecord(r.getRoleName(),r.getRoleName(),r.getRoleCode()));
+				tree.add(new TreeNode(r.getRoleCode(),r.getRoleName(),false,r.getParentRoleCode()));
 			}
 		}
+		tree=ExtBuilder.buildTreeList(tree);
 		return JSONResponse.sucess(tree);
 	}
 	/**保存功能点信息;
@@ -111,16 +125,16 @@ public class AuthDataControl{
 	 */
 	@RequestMapping(params = "action=saveFunction") 
 	@ModelAttribute("json")
-	public JSONResponse saveFunction(){
-		List<ComboxRecord> tree=new ArrayList<ComboxRecord>();
-		List<Role> roles=rs.findValid();
-		//获得角色;
-		if(roles!=null&&roles.size()>0){
-			for(Role r: roles){
-				tree.add(new ComboxRecord(r.getRoleName(),r.getRoleName(),r.getRoleCode()));
-			}
+	public JSONResponse saveFunction(@RequestParam(value="json",required=true)String json){
+		try{
+			Function fun=(Function) JsonUtils.toObject(json, Function.class);
+		
+		String id=fs.save(fun);
+		return JSONResponse.sucess("功能点添加成功",id);
+		}catch(Exception e){
+			log.error("功能点添加出错",e);
+			return JSONResponse.failed("功能点添加出错");
 		}
-		return JSONResponse.sucess(tree);
 	}
 	
 	/**保存角色信息;
@@ -129,10 +143,14 @@ public class AuthDataControl{
 	@RequestMapping(params = "action=saveRole") 
 	@ModelAttribute("json")
 	public JSONResponse saveRole(@RequestParam(value="json") String json){
-		
-		Role role=(Role) JsonUtils.toObject(json, Role.class);
-		//获得角色;
-		rs.save(role);
-		return JSONResponse.sucess("添加成功");
+		try{
+			Role role=(Role) JsonUtils.toObject(json, Role.class);
+			//获得角色;
+			String id=rs.save(role);
+			return JSONResponse.sucess("添加成功",id);
+		}catch(Exception e){
+			log.error("添加失败",e);
+			return JSONResponse.failed("添加 / 修改失败");
+		}
 	}
 }

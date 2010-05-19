@@ -12,21 +12,26 @@ public class AuthDataServierTest extends BaseWebTestCase {
 
 	public void testFindFunctions(){
 		AuthDataControl control=this.applicationContext.getBean(AuthDataControl.class);
-		JSONResponse view=control.findRolesAndFunctions(this.request);
+		JSONResponse view=control.findRolesAndFunctions("",session);
 		String json=view.toJson();
 		log.info(json);
 	}
 	public void testFindFunctions_1(){
 		AuthDataControl control=this.applicationContext.getBean(AuthDataControl.class);
-		this.request.setParameter("code", "0001");
-		JSONResponse view=control.findRolesAndFunctions(request);
+		JSONResponse view=control.findRolesAndFunctions("0001",session);
 		String json=view.toJson();
 		log.info(json);
 	}
 	public void testFindFunctions_2(){
 		AuthDataControl control=this.applicationContext.getBean(AuthDataControl.class);
-		this.request.setParameter("code", "0002");
-		JSONResponse view=control.findRolesAndFunctions(request);
+		JSONResponse view=control.findRolesAndFunctions("0002",session);
+		String json=view.toJson();
+		log.info(json);
+	}
+	
+	public void testFindAll_2(){
+		AuthDataControl control=this.applicationContext.getBean(AuthDataControl.class);
+		JSONResponse view=control.findAllRole("all");
 		String json=view.toJson();
 		log.info(json);
 	}

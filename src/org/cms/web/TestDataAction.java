@@ -27,6 +27,12 @@ public class TestDataAction extends JSONController{
 		this.initData();
 		List list=new ArrayList();
 		list.add(this.data.get(id));
+		
+		TreeNode node=new TreeNode();
+		node.setId("testtest");
+		node.setText("测试");
+		list.add(node);
+		
 		return JSONResponse.sucess(list);
 	}
 	
@@ -36,6 +42,8 @@ public class TestDataAction extends JSONController{
 		node.setId("cao");
 		node.setText("超");
 		data.put("root", node);
+		
+		
 		
 		node=new TreeNode();
 		node.setId("caocao");

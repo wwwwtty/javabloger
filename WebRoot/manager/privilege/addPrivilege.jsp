@@ -11,6 +11,7 @@
   <head>
     <title>功能模块管理</title>
     <script type="text/javascript" src="<%=basePath %>common/utils.js"></script>
+    <script type="text/javascript" src="<%=basePath %>common/ComboxTree.js"></script>
     <script type="text/javascript" src="js/ModuleFunc.js"></script>
     <script type="text/javascript" src="js/ModuleView.js"></script>
   </head>
