@@ -10,7 +10,7 @@ var navigateData=[
 Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
 var loader = new Ext.tree.TreeLoader({
 	root:'obj',
-    dataUrl: basePath+'manager/auth/AuthDataService.do?action=findFunctions'
+    dataUrl: basePath+'manager/auth/AuthDataService.do?action=findFunctions&valid=Y'
 });
 var root = new Ext.tree.AsyncTreeNode({
     id: 'root',

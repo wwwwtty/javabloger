@@ -9,6 +9,7 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit38.AbstractJUnit38SpringContextTests;
+import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 
 
 
@@ -17,10 +18,14 @@ import org.springframework.test.context.junit38.AbstractJUnit38SpringContextTest
 public class BaseTestCase extends AbstractJUnit38SpringContextTests {
 	
 	
-	protected Logger log=LoggerFactory.getLogger(this.getClass());
+	protected Logger log=LoggerFactory.getLogger(getClass());
 	
 	public String toJson(Object obj){
 		JSON json=JSONSerializer.toJSON(obj);
 		return json.toString();
 	}
+	
+//	public void test_1(){
+//		log.info("test....");
+//	}
 }

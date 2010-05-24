@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="
-			http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
-			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
-			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+			http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
 	<!--
 		<import resource="app-resources.xml"/> <import
 		resource="app-security.xml"/> <import resource="serviceBeans.xml" />
@@ -77,5 +78,18 @@
 	<!-- Spring工具代理类,会自动将Spring上下方(Context)注入-->
 	<bean name="utils" class="org.cms.core.SpringContextUtil"></bean>
 	
+	<!-- 启用注释 -->
 	<context:annotation-config />
-	</beans>
+	<context:component-scan base-package="org.cms.dao" />	
+	
+	  
+	
+	<tx:advice  id="txAdvice_dao" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="save" propagation="MANDATORY"/>
+			<tx:method name="update" propagation="MANDATORY"/>
+		</tx:attributes>
+	</tx:advice>
+	
+
+</beans>

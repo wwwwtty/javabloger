@@ -9,10 +9,16 @@ import org.cms.doamin.auth.Function;
 import org.cms.service.core.BaseService;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 public class BaseServiceImp<T> implements BaseService<T> {
-
+	
+	protected Logger log=LoggerFactory.getLogger(getClass());
+	
 	@Autowired
 	protected BaseDAO baseDao;//注入DAO
 	
@@ -30,7 +36,7 @@ public class BaseServiceImp<T> implements BaseService<T> {
 	    }
 	@Override
 	public List<T> findAll() {
-		return (List<T>)baseDao.findAll(entityClass);
+		return this.findAll(FIND_ALL);
 	}
 
 	@Override
@@ -39,6 +45,7 @@ public class BaseServiceImp<T> implements BaseService<T> {
 	}
 
 	@Override
+//	@Transactional(isolation = Isolation.SERIALIZABLE)
 	public String save(T t) {
 		return (String) baseDao.save(t);
 	}
@@ -47,9 +54,13 @@ public class BaseServiceImp<T> implements BaseService<T> {
 	public void update(T t) {
 		baseDao.merge(t);
 	}
-	public List<T> findValid(){
+	public List<T> findAll(String valid){
 		DetachedCriteria detachedCriteria=DetachedCriteria.forClass(entityClass);
-		detachedCriteria.add(Restrictions.eq("enabled", true));
+		if("Y".equals(valid)||"N".equals(valid)){
+			detachedCriteria.add(Restrictions.eq("enabled", valid));
+		}else if(!"A".equals(valid)){
+			log.warn("查询参数不足...");
+		}
 		return (List<T>) this.baseDao.findByCriteria(detachedCriteria);
 	}
 }

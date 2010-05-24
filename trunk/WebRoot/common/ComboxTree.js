@@ -5,26 +5,38 @@ cms.form.ComboTree = function(options) {
   
 Ext.extend(cms.form.ComboTree, Ext.form.TriggerField, {  
     triggerClass : 'x-form-arrow-trigger',  
+    defaultAutoCreate : {tag: "input", type: "text", size: "24", autocomplete: "off"},
     shadow : 'sides',  
-    lazyInit : true,  
+    lazyInit : false, 
+    shadow : 'sides',
+    minListWidth:90,
     initComponent : function() {  
         cms.form.ComboTree.superclass.initComponent.call(this);  
+         this.addEvents(
+            'expand',
+            'collapse',
+            'beforeselect',
+            'select'
+        );
     },  
   
     onRender : function(ct, position) {  
+    	 if(this.hiddenName && !Ext.isDefined(this.submitValue)){
+            this.submitValue = false;
+        }
         Ext.form.ComboBox.superclass.onRender.call(this, ct, position);  
-        var hiddenName = this.name;  
   
         this.hiddenField = this.el.insertSibling({  
             tag : 'input',  
-            type : 'hidden',  
-            name : hiddenName  
+            type : 'hidden',
+            id: (this.id||this.name),
+            name : this.name  
         }, 'before', true);  
   
         this.hiddenField.value = this.value !== undefined ? this.value : '';  
   
-        this.el.dom.removeAttribute('name');  
-        this.id = this.name;  
+     //   this.el.dom.removeAttribute('name');  
+     //   this.id = this.name;  
   
         if (!this.lazyInit) {  
             this.initList();  
@@ -42,11 +54,10 @@ Ext.extend(cms.form.ComboTree, Ext.form.TriggerField, {
         this.list = new Ext.Layer({  
             shadow : this.shadow,  
             cls : 'x-combo-list',  
-            constrain : false  
-        }); 
+            parentEl: this.getListParent()
+            }); 
         
   		if(!this.root){
-  			log.info("create root...")
         	this.root = new Ext.tree.TreeNode({
 			    id: "root",
 				text:'根',
@@ -88,7 +99,7 @@ Ext.extend(cms.form.ComboTree, Ext.form.TriggerField, {
         	})
   		
   		//装载Grid;
-        this.list.setWidth(Math.max(this.wrap.getWidth(), 70));  
+        this.list.setWidth(this.listWidth || Math.max(this.wrap.getWidth(),  this.minListWidth));  
         this.tree = new Ext.tree.TreePanel({  
             autoScroll : true,  
             height : 200,  
@@ -104,28 +115,46 @@ Ext.extend(cms.form.ComboTree, Ext.form.TriggerField, {
         this.el.addClass('x-combo-noedit');  
     },  
       
-    expandNode : function(n, v){  
-        var cs = n.childNodes;  
-        for(var i = 0, len = cs.length; i < len; i++) {  
-            if(cs[i].id == v){  
-                return true;  
-            }  
-            if(expandNode(cs[i], v)){  
-                cs[i].expand();  
-                return true;  
-            }  
-        }  
-        return false;  
-    },  
+//    expandNode : function(n, v){  
+//        var cs = n.childNodes;  
+//        for(var i = 0, len = cs.length; i < len; i++) {  
+//            if(cs[i].id == v){  
+//                return true;  
+//            }  
+//            if(expandNode(cs[i], v)){  
+//                cs[i].expand();  
+//                return true;  
+//            }  
+//        }  
+//        return false;  
+//    },  
+   expand : function(){
+        if(this.isExpanded() || !this.hasFocus){
+            return;
+        }
+//        if(this.bufferSize){
+//            this.doResize(this.bufferSize);
+//            delete this.bufferSize;
+//        }
+//        this.list.alignTo(this.wrap, this.listAlign);
+//        this.list.show();
+        this.list.alignTo(this.wrap, 'tl-bl?');  
+        this.list.show();  
+        this.mon(Ext.getDoc(), {
+            scope: this,
+            mousewheel: this.collapseIf,
+            mousedown: this.collapseIf
+        });
+        this.fireEvent('expand', this);
+    },
   
+//    validateValue : function(value) {  
+//        return true;  
+//    },  
   
-    validateValue : function(value) {  
-        return true;  
-    },  
-  
-    validateBlur : function() {  
-        return !this.list || !this.list.isVisible();  
-    },  
+//    validateBlur : function() {  
+//        return !this.list || !this.list.isVisible();  
+//    },  
   
     onDestroy : function() {  
         if (this.wrap) {  
@@ -141,11 +170,22 @@ Ext.extend(cms.form.ComboTree, Ext.form.TriggerField, {
         return this.list && this.list.isVisible();  
     },  
   
-    collapse : function() {  
-        if (this.isExpanded()) {  
-            this.list.hide();  
-        }  
-    },  
+     collapse : function(){
+        if(!this.isExpanded()){
+            return;
+        }
+        this.list.hide();
+        Ext.getDoc().un('mousewheel', this.collapseIf, this);
+        Ext.getDoc().un('mousedown', this.collapseIf, this);
+        this.fireEvent('collapse', this);
+    },
+
+    // private
+    collapseIf : function(e){
+        if(!e.within(this.wrap) && !e.within(this.list)){
+            this.collapse();
+        }
+    },
   
     onClick : function(node) {  
         this.setValue(node);  
@@ -161,24 +201,34 @@ Ext.extend(cms.form.ComboTree, Ext.form.TriggerField, {
         }  
         cms.form.ComboTree.superclass.setValue.call(this, val);  
     },  
-  
+  	getValue:function(){
+  		return this.hiddenField.value;
+  	},
     initEvents : function() {  
         cms.form.ComboTree.superclass.initEvents.call(this);  
-        this.el.on('mousedown', this.onTriggerClick, this);  
-    },  
-  
+    },
+   getListParent : function() {
+        return document.body;
+    },
+    initValue : function(){
+        Ext.form.ComboBox.superclass.initValue.call(this);
+        if(this.hiddenField){
+            this.hiddenField.value =
+                Ext.isDefined(this.hiddenValue) ? this.hiddenValue :
+                Ext.isDefined(this.value) ? this.value : '';
+        }
+    },
     onTriggerClick : function() {  
         if (this.disabled) {  
             return;  
         }  
-  
         if (this.isExpanded()) {  
             this.collapse();  
             this.el.focus();  
         } else {  
             this.onFocus({});  
-            this.list.alignTo(this.wrap, 'tl-bl?');  
-            this.list.show();  
+            this.expand();
+    		this.el.focus();
         }  
     }  
   

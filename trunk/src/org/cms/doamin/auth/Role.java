@@ -36,8 +36,8 @@ public class Role implements java.io.Serializable {
 	@Column(name = "role_code", length = 100,nullable=false, unique=true)
 	private String roleCode;
 	
-	@Column(name = "enabled")
-	private Boolean enabled=true;
+	@Column(name = "enabled",columnDefinition="char(1)",length=1)
+	private String enabled="Y";
 	
 	// Constructors
 	public Role() {
@@ -53,7 +53,7 @@ public class Role implements java.io.Serializable {
 		this.roleName = roleName;
 		this.roleDesc = roleDesc;
 		this.roleCode = roleCode;
-		this.enabled = enable;
+		this.setEnabled(enable?"Y":"N");
 	}
 
 	// Property accessors
@@ -104,13 +104,6 @@ public class Role implements java.io.Serializable {
 	public void setRoleAndParentCode(String roleCode) {
 		this.roleCode = roleCode;
 	} 
-	public Boolean getEnabled() {
-		return this.enabled;
-	}
-
-	public void setEnabled(Boolean enable) {
-		this.enabled = enable;
-	}
 
 	public void setParentRoleCode(String parentRoleCode) {
 		this.roleCode=parentRoleCode+this.getRoleCode();
@@ -120,5 +113,13 @@ public class Role implements java.io.Serializable {
 		int index=roleCode.lastIndexOf(SiteUtils.SEPARATOR_CONTACT);
 		index=index>0?index:0;
 		return this.roleCode.substring(0,index);
+	}
+
+	public void setEnabled(String enabled) {
+		this.enabled = enabled;
+	}
+
+	public String getEnabled() {
+		return enabled;
 	}
 }

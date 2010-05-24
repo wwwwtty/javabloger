@@ -5,16 +5,17 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.cms.dao.impl.PramasMap;
-import org.hibernate.Criteria;
 import org.hibernate.criterion.DetachedCriteria;
 
 public interface BaseDAO {
 	
+	//@Transactional(propagation=Propagation.MANDATORY)
 	void delete(Object object,Class<? extends Serializable> clazz);
 	
 	/**通过ID主键删除对应记录；
 	 * @param ID
 	 */
+	//@Transactional(propagation=Propagation.MANDATORY)
 	void deleteByID(Serializable ID,Class<? extends Serializable> clazz);
 	
 	/**通过ID查询；
@@ -35,6 +36,7 @@ public interface BaseDAO {
 	/**保存
 	 * @param instance
 	 */
+	//@Transactional(propagation=Propagation.MANDATORY)
 	public Serializable save(Object instance) ;
 
 
@@ -42,12 +44,14 @@ public interface BaseDAO {
 	 * @param instance
 	 * @return
 	 */
+	//@Transactional(propagation=Propagation.MANDATORY)
 	public Object merge(Object instance) ;
 	
 	/**更新操作
 	 * @param instance
 	 * @return
 	 */
+	//@Transactional(propagation=Propagation.MANDATORY)
 	public void update(Object instance) ;
 	
 	/**自定义HQL接口；可提供事务支持；

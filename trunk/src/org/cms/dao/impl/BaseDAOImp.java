@@ -16,6 +16,7 @@ import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.dao.DataAccessException;
@@ -32,10 +33,22 @@ public class BaseDAOImp implements BaseDAO{
 	 */
 	@Override
 	public Serializable save(Object instance) {
-	    if(log.isDebugEnabled()){
-		log.debug("saving "+instance.getClass().getName()+" instance");
-	    }
-	    return templet.save(instance);
+		return templet.save(instance);
+//		return templet.executeWithNativeSession(new HibernateCallback<Serializable>(){
+//			@Override
+//			public Serializable doInHibernate(Session session)
+//					throws HibernateException, SQLException {
+//				Transaction tr=session.getTransaction();
+//				if(!tr.isActive()){
+//					throw new RuntimeException();
+//				}
+//			  if(log.isDebugEnabled()){
+//					log.debug("saving "+instance.getClass().getName()+" instance");
+//				    }
+//				return session.save(instance);
+//			}
+//		});
+	  
 	}
 
 	/*删除数据；
@@ -130,7 +143,7 @@ public class BaseDAOImp implements BaseDAO{
 		 if(log.isDebugEnabled()){
 				log.debug(" query:"+queryString);
 			    }
-			    return (List) templet.executeWithNativeSession(new HibernateCallback() {
+			    return (List) templet.executeWithNativeSession(new HibernateCallback<Object>() {
 				public Object doInHibernate(final Session session) throws HibernateException {
 				    final Query queryObject = session.createQuery(queryString);
 				    if (Paras != null) {
@@ -207,14 +220,14 @@ public class BaseDAOImp implements BaseDAO{
 	}
 	
 	@Override
-	public Object executeSQL(final String queryString,final String[] parameters){
+	public Object executeSQL(String queryString,final String[] parameters){
 	    if(log.isDebugEnabled()){
 		log.debug(" execute:"+queryString);
 	    }
-				
-	    return templet.executeWithNativeSession(new HibernateCallback() {
+		final String sql=queryString;
+	    return templet.executeWithNativeSession(new HibernateCallback<Object>() {
 			public Object doInHibernate(Session session) throws HibernateException {
-			    Query queryObject = session.createSQLQuery(queryString);
+			    Query queryObject = session.createSQLQuery(sql);
 			    if (parameters != null) {
 				for (int i = 0; i < parameters.length; i++) {
 				    queryObject.setParameter(i, parameters[i]);
