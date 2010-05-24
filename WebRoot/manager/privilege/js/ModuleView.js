@@ -14,21 +14,18 @@ var extendsConfig={
 				labelAlign :'left',
 				bodyStyle : 'padding:13px 70px 0',
 				height :540,
-				labelWidth :60,
 				layout:'column',
 				frame:true,
 				items:[this.functionTreePanel,this.editPanel]
 			}]
     	})
 		
-		
-		
 		cms.auth.AuthManagerPanel.superclass.initComponent.apply(this);
 	},
 	functionTreePanel:null,
 	createFunctionTreePanel:function(){
 		var functionTreePanel_loader = new Ext.tree.TreeLoader( {
-			dataUrl:basePath+'manager/auth/AuthDataService.do?action=findFunctions',
+			dataUrl:basePath+'manager/auth/AuthDataService.do?action=findFunctions&valid=A',
 			root:'obj',
 			listeners:{
 				'beforeload': function(treeLoader, node) {
@@ -126,8 +123,9 @@ var extendsConfig={
 					xtype:'combotree',
 					minListWidth:60,
 					fieldLabel: '角色分组',
+					editable :false,
 					repRoot:'obj',
-					url:basePath+'manager/auth/AuthDataService.do?action=findAllRole',
+					url:basePath+'manager/auth/AuthDataService.do?action=findAllRole&valid=valid',
 		            onSelect: function() { alert('good'); },
 		            emptyText: '请选择'
 				},{
@@ -135,6 +133,7 @@ var extendsConfig={
 					name:'enabled',
 					displayField: 'name',
 					valueField: 'value',
+					editable :false,
 					mode: 'local',
 					triggerAction: 'all',
 					selectOnFocus: true,
@@ -165,8 +164,9 @@ var extendsConfig={
 							params:{
 								json:Ext.encode(data)
 							},
-							success:function(){
-								Ext.Msg.alert("成功","功能保存成功");
+							success:function(rep){
+								var tip=rep.success==true?"成功":"失败"; 
+								Ext.Msg.alert(tip,rep.msg);
 							}
 						})
 					}
@@ -211,20 +211,22 @@ var extendsConfig={
 				xtype: 'textfield',
 				fieldLabel: '角色名称'
 			},{
-				id: 'enabled_role_fl',
-				name:'enabled',
-				fieldLabel: '是否锁定',
-				store: that.editPanel_isblockStore
-			}, {
 				name:'ParentRoleCode',
 				xtype:'combotree',
-				minListWidth:60,
+				editable :false,
+//				minListWidth:60,
 				fieldLabel: '角色分组',
 				repRoot:'obj',
-				url:basePath+'manager/auth/AuthDataService.do?action=findAllRole',
+				url:basePath+'manager/auth/AuthDataService.do?action=findAllRole&valid=valid',
 	            onSelect: function() { alert('good'); },
 	            emptyText: '请选择'
 			},{
+				id: 'enabled_role_fl',
+				name:'enabled',
+				editable :false,
+				fieldLabel: '是否锁定',
+				store: that.editPanel_isblockStore
+			}, {
 				id: 'roleDesc_fl',
 				name:'roleDesc',
 				fieldLabel: '角色描述',
@@ -249,8 +251,9 @@ var extendsConfig={
 							params:{
 								json:Ext.encode(data)
 							},
-							success:function(){
-								Ext.Msg.alert("成功","角色保存成功");
+							success:function(rep){
+								var tip=rep.success==true?"成功":"失败"; 
+								Ext.Msg.alert(tip,rep.msg);
 							}
 						})
 					}

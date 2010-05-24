@@ -2,10 +2,11 @@ package org.cms.service.core;
 
 import java.util.List;
 
-import org.cms.doamin.cms.Category;
-
 public interface BaseService<T> {
-
+	
+	public static String FIND_ALL="A";
+	public static String FIND_ALL_VALID="Y";
+	public static String FIND_ALL_INVALID="N";
 	/**依据ID查询
 	 * @param id
 	 * @return
@@ -24,11 +25,12 @@ public interface BaseService<T> {
 	 */
 	public List<T> findAll();
 	
+//	@Transactional
 	public void update(T t);
 	
 	/**只查所有的有效数据;
 	 * @return
 	 */
-	public List<T> findValid();
+	public List<T> findAll(String valid);
 	
 }

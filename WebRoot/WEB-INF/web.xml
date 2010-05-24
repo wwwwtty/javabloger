@@ -37,7 +37,7 @@
 		<!-- singleSession默认为true,若设为false则等于没用OpenSessionInView -->
 		<init-param>
 			<param-name>singleSession</param-name>
-			<param-value>true</param-value>
+			<param-value>false</param-value>
 		</init-param>
 	</filter>
 	<!-- 配置sitemesh -->

@@ -18,6 +18,7 @@ import org.cms.doamin.auth.Role;
 import org.cms.service.core.AuthRoleService;
 import org.cms.service.core.FunctionService;
 import org.cms.web.vo.RoleVo;
+import org.hibernate.validator.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +48,7 @@ private Logger log=LoggerFactory.getLogger(AuthDataControl.class);
 	@RequestMapping(params = "action=getAll") 
 	@ModelAttribute("json")
 	public ModelAndView findAll(){
-		return WebUtils.buildReturnView(fs.findValid());
+		return WebUtils.buildReturnView(fs.findAll());
 	}
 	
 	/** 获得权限分组;用于页面左边Ext树展现;
@@ -57,14 +58,15 @@ private Logger log=LoggerFactory.getLogger(AuthDataControl.class);
 	 */
 	@RequestMapping(params = "action=findFunctions") 
 	@ModelAttribute("json")
-	public JSONResponse findRolesAndFunctions(@RequestParam(value="code",required=false,defaultValue="root") String code,HttpSession session){
+	public JSONResponse findRolesAndFunctions(@RequestParam(value="code",required=false,defaultValue="root") String code,
+			@RequestParam(value="valid",required=false,defaultValue="Y") String valid,HttpSession session){
 		
 		String userId=SessionUtils.getUserID(session);
 		if("admin".equals(userId)){
 			
 		}
 		//获得角色;
-		List<Role> roles=rs.findByParentCode(code);
+		List<Role> roles=rs.findByParentCode(code,valid.toUpperCase());
 		if(roles!=null&&roles.size()>0){
 			List<TreeNode> tree=new ArrayList<TreeNode>();
 			for(Role r: roles){
@@ -75,7 +77,7 @@ private Logger log=LoggerFactory.getLogger(AuthDataControl.class);
 			return JSONResponse.sucess(tree);
 		}
 		else{//获得对应角色下面的功能点!
-			List<Function> funs=fs.findByGroupCode(code);
+			List<Function> funs=fs.findByGroupCode(code,valid.toUpperCase());
 			List<TreeNode> tree=new ArrayList<TreeNode>();
 			if(funs!=null){
 				for(Function f: funs){
@@ -98,19 +100,11 @@ private Logger log=LoggerFactory.getLogger(AuthDataControl.class);
 	 */
 	@RequestMapping(params = "action=findAllRole") 
 	@ModelAttribute("json")
-	public JSONResponse findAllRole(@RequestParam(value="isValide",required=false,defaultValue="all") String isValide){
+	public JSONResponse findAllRole(@RequestParam(value="valid",required=false,defaultValue="all") String isValid){
 		List<TreeNode> tree=new ArrayList<TreeNode>();
 		List<Role> roles=null;
 		//获得角色;
-		if("valid".equals(isValide)){
-			roles=rs.findValid();
-		}else if("invalid".equals(isValide)){
-			
-		}else if("all".equals(isValide)) {
-			roles=rs.findAll();
-		}else{
-			throw new ActionException("查询参数出错...");
-		}
+		roles=rs.findAll(isValid);
 		//组装成TreeNode形式;
 		if(roles!=null&&roles.size()>0){
 			for(Role r: roles){

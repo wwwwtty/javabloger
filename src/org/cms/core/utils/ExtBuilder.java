@@ -14,17 +14,20 @@ import org.cms.core.Ext.TreeNode;
 public class ExtBuilder {
 	public static List<TreeNode> buildTreeList(List<TreeNode> list){
 		Map<String,TreeNode> map=new HashMap<String,TreeNode>();
+		List<TreeNode> rs=new ArrayList<TreeNode>();
 		for(TreeNode tn : list){
 			map.put(tn.getId(), tn);
 		}
 		for(TreeNode tn : list){
 			TreeNode pa=map.get(tn.getParentNodeId());
 			if(pa!=null){
+			//	list.remove(tn);
 				pa.addChildNodes(tn);
-				list.remove(tn);
+			}else{
+				rs.add(tn);
 			}
 		}	
 		
-		return list;
+		return rs;
 	}
 }

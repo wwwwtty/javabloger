@@ -35,7 +35,7 @@ public class Function implements java.io.Serializable {
 	private String code;
 	
 	@Column(name = "enabled", length = 1)
-	private boolean enabled=true;
+	private String enabled="Y";
 	
 	@Column(name = "fun_desc", length = 100)
 	private String info;
@@ -65,12 +65,6 @@ public class Function implements java.io.Serializable {
 		this.code = code;
 	}
 
-	public boolean isEnabled() {
-		return enabled;
-	}
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
-	}
 	public String getInfo() {
 		return info;
 	}
@@ -85,5 +79,11 @@ public class Function implements java.io.Serializable {
 	}
 	public String getGroupCode() {
 		return groupCode;
+	}
+	public void setEnabled(String enabled) {
+		this.enabled = enabled;
+	}
+	public String getEnabled() {
+		return enabled;
 	}
 }

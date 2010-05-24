@@ -23,6 +23,6 @@ public class FunctionControl {
 	
 	@RequestMapping(params = "action=getAll") 
 	public ModelAndView findAll(){
-		return WebUtils.buildReturnView(fs.findValid());
+		return WebUtils.buildReturnView(fs.findAll());
 	}
 }
