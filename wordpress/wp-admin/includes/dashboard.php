@@ -426,7 +426,7 @@ function wp_dashboard_right_now() {
 		echo "<p><a href='options-privacy.php' title='$title'>$content</a></p>";
 	}
 
-//	update_right_now_message();关闭升级提示功能
+	update_right_now_message();
 
 	echo "\n\t".'<br class="clear" /></div>';
 	do_action( 'rightnow_end' );

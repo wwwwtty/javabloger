@@ -53,8 +53,7 @@ require_once(ABSPATH . 'wp-admin/includes/theme.php');
 require_once(ABSPATH . 'wp-admin/includes/user.php');
 
 /** WordPress Update Administration API */
-//关闭升级提示功能
-//require_once(ABSPATH . 'wp-admin/includes/update.php');
+require_once(ABSPATH . 'wp-admin/includes/update.php');
 
 /** WordPress Deprecated Administration API */
 require_once(ABSPATH . 'wp-admin/includes/deprecated.php');
