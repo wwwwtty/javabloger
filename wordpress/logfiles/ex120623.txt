@@ -1,0 +1,17 @@
+#Software: Microsoft Internet Information Services 6.0
+#Version: 1.0
+#Date: 2012-06-23 05:56:26
+#Fields: date time cs-method cs-uri-stem cs-uri-query cs-username c-ip cs-version cs(User-Agent) cs(Referer) sc-status sc-bytes time-taken 
+2012-06-23 05:56:26 GET /index.htm - - 125.71.172.93 HTTP/1.1 Mozilla/5.0+(Windows+NT+6.1)+AppleWebKit/535.1+(KHTML,+like+Gecko)+Chrome/14.0.835.186+Safari/535.1 - 200 2363 296
+2012-06-23 05:56:26 GET /favicon.ico - - 125.71.172.93 HTTP/1.1 Mozilla/5.0+(Windows+NT+6.1)+AppleWebKit/535.1+(KHTML,+like+Gecko)+Chrome/14.0.835.186+Safari/535.1 - 404 1468 265
+#Software: Microsoft Internet Information Services 6.0
+#Version: 1.0
+#Date: 2012-06-23 06:17:33
+#Fields: date time cs-method cs-uri-stem cs-uri-query cs-username c-ip cs-version cs(User-Agent) cs(Referer) sc-status sc-bytes time-taken 
+2012-06-23 06:17:33 GET /wordpress - - 125.71.172.93 HTTP/1.1 Mozilla/5.0+(Windows+NT+6.1)+AppleWebKit/535.1+(KHTML,+like+Gecko)+Chrome/14.0.835.186+Safari/535.1 - 301 380 93
+2012-06-23 06:17:33 GET /wordpress/index.php - - 125.71.172.93 HTTP/1.1 Mozilla/5.0+(Windows+NT+6.1)+AppleWebKit/535.1+(KHTML,+like+Gecko)+Chrome/14.0.835.186+Safari/535.1 - 500 609 78
+2012-06-23 06:17:33 GET /favicon.ico - - 125.71.172.93 HTTP/1.1 Mozilla/5.0+(Windows+NT+6.1)+AppleWebKit/535.1+(KHTML,+like+Gecko)+Chrome/14.0.835.186+Safari/535.1 - 404 1468 62
+2012-06-23 06:22:45 GET /wordpress/index.php - - 125.71.172.93 HTTP/1.1 Mozilla/5.0+(Windows+NT+6.1)+AppleWebKit/535.1+(KHTML,+like+Gecko)+Chrome/14.0.835.186+Safari/535.1 - 500 609 46
+2012-06-23 06:22:45 GET /favicon.ico - - 125.71.172.93 HTTP/1.1 Mozilla/5.0+(Windows+NT+6.1)+AppleWebKit/535.1+(KHTML,+like+Gecko)+Chrome/14.0.835.186+Safari/535.1 - 404 1468 93
+2012-06-23 06:22:47 GET /wordpress/index.php - - 125.71.172.93 HTTP/1.1 Mozilla/5.0+(Windows+NT+6.1)+AppleWebKit/535.1+(KHTML,+like+Gecko)+Chrome/14.0.835.186+Safari/535.1 - 500 609 46
+2012-06-23 06:22:47 GET /favicon.ico - - 125.71.172.93 HTTP/1.1 Mozilla/5.0+(Windows+NT+6.1)+AppleWebKit/535.1+(KHTML,+like+Gecko)+Chrome/14.0.835.186+Safari/535.1 - 404 1468 31
