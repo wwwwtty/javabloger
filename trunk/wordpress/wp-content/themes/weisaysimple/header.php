@@ -1,6 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><head profile="http://gmpg.org/xfn/11">
 <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('charset'); ?>" />
+<meta name="baidu_union_verify" content="bdea89cd726c2dd5e1cb378915108fc2">
 <?php include('includes/seo.php'); ?>
 <?php if (get_option('swt_alt_stylesheet')==''):?>
 <link rel="stylesheet" type="text/css" href="<?php bloginfo('template_directory'); ?>/style.css" />
@@ -45,4 +46,10 @@ if(function_exists('wp_nav_menu')) {
 </ul></div>
 <div class="clear"></div>
 </div>
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F2044444158ebc2c950cb60853a93001f' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
 </div>
