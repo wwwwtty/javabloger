@@ -1,0 +1,1628 @@
+<!DOCTYPE html>
+<html class="ua-windows ua-ff13" lang="zh-CN"><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>爱电影</title>
+    <meta http-equiv="Pragma" content="no-cache">
+    
+    <meta name="keywords" content="百度影音、百度影音电影、百度影音最新电影、百度影音搜索、百度影音排行榜,百度影音网站.">
+    <meta name="description" content="基于百度影音的视讯（电影，电视，动漫，综艺）点播网站">
+    <link href="files/packed_douban.css" rel="stylesheet" type="text/css">
+    <link href="files/packed__all.css" rel="stylesheet" type="text/css">
+    <script async="true" src="files/packed_ad7051127962.js" type="text/javascript"></script><script type="text/javascript">var _head_start = new Date();</script>
+    <script type="text/javascript" src="files/packed_jquery.js"></script>
+    <script type="text/javascript" src="files/packed_douban5126162963.js"></script>
+    <script type="text/javascript" src="files/packed__all295341955.js"></script>
+    
+    <style type="text/css"></style>
+    <script type="text/javascript"></script>
+    <style type="text/css">
+    .movie_rank {zoom:1; overflow:hidden;}
+    .headerline_content .onelinep {margin:0; height:20px; width:270px; overflow:hidden;}
+    .headerline_content .trailerBt:link,
+    .headerline_content .trailerBt:visited,
+    .headerline_content .trailerBt:hover,
+    .headerline_content .trailerBt:active {display:block; height:28px; width:83px; background:url(/pics/movie_trailer_icon.png); line-height:20em; overflow:hidden; margin-top:3px;}
+    .mobiBanner{margin-bottom:20px; display:block;}
+    .movie_headerline .content .headerline_content{height:160px;overflow:hidden;}
+    .headerline_content .title{height:19px;}
+
+    #actCinemas {height:160px; margin-bottom:30px;}
+    #actCinemas div {float:left; width:285px; padding-right:10px; height:50px; margin-bottom:20px;}
+    #actCinemas div .thumb {float:left; border:1px solid #ccc; display:block; height:50px; width:50px; overflow:hidden; margin-right:10px;}
+    #actCinemas div p {margin: 0 0 5px; height:22px; overflow:hidden;}
+    #actCinemas div p a {font-size:14px;}
+
+    .movie_new{margin-bottom:0;}
+    .ticket_bt .colbutt span{line-height:20px; color:#333}
+
+
+      .nav-srh .inp{position:relative;z-index:40}#search_suggest{background:#fff;border:1px solid #eee;position:absolute;z-index:99;top:32px;width:303px;-webkit-box-shadow:2px 2px 4px 0 #ccc;-moz-box-shadow:2px 2px 4px 0 #ccc;box-shadow:2px 2px 4px 0 #ccc;border-bottom:0 none}#search_suggest li{border-bottom:1px solid #eee;overflow:hidden}#search_suggest li.curr_item{background:#efefef}#search_suggest li a{color:#999;display:block;overflow:hidden;padding:6px;zoom:1}#search_suggest li a:hover{background:#f9f9f9;color:#999}#search_suggest li a em{font-style:normal;color:#369}#search_suggest li p{margin:0;zoom:1;overflow:hidden}#search_suggest li img{float:left;margin-right:8px;margin-top:3px}#search_suggest li.over{background:#fbfbfb}
+  
+        /* reset infobox */
+        .hot_search .infobox .ex1,
+        .hot_search .infobox .ex1 span,
+        .hot_search .infobox .ex2,
+        .hot_search .infobox .ex2 span,
+        .hot_search .infobox .bd {background:0 none; border: none 0}
+
+        .infobox .bd {padding:6px 9px;}
+        .enter { margin: 0; padding: 0;}
+        .enter p { line-height: 2.2em; margin: 0 }
+
+        .hot_search h2 {padding-left:5px}
+        .hot_search .asBt {padding:1px 5px; height:23px; overflow:hidden; border:1px solid #eaeaea; display:block; float:left; background-color:#fff; color:#369}
+        .hot_search .asBt em {font-style:normal; margin:0 0 0 7px; padding:2px 0 0; display:block; float:left;}
+        .hot_search .asBt:hover,
+        .hot_search .asBtAct {color:#fff; background-color:#babcbb;}
+        .hot_search .asBt span {display:block; height:4px; width:7px; margin-right:5px; *margin-right:0; margin-top:10px; float:right; background:url("/pics/icon/tongcheng_tab_down.gif") 0 -4px no-repeat;}
+        .hot_search .asBt:hover span, .hot_search .asBtAct span,.hot_search .asBtAct:hover span{background:url("/pics/icon/tongcheng_tab_down.gif") 0 -16px no-repeat;}
+
+        .hot_search a.colbutt {margin:0 0 0 7px}
+        .hot_search a.colbutt span {line-height:20px}
+        .hot_search a.s_submit {color:#000; display:block; float:left; width:66px; height:26px; text-align:center; line-height:26px; background:url("/pics/btn-movieinfo.png"); margin-left:5px}
+        .s_form {position:relative; height:32px; left:5px;}
+        .s_form .s_city{
+            width:70px; border-right:none 0;
+            -webkit-border-top-left-radius: 4px;
+            -webkit-border-bottom-left-radius: 4px;
+            -moz-border-radius-topleft: 4px;
+            -moz-border-radius-bottomleft: 4px;
+            border-top-left-radius: 4px;
+            border-bottom-left-radius: 4px;
+        }
+        .s_form .s_film{
+            width:118px;
+            -webkit-border-top-right-radius: 4px;
+            -webkit-border-bottom-right-radius: 4px;
+            -moz-border-radius-topright: 4px;
+            -moz-border-radius-bottomright: 4px;
+            border-top-right-radius: 4px;
+            border-bottom-right-radius: 4px;
+        }
+
+        .tab{width:250px; overflow:hidden; padding:15px;border:1px solid #babcbb; border-bottom:3px solid #babcbb; position:absolute; background:#FFF; top:35px; left:0; display:none;}
+        .tab .hd{padding:14px 0 20px 5px;border-bottom:1px solid #ddd;margin-bottom:15px;}
+        .tab .hd span{margin-right:15px;color:#2E7AB3;cursor:pointer;}
+        .tab .hd .on{background-color:#00C26F;color:#fff;padding:4px 6px;-moz-border-radius:5px;}
+        .hot_search .infobox .bd{background-color:#f6f3dc;border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px;}
+        .hot_search .s_form .tab .bd{padding:5px 5px 7px 9px; background:#fff; border:none 0}
+        .tab .bd>.mod:last-child {border-bottom:none 0;margin:0;padding-bottom:0;}
+        .tab .bd .mod{border-bottom:1px solid #eee;margin:0 0 15px;padding-bottom:15px;}
+        .tab .bd span{margin:1px 10px 1px 0;color:#2E7AB3;white-space:nowrap;display:inline-block;}
+        .tab .bd dt{float:left;margin-right:25px;}
+        .tab .bd dd{clear:both; zoom:1;}
+
+        .movies .bd ul li {display:block; float:left; width:97px; margin-right:20px; line-height:2em; padding:1px 0;}
+
+
+    </style>
+
+    <link rel="shortcut icon" href="http://img3.douban.com/favicon.ico" type="image/x-icon">
+<script async="true" src="files/ga.js"></script></head>
+<body>
+  
+    <script type="text/javascript">var _body_start = new Date();</script>
+    <div id="wrapper">
+      
+  <div id="header">
+    
+  
+  
+
+
+<div id="db-nav-movie" class="site-nav">
+    <div class="site-nav-logo">
+      <a href="http://movie.douban.com/">
+          <img src="files/lg_movie_a10.png" alt="豆瓣">
+      </a>
+    </div>
+
+      
+  <div class="bd">
+    <div class="nav-srh">
+        <form name="ssform" method="get" action="http://movie.douban.com/subject_search">
+            <div class="inp">
+                <span><input style="color: rgb(212, 212, 212);" autocomplete="off" name="search_text" title="" size="22" maxlength="60" value="电影、影人、影院、电视剧" type="text"></span>
+                    
+  <script type="text/javascript" src="files/packed_jquery_002.js" data-cfg-autoload="false"></script>
+  
+  <script id="suggResult" type="text/x-jquery-tmpl">
+      <li data-link="{{= url}}">
+          <a href="{{= url}}">
+              <img src="{{= img}}" width="40" />
+              <p>
+                  <em>{{= title}}</em>
+                  {{if year}}
+                      <span>{{= year}}</span>
+                  {{/if}}
+                  {{if sub_title}}
+                      <br /><span>{{= sub_title}}</span>
+                  {{/if}}
+                  {{if address}}
+                      <br /><span>{{= address}}</span>
+                  {{/if}}
+                  {{if episode}}
+                      {{if episode=="unknow"}}
+                          <br /><span>集数未知</span>
+                      {{else}}
+                          <br /><span>共{{= episode}}集</span>
+                      {{/if}}
+                  {{/if}}
+              </p>
+          </a>
+      </li>
+  </script>
+  
+
+                  <input name="cat" value="1002" type="hidden">
+                <span><input class="bn-srh" value="搜索" type="submit"></span>
+            </div>
+        </form>
+    </div>
+    
+  
+  <div class="site-nav-items nav-anon">
+      <ul>
+                          
+                 
+                 <li><a href="http://movie.douban.com/nowplaying/chengdu/">影讯</a></li>
+             
+                 <li><a href="http://movie.douban.com/tv/">电视剧</a></li>
+             
+                 <li><a href="http://movie.douban.com/chart">排行榜</a></li>
+             
+                 <li><a href="http://movie.douban.com/tag/">分类</a></li>
+             
+                 <li><a href="http://movie.douban.com/review/best/">影评</a></li> 
+      </ul>
+  </div>
+
+  </div>
+  <div class="ext"></div>
+  
+
+</div>
+
+<iframe id="f" width="950px" height="100px" src= "" frameborder="no" border="0" marginwidth="0" marginheight="0" allowtransparency="yes" scrolling="NO" > </iframe>
+    
+</div>
+
+        
+    <div id="content">
+    
+
+    <div class="grid-16-8 clearfix">
+        
+        
+        <div class="article">
+    
+        <div id="dale_movie_home_main_top"></div>
+
+        
+        
+    
+    <style>
+        .movie_headerline .content .title span{margin-left:10px; }
+        .movie_headerline .content .title a {margin:0}
+        .movie_headerline .content .title span.new_show{margin-left:0;padding-right:30px; float:left; background:url(pics/movie_new_show.png) right 5px no-repeat;display:block; height:15px;}
+        .movie_rank span {float:left}
+        .headerline_review ul .more {float:right; *margin-top:-20px}
+    </style>
+    <h2 class="mb5">正在热映 · · · · · ·        
+    </h2>
+    <div class="movie_headerline clearfix">
+        <div class="left_conner"><em></em><b></b></div>
+            
+            <div class="content clearfix" id="content_menu1">
+                
+                <div class="headerline_img"><a onclick="moreurl(this, {from:'cinema_img'})" href="http://movie.douban.com/subject/10772258/"><img src="files/s10389149.jpg"></a></div>
+                <div class="headerline_content">
+                    <div class="title clearfix">
+                        <a onclick="moreurl(this, {from:'cinema_title'})" href="http://movie.douban.com/subject/10772258/">麦兜当当伴我心</a>
+                    </div>
+                    <div class="movie_rank clearfix">
+                        <span class="bigstar45"></span><span class="grade">8.3</span>
+                    </div>
+                        
+                        <p class="onelinep"><span class="pl">导演:</span> 谢立文</p>
+                        
+                        <p class="onelinep"><span class="pl">主演:</span> 黄秋生 / 吴君如 / 胡歌 / 郑中基 / 许飞</p>
+
+                        
+                            <p class="onelinep"><span class="pl">制片国家/地区:</span> 中国大陆 / 香港</p>
+                        
+                            <p class="onelinep"><span class="pl">片长:</span> 80分钟</p>
+                    <p class="ticket_bt">
+                            <a onclick="moreurl(this, {from:'cinema_info'})" href="http://movie.douban.com/subject/10772258/cinema/" class="colbutt ll"><span>查影讯</span></a>
+                    </p>
+                </div>
+                <div class="ul" style="#margin-top:-5px;_margin-top:-5px"></div>
+                <div class="headerline_review">
+                    <ul>
+                        
+                            
+                            <li>影讯<a href="http://site.douban.com/118344/">成都紫荆电影城</a> <span class="more">&gt;<a href="http://movie.douban.com/subject/10772258/cinema/">更多28家影院</a></span></li>
+                                
+                                <li>影评<a href="http://movie.douban.com/review/5504385/">但愿时间只咬掉我坚硬的外壳，吃不掉我柔软...</a><span class="more">&gt;<a href="http://movie.douban.com/subject/10772258/reviews">更多影评</a></span></li>
+                    </ul>
+                </div>
+
+            </div>
+            
+            <div class="content clearfix" id="content_menu2">
+                
+                <div class="headerline_img"><a onclick="moreurl(this, {from:'cinema_img'})" href="http://movie.douban.com/subject/6799191/"><img src="files/s10489201_002.jpg"></a></div>
+                <div class="headerline_content">
+                    <div class="title clearfix">
+                        <a onclick="moreurl(this, {from:'cinema_title'})" href="http://movie.douban.com/subject/6799191/">搜索</a>
+                    </div>
+                    <div class="movie_rank clearfix">
+                        <span class="bigstar35"></span><span class="grade">7.1</span>
+                    </div>
+                        
+                        <p class="onelinep"><span class="pl">导演:</span> 陈凯歌</p>
+                        
+                        <p class="onelinep"><span class="pl">主演:</span> 高圆圆 / 姚晨 / 赵又廷 / 陈红 / 王学圻</p>
+
+                        
+                            <p class="onelinep"><span class="pl">制片国家/地区:</span> 中国大陆</p>
+                        
+                            <p class="onelinep"><span class="pl">片长:</span> 121分钟</p>
+                    <p class="ticket_bt">
+                            <a onclick="moreurl(this, {from:'cinema_info'})" href="http://movie.douban.com/subject/6799191/cinema/" class="colbutt ll"><span>查影讯</span></a>
+                    </p>
+                </div>
+                <div class="ul" style="#margin-top:-5px;_margin-top:-5px"></div>
+                <div class="headerline_review">
+                    <ul>
+                        
+                            
+                            <li>影讯<a href="http://site.douban.com/144733/">幸福蓝海国际影城(成都光...</a> <span class="more">&gt;<a href="http://movie.douban.com/subject/6799191/cinema/">更多46家影院</a></span></li>
+                                
+                                <li>影评<a href="http://movie.douban.com/review/5504815/">腹黑陈凯歌变形记 “小媚眼儿”陈燃的二秘...</a><span class="more">&gt;<a href="http://movie.douban.com/subject/6799191/reviews">更多影评</a></span></li>
+                    </ul>
+                </div>
+
+            </div>
+            
+            <div class="content clearfix" id="content_menu3">
+                
+                <div class="headerline_img"><a onclick="moreurl(this, {from:'cinema_img'})" href="http://movie.douban.com/subject/4897786/"><img src="files/s4560171_002.jpg"></a></div>
+                <div class="headerline_content">
+                    <div class="title clearfix">
+                        <a onclick="moreurl(this, {from:'cinema_title'})" href="http://movie.douban.com/subject/4897786/">超决战！贝利亚银河帝国</a>
+                    </div>
+                    <div class="movie_rank clearfix">
+                        <span class="bigstar35"></span><span class="grade">6.6</span>
+                    </div>
+                        
+                        <p class="onelinep"><span class="pl">导演:</span> 阿部雄一</p>
+                        
+                        <p class="onelinep"><span class="pl">主演:</span> 宫野真守 / 绿川光 / 关智一 / 神谷浩史 / 宫迫博之</p>
+
+                        
+                            <p class="onelinep"><span class="pl">制片国家/地区:</span> 日本</p>
+                        
+                            <p class="onelinep"><span class="pl">片长:</span> 100分钟</p>
+                    <p class="ticket_bt">
+                            <a onclick="moreurl(this, {from:'cinema_info'})" href="http://movie.douban.com/subject/4897786/cinema/" class="colbutt ll"><span>查影讯</span></a>
+                    </p>
+                </div>
+                <div class="ul" style="#margin-top:-5px;_margin-top:-5px"></div>
+                <div class="headerline_review">
+                    <ul>
+                        
+                            
+                            <li>影讯<a href="http://site.douban.com/ctjhcdfl/">橙天嘉禾成都富力天汇影城</a> <span class="more">&gt;<a href="http://movie.douban.com/subject/4897786/cinema/">更多44家影院</a></span></li>
+                                
+                                <li>影评<a href="http://movie.douban.com/review/5501993/">初代奥特曼的皮真是太粗糙了</a><span class="more">&gt;<a href="http://movie.douban.com/subject/4897786/reviews">更多影评</a></span></li>
+                    </ul>
+                </div>
+
+            </div>
+            
+            <div class="content clearfix" id="content_menu4">
+                
+                <div class="headerline_img"><a onclick="moreurl(this, {from:'cinema_img'})" href="http://movie.douban.com/subject/6124012/"><img src="files/s10425432.jpg"></a></div>
+                <div class="headerline_content">
+                    <div class="title clearfix">
+                        <a onclick="moreurl(this, {from:'cinema_title'})" href="http://movie.douban.com/subject/6124012/">四大名捕</a>
+                    </div>
+                    <div class="movie_rank clearfix">
+                        <span class="bigstar25"></span><span class="grade">4.7</span>
+                    </div>
+                        
+                        <p class="onelinep"><span class="pl">导演:</span> 陈嘉上 / 秦小珍</p>
+                        
+                        <p class="onelinep"><span class="pl">主演:</span> 邓超 / 刘亦菲 / 郑中基 / 邹兆龙 / 黄秋生</p>
+
+                        
+                            <p class="onelinep"><span class="pl">制片国家/地区:</span> 中国大陆 / 香港</p>
+                        
+                            <p class="onelinep"><span class="pl">片长:</span> 118分钟</p>
+                    <p class="ticket_bt">
+                            <a onclick="moreurl(this, {from:'cinema_info'})" href="http://movie.douban.com/subject/6124012/cinema/" class="colbutt ll"><span>查影讯</span></a>
+                    </p>
+                </div>
+                <div class="ul" style="#margin-top:-5px;_margin-top:-5px"></div>
+                <div class="headerline_review">
+                    <ul>
+                        
+                            
+                            <li>影讯<a href="http://site.douban.com/118011/">成都UME国际影城</a> <span class="more">&gt;<a href="http://movie.douban.com/subject/6124012/cinema/">更多46家影院</a></span></li>
+                                
+                                <li>影评<a href="http://movie.douban.com/review/5504230/">槽点太多，无法叙述</a><span class="more">&gt;<a href="http://movie.douban.com/subject/6124012/reviews">更多影评</a></span></li>
+                    </ul>
+                </div>
+
+            </div>
+
+
+            <ul class="menu" id="hot_movies_menu">
+                    
+                    <li class="first on" id="menu1">
+                    <div class="clearfix on">
+                    <em></em>
+                        <div class="arrow"></div>
+                        <div class="img"><a onclick="moreurl(this, {from:'cinema_rimg'})" href="http://movie.douban.com/subject/10772258/"><img src="files/s10389149_002.jpg" height="45"></a></div>
+                        <div class="intro">
+                            <a onclick="moreurl(this, {from:'cinema_rtitle'})" href="http://movie.douban.com/subject/10772258/" class="title">麦兜当当伴我心</a>
+                            <span class="allstar45"></span>8.3
+                        </div>
+                    </div>
+                </li>
+                    
+                    <li class="" id="menu2">
+                    <div class="clearfix">
+                    <em></em>
+                        <div class="arrow"></div>
+                        <div class="img"><a onclick="moreurl(this, {from:'cinema_rimg'})" href="http://movie.douban.com/subject/6799191/"><img src="files/s10489201.jpg" height="45"></a></div>
+                        <div class="intro">
+                            <a onclick="moreurl(this, {from:'cinema_rtitle'})" href="http://movie.douban.com/subject/6799191/" class="title">搜索</a>
+                            <span class="allstar35"></span>7.1
+                        </div>
+                    </div>
+                </li>
+                    
+                    <li class="" id="menu3">
+                    <div class="clearfix">
+                    <em></em>
+                        <div class="arrow"></div>
+                        <div class="img"><a onclick="moreurl(this, {from:'cinema_rimg'})" href="http://movie.douban.com/subject/4897786/"><img src="files/s4560171.jpg" height="45"></a></div>
+                        <div class="intro">
+                            <a onclick="moreurl(this, {from:'cinema_rtitle'})" href="http://movie.douban.com/subject/4897786/" class="title">超决战！贝利亚银河帝国</a>
+                            <span class="allstar35"></span>6.6
+                        </div>
+                    </div>
+                </li>
+                    
+                    <li class="last" id="menu4">
+                    <div class="clearfix">
+                    <em></em>
+                        <div class="arrow"></div>
+                        <div class="img"><a onclick="moreurl(this, {from:'cinema_rimg'})" href="http://movie.douban.com/subject/6124012/"><img src="files/s10425432_002.jpg" height="45"></a></div>
+                        <div class="intro">
+                            <a onclick="moreurl(this, {from:'cinema_rtitle'})" href="http://movie.douban.com/subject/6124012/" class="title">四大名捕</a>
+                            <span class="allstar25"></span>4.7
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+    <!-- douban ad begin -->
+        <div id="movie_home_left_bottom" class="mb20"></div>
+        <!-- douban ad end -->    
+    
+        
+        
+            
+        <div class="movie_new">
+
+            <h2 class="green_tab clearfix"><div class="ll">豆瓣新片榜· · · · · ·</div><a onclick="moreurl(this, {from:'mv_tab'})" id="new1" class="on" href="javascript:void(0)"><span>全部</span></a><a onclick="moreurl(this, {from:'mv_tab'})" id="new2" href="javascript:void(0)"><span>动作</span></a><a onclick="moreurl(this, {from:'mv_tab'})" id="new3" href="javascript:void(0)"><span>剧情</span></a><a onclick="moreurl(this, {from:'mv_tab'})" id="new4" href="javascript:void(0)"><span>喜剧</span></a><a id="new5" onclick="moreurl(this, {from:'mv_tab'})" href="javascript:void(0)"><span>悬疑</span></a></h2>
+
+            <ul style="display: block;" class="content clearfix" id="newcontent1">
+
+                    
+                <li class="clearfix">
+                <div class="img"><a onclick="moreurl(this, {from:'new_img'})" href="http://movie.douban.com/subject/10772258/"><img src="files/s10389149_002.jpg"></a></div>
+                    <div class="intro">
+                        <h3><span>1</span><a onclick="moreurl(this, {from:'new_title'})" href="http://movie.douban.com/subject/10772258/">麦兜当当伴我心</a></h3>
+                        <div class="star clearfix">
+                            <span class="allstar45"></span>8.3
+                        </div>
+                        
+                            <span class="pl">导演:</span> 谢立文 Brian Tse<br>
+                        
+                            <span class="pl">主演:</span> 黄秋生 Anthony Wong Chau-...<br>
+                        
+                        <span class="pl">我们庆幸心里总有一首歌，让硬邦邦的世界不至硬进心里，让软弱的心不至倒塌不起。</span>
+                    </div>
+                </li>
+                    
+                <li class="clearfix">
+                <div class="img"><a onclick="moreurl(this, {from:'new_img'})" href="http://movie.douban.com/subject/6799191/"><img src="files/s10489201.jpg"></a></div>
+                    <div class="intro">
+                        <h3><span>2</span><a onclick="moreurl(this, {from:'new_title'})" href="http://movie.douban.com/subject/6799191/">搜索</a></h3>
+                        <div class="star clearfix">
+                            <span class="allstar35"></span>7.1
+                        </div>
+                        
+                            <span class="pl">导演:</span> 陈凯歌 Kaige Chen<br>
+                        
+                            <span class="pl">主演:</span> 高圆圆 Yuanyuan Gao <br>
+                        
+                        <span class="pl">陈凯歌拍网络暴力，完成度高，但格局不大。</span>
+                    </div>
+                </li>
+                    
+                <li class="clearfix">
+                <div class="img"><a onclick="moreurl(this, {from:'new_img'})" href="http://movie.douban.com/subject/4218768/"><img src="files/s10300009.jpg"></a></div>
+                    <div class="intro">
+                        <h3><span>3</span><a onclick="moreurl(this, {from:'new_title'})" href="http://movie.douban.com/subject/4218768/">画皮2</a></h3>
+                        <div class="star clearfix">
+                            <span class="allstar30"></span>5.9
+                        </div>
+                        
+                            <span class="pl">导演:</span> 乌尔善 Wuershan<br>
+                        
+                            <span class="pl">主演:</span> 周迅 Xun Zhou <br>
+                        
+                        <span class="pl">画面、特效有进步，故事略显俗气和老套。</span>
+                    </div>
+                </li>
+                    
+                <li class="clearfix">
+                <div class="img"><a onclick="moreurl(this, {from:'new_img'})" href="http://movie.douban.com/subject/6124012/"><img src="files/s10425432_002.jpg"></a></div>
+                    <div class="intro">
+                        <h3><span>4</span><a onclick="moreurl(this, {from:'new_title'})" href="http://movie.douban.com/subject/6124012/">四大名捕</a></h3>
+                        <div class="star clearfix">
+                            <span class="allstar25"></span>4.7
+                        </div>
+                        
+                            <span class="pl">导演:</span> 陈嘉上 Gordon Chan <br>
+                        
+                            <span class="pl">主演:</span> 邓超 Chao Deng <br>
+                        
+                        <span class="pl">非常混搭的武侠电影，名捕都在，灵魂不在。</span>
+                    </div>
+                </li>
+                    
+                <li class="clearfix">
+                <div class="img"><a onclick="moreurl(this, {from:'new_img'})" href="http://movie.douban.com/subject/2129132/"><img src="files/s9084762.jpg"></a></div>
+                    <div class="intro">
+                        <h3><span>5</span><a onclick="moreurl(this, {from:'new_title'})" href="http://movie.douban.com/subject/2129132/">超凡蜘蛛侠</a></h3>
+                        <div class="star clearfix">
+                            <span class="allstar40"></span>7.5
+                        </div>
+                        
+                            <span class="pl">导演:</span> 马克·韦布 Marc Webb<br>
+                        
+                            <span class="pl">主演:</span> 安德鲁·加菲尔德 Andrew G...<br>
+                        
+                        <span class="pl">大故事流畅，小细节满满青春鲜味。</span>
+                    </div>
+                </li>
+                    
+                <li class="clearfix">
+                <div class="img"><a onclick="moreurl(this, {from:'new_img'})" href="http://movie.douban.com/subject/4807924/"><img src="files/s8951098.jpg"></a></div>
+                    <div class="intro">
+                        <h3><span>6</span><a onclick="moreurl(this, {from:'new_title'})" href="http://movie.douban.com/subject/4807924/">泰迪熊</a></h3>
+                        <div class="star clearfix">
+                            <span class="allstar40"></span>8.2
+                        </div>
+                        
+                            <span class="pl">导演:</span> 塞思·麦克法兰 Seth MacFar...<br>
+                        
+                            <span class="pl">主演:</span> 塞思·麦克法兰 Seth MacFar...<br>
+                        
+                        <span class="pl">人兽也可以好丽友好基友。</span>
+                    </div>
+                </li>
+                    
+                <li class="clearfix">
+                <div class="img"><a onclick="moreurl(this, {from:'new_img'})" href="http://movie.douban.com/subject/3036473/"><img src="files/s10385764.jpg"></a></div>
+                    <div class="intro">
+                        <h3><span>7</span><a onclick="moreurl(this, {from:'new_title'})" href="http://movie.douban.com/subject/3036473/">勇敢传说</a></h3>
+                        <div class="star clearfix">
+                            <span class="allstar40"></span>7.4
+                        </div>
+                        
+                            <span class="pl">导演:</span> 马克∙安德鲁斯 Mark Andre...<br>
+                        
+                            <span class="pl">主演:</span> 艾玛·汤普森 Emma Thomp...<br>
+                        
+                        <span class="pl">走下神坛的Pixar最终还是成为了百年不变迪士尼风格动画的生产线。</span>
+                    </div>
+                </li>
+                    
+                <li class="clearfix">
+                <div class="img"><a onclick="moreurl(this, {from:'new_img'})" href="http://movie.douban.com/subject/3178770/"><img src="files/s8966851.jpg"></a></div>
+                    <div class="intro">
+                        <h3><span>8</span><a onclick="moreurl(this, {from:'new_title'})" href="http://movie.douban.com/subject/3178770/">马达加斯加3</a></h3>
+                        <div class="star clearfix">
+                            <span class="allstar45"></span>8.3
+                        </div>
+                        
+                            <span class="pl">导演:</span> 康拉德·弗农 Conrad Verno...<br>
+                        
+                            <span class="pl">主演:</span> 本·斯蒂勒 Ben Stiller <br>
+                        
+                        <span class="pl">三部中最好看的，剧情上狗血，节奏上鸡血。</span>
+                    </div>
+                </li>
+                    
+                <li class="clearfix">
+                <div class="img"><a onclick="moreurl(this, {from:'new_img'})" href="http://movie.douban.com/subject/5320600/"><img src="files/s7020389.jpg"></a></div>
+                    <div class="intro">
+                        <h3><span>9</span><a onclick="moreurl(this, {from:'new_title'})" href="http://movie.douban.com/subject/5320600/">涉外大饭店</a></h3>
+                        <div class="star clearfix">
+                            <span class="allstar40"></span>7.9
+                        </div>
+                        
+                            <span class="pl">导演:</span> 约翰·麦登 John Madden<br>
+                        
+                            <span class="pl">主演:</span> 玛吉·史密斯 Maggie Smith <br>
+                        
+                        <span class="pl">印度市井背景+生死感悟的设置十拿九稳，想不喜欢都难。</span>
+                    </div>
+                </li>
+                    
+                <li class="clearfix">
+                <div class="img"><a onclick="moreurl(this, {from:'new_img'})" href="http://movie.douban.com/subject/4914468/"><img src="files/s10387444.jpg"></a></div>
+                    <div class="intro">
+                        <h3><span>10</span><a onclick="moreurl(this, {from:'new_title'})" href="http://movie.douban.com/subject/4914468/">冰川时代4</a></h3>
+                        <div class="star clearfix">
+                            <span class="allstar40"></span>7.9
+                        </div>
+                        
+                            <span class="pl">导演:</span> 麦克·特米尔 Mike Thurmeie...<br>
+                        
+                            <span class="pl">主演:</span> 雷·罗马诺 Ray Romano <br>
+                        
+                        <span class="pl">保持开心的秘诀：蠢到底。</span>
+                    </div>
+                </li>
+            </ul>
+            <ul style="display: none;" class="content clearfix" id="newcontent2">
+
+                    
+                <li class="clearfix">
+                <div class="img"><a onclick="moreurl(this, {from:'new_img'})" href="http://movie.douban.com/subject/4218768/"><img src="files/s10300009.jpg"></a></div>
+                    <div class="intro">
+                        <h3><span>1</span><a onclick="moreurl(this, {from:'new_title'})" href="http://movie.douban.com/subject/4218768/">画皮2</a></h3>
+                        <div class="star clearfix">
+                            <span class="allstar30"></span>5.9
+                        </div>
+                        
+                            <span class="pl">导演:</span> 乌尔善 Wuershan<br>
+                        
+                            <span class="pl">主演:</span> 周迅 Xun Zhou <br>
+                        
+                        <span class="pl">画面、特效有进步，故事略显俗气和老套。</span>
+                    </div>
+                </li>
+                    
+                <li class="clearfix">
+                <div class="img"><a onclick="moreurl(this, {from:'new_img'})" href="http://movie.douban.com/subject/6124012/"><img src="files/s10425432_002.jpg"></a></div>
+                    <div class="intro">
+                        <h3><span>2</span><a onclick="moreurl(this, {from:'new_title'})" href="http://movie.douban.com/subject/6124012/">四大名捕</a></h3>
+                        <div class="star clearfix">
+                            <span class="allstar25"></span>4.7
+                        </div>
+                        
+                            <span class="pl">导演:</span> 陈嘉上 Gordon Chan <br>
+                        
+                            <span class="pl">主演:</span> 邓超 Chao Deng <br>
+                        
+                        <span class="pl">非常混搭的武侠电影，名捕都在，灵魂不在。</span>
+                    </div>
+                </li>
+                    
+                <li class="clearfix">
+                <div class="img"><a onclick="moreurl(this, {from:'new_img'})" href="http://movie.douban.com/subject/2129132/"><img src="files/s9084762.jpg"></a></div>
+                    <div class="intro">
+                        <h3><span>3</span><a onclick="moreurl(this, {from:'new_title'})" href="http://movie.douban.com/subject/2129132/">超凡蜘蛛侠</a></h3>
+                        <div class="star clearfix">
+                            <span class="allstar40"></span>7.5
+                        </div>
+                        
+                            <span class="pl">导演:</span> 马克·韦布 Marc Webb<br>
+                        
+                            <span class="pl">主演:</span> 安德鲁·加菲尔德 Andrew G...<br>
+                        
+                        <span class="pl">大故事流畅，小细节满满青春鲜味。</span>
+                    </div>
+                </li>
+                    
+                <li class="clearfix">
+                <div class="img"><a onclick="moreurl(this, {from:'new_img'})" href="http://movie.douban.com/subject/3395373/"><img src="files/s9127643.jpg"></a></div>
+                    <div class="intro">
+                        <h3><span>4</span><a onclick="moreurl(this, {from:'new_title'})" href="http://movie.douban.com/subject/3395373/">蝙蝠侠前传3：黑暗骑士崛起</a></h3>
+                        <div class="star clearfix">
+                            <span class="allstar45"></span>8.6
+                        </div>
+                        
+                            <span class="pl">导演:</span> 克里斯托弗·诺兰 Christoph...<br>
+                        
+                            <span class="pl">主演:</span> 克里斯蒂安·贝尔 Christian ...<br>
+                        
+                        <span class="pl">诺兰就是保证。</span>
+                    </div>
+                </li>
+                    
+                <li class="clearfix">
+                <div class="img"><a onclick="moreurl(this, {from:'new_img'})" href="http://movie.douban.com/subject/5319819/"><img src="files/s10328353.jpg"></a></div>
+                    <div class="intro">
+                        <h3><span>5</span><a onclick="moreurl(this, {from:'new_title'})" href="http://movie.douban.com/subject/5319819/">车手</a></h3>
+                        <div class="star clearfix">
+                            <span class="allstar30"></span>6.0
+                        </div>
+                        
+                            <span class="pl">导演:</span> 郑保瑞 Pou-Soi Cheang<br>
+                        
+                            <span class="pl">主演:</span> 黄秋生 Anthony Wong Chau-...<br>
+                        
+                        <span class="pl">车坏了可以再修，人没了什么都没了。</span>
+                    </div>
+                </li>
+                    
+                <li class="clearfix">
+                <div class="img"><a onclick="moreurl(this, {from:'new_img'})" href="http://movie.douban.com/subject/3592853/"><img src="files/s7022429.jpg"></a></div>
+                    <div class="intro">
+                        <h3><span>6</span><a onclick="moreurl(this, {from:'new_title'})" href="http://movie.douban.com/subject/3592853/">饥饿游戏</a></h3>
+                        <div class="star clearfix">
+                            <span class="allstar35"></span>6.4
+                        </div>
+                        
+                            <span class="pl">导演:</span> 加里·罗斯 Gary Ross<br>
+                        
+                            <span class="pl">主演:</span> 詹妮弗·劳伦斯 Jennifer La...<br>
+                        
+                        <span class="pl">绝不是美版《大逃杀》，倒是差一点就成了“大逃杀版暮光之城”。</span>
+                    </div>
+                </li>
+                    
+                <li class="clearfix">
+                <div class="img"><a onclick="moreurl(this, {from:'new_img'})" href="http://movie.douban.com/subject/4326412/"><img src="files/s7024887.jpg"></a></div>
+                    <div class="intro">
+                        <h3><span>7</span><a onclick="moreurl(this, {from:'new_title'})" href="http://movie.douban.com/subject/4326412/">亚伯拉罕·林肯：吸血鬼猎人</a></h3>
+                        <div class="star clearfix">
+                            <span class="allstar30"></span>6.1
+                        </div>
+                        
+                            <span class="pl">导演:</span> 提莫·贝克曼贝托夫 Timur B...<br>
+                        
+                            <span class="pl">主演:</span> 本杰明·沃克 Benjamin Wal...<br>
+                        
+                        <span class="pl">南北战争时期的吸血鬼故事。</span>
+                    </div>
+                </li>
+                    
+                <li class="clearfix">
+                <div class="img"><a onclick="moreurl(this, {from:'new_img'})" href="http://movie.douban.com/subject/3771562/"><img src="files/s9112473.jpg"></a></div>
+                    <div class="intro">
+                        <h3><span>8</span><a onclick="moreurl(this, {from:'new_title'})" href="http://movie.douban.com/subject/3771562/">普罗米修斯</a></h3>
+                        <div class="star clearfix">
+                            <span class="allstar40"></span>7.5
+                        </div>
+                        
+                            <span class="pl">导演:</span> 雷德利·斯科特 Ridley Scott<br>
+                        
+                            <span class="pl">主演:</span> 劳米·拉佩斯 Noomi Rapac...<br>
+                        
+                        <span class="pl">多年不见的科幻神作。</span>
+                    </div>
+                </li>
+                    
+                <li class="clearfix">
+                <div class="img"><a onclick="moreurl(this, {from:'new_img'})" href="http://movie.douban.com/subject/5327463/"><img src="files/s9064346.jpg"></a></div>
+                    <div class="intro">
+                        <h3><span>9</span><a onclick="moreurl(this, {from:'new_title'})" href="http://movie.douban.com/subject/5327463/">白雪公主与猎人</a></h3>
+                        <div class="star clearfix">
+                            <span class="allstar30"></span>5.5
+                        </div>
+                        
+                            <span class="pl">导演:</span> 鲁伯特·山德斯  Rupert San...<br>
+                        
+                            <span class="pl">主演:</span> 克里斯·海姆斯沃斯 Chris H...<br>
+                        
+                        <span class="pl">白富美巫婆与屌丝公主不得不说的故事。</span>
+                    </div>
+                </li>
+                    
+                <li class="clearfix">
+                <div class="img"><a onclick="moreurl(this, {from:'new_img'})" href="http://movie.douban.com/subject/10762817/"><img src="files/s10156861.jpg"></a></div>
+                    <div class="intro">
+                        <h3><span>10</span><a onclick="moreurl(this, {from:'new_title'})" href="http://movie.douban.com/subject/10762817/">汤姆·克兰西：幽灵行动阿尔法</a></h3>
+                        <div class="star clearfix">
+                            <span class="allstar45"></span>8.2
+                        </div>
+                        
+                            <span class="pl">导演:</span> François Alaux <br>
+                        
+                            <span class="pl">主演:</span> karel dobry / Radek Bruna <br>
+                        
+                        <span class="pl">游戏味十足的军迷小短片。</span>
+                    </div>
+                </li>
+            </ul>
+            <ul style="display: none;" class="content clearfix" id="newcontent3">
+
+                    
+                <li class="clearfix">
+                <div class="img"><a onclick="moreurl(this, {from:'new_img'})" href="http://movie.douban.com/subject/6799191/"><img src="files/s10489201.jpg"></a></div>
+                    <div class="intro">
+                        <h3><span>1</span><a onclick="moreurl(this, {from:'new_title'})" href="http://movie.douban.com/subject/6799191/">搜索</a></h3>
+                        <div class="star clearfix">
+                            <span class="allstar35"></span>7.1
+                        </div>
+                        
+                            <span class="pl">导演:</span> 陈凯歌 Kaige Chen<br>
+                        
+                            <span class="pl">主演:</span> 高圆圆 Yuanyuan Gao <br>
+                        
+                        <span class="pl">陈凯歌拍网络暴力，完成度高，但格局不大。</span>
+                    </div>
+                </li>
+                    
+                <li class="clearfix">
+                <div class="img"><a onclick="moreurl(this, {from:'new_img'})" href="http://movie.douban.com/subject/5320600/"><img src="files/s7020389.jpg"></a></div>
+                    <div class="intro">
+                        <h3><span>2</span><a onclick="moreurl(this, {from:'new_title'})" href="http://movie.douban.com/subject/5320600/">涉外大饭店</a></h3>
+                        <div class="star clearfix">
+                            <span class="allstar40"></span>7.9
+                        </div>
+                        
+                            <span class="pl">导演:</span> 约翰·麦登 John Madden<br>
+                        
+                            <span class="pl">主演:</span> 玛吉·史密斯 Maggie Smith <br>
+                        
+                        <span class="pl">印度市井背景+生死感悟的设置十拿九稳，想不喜欢都难。</span>
+                    </div>
+                </li>
+                    
+                <li class="clearfix">
+                <div class="img"><a onclick="moreurl(this, {from:'new_img'})" href="http://movie.douban.com/subject/6753589/"><img src="files/s10233634.jpg"></a></div>
+                    <div class="intro">
+                        <h3><span>3</span><a onclick="moreurl(this, {from:'new_title'})" href="http://movie.douban.com/subject/6753589/">理查二世</a></h3>
+                        <div class="star clearfix">
+                            <span class="allstar45"></span>8.4
+                        </div>
+                        
+                            <span class="pl">导演:</span> 鲁伯特·古尔德 Rupert Gool...<br>
+                        
+                            <span class="pl">主演:</span> 本·卫肖 Ben Whishaw <br>
+                        
+                        <span class="pl">耶稣般的面孔，神一般的演技，诗一般的语言。</span>
+                    </div>
+                </li>
+                    
+                <li class="clearfix">
+                <div class="img"><a onclick="moreurl(this, {from:'new_img'})" href="http://movie.douban.com/subject/7155083/"><img src="files/s9117884.jpg"></a></div>
+                    <div class="intro">
+                        <h3><span>4</span><a onclick="moreurl(this, {from:'new_title'})" href="http://movie.douban.com/subject/7155083/">第一次</a></h3>
+                        <div class="star clearfix">
+                            <span class="allstar30"></span>6.0
+                        </div>
+                        
+                            <span class="pl">导演:</span> 韩延 Yan Han<br>
+                        
+                            <span class="pl">主演:</span> 杨颖 Angelababy <br>
+                        
+                        <span class="pl">请剧情尊重片名，请在爱情戏中加入动作。</span>
+                    </div>
+                </li>
+                    
+                <li class="clearfix">
+                <div class="img"><a onclick="moreurl(this, {from:'new_img'})" href="http://movie.douban.com/subject/10441064/"><img src="files/s11095099.jpg"></a></div>
+                    <div class="intro">
+                        <h3><span>5</span><a onclick="moreurl(this, {from:'new_title'})" href="http://movie.douban.com/subject/10441064/">亨利四世：第一部分</a></h3>
+                        <div class="star clearfix">
+                            <span class="allstar45"></span>9.0
+                        </div>
+                        
+                            <span class="pl">导演:</span> 理查德·艾尔 Richard Eyre<br>
+                        
+                            <span class="pl">主演:</span> 杰瑞米·艾恩斯 Jeremy Iron...<br>
+                        
+                        <span class="pl">当莎翁剧变成偶像剧。</span>
+                    </div>
+                </li>
+                    
+                <li class="clearfix">
+                <div class="img"><a onclick="moreurl(this, {from:'new_img'})" href="http://movie.douban.com/subject/5322596/"><img src="files/s6920451.jpg"></a></div>
+                    <div class="intro">
+                        <h3><span>6</span><a onclick="moreurl(this, {from:'new_title'})" href="http://movie.douban.com/subject/5322596/">超脱</a></h3>
+                        <div class="star clearfix">
+                            <span class="allstar45"></span>8.8
+                        </div>
+                        
+                            <span class="pl">导演:</span> 托尼·凯耶 Tony Kaye<br>
+                        
+                            <span class="pl">主演:</span> 艾德里安·布洛迪 Adrien Bro...<br>
+                        
+                        <span class="pl">穷尽一生，我们要学会的，不过是彼此拥抱。</span>
+                    </div>
+                </li>
+                    
+                <li class="clearfix">
+                <div class="img"><a onclick="moreurl(this, {from:'new_img'})" href="http://movie.douban.com/subject/6858739/"><img src="files/s6986970.jpg"></a></div>
+                    <div class="intro">
+                        <h3><span>7</span><a onclick="moreurl(this, {from:'new_title'})" href="http://movie.douban.com/subject/6858739/">爱的面包魂</a></h3>
+                        <div class="star clearfix">
+                            <span class="allstar30"></span>5.8
+                        </div>
+                        
+                            <span class="pl">导演:</span> 高炳权 Bingquan Gao <br>
+                        
+                            <span class="pl">主演:</span> 陈汉典 Han Dian Chen <br>
+                        
+                    </div>
+                </li>
+                    
+                <li class="clearfix">
+                <div class="img"><a onclick="moreurl(this, {from:'new_img'})" href="http://movie.douban.com/subject/10793719/"><img src="files/s10320592.jpg"></a></div>
+                    <div class="intro">
+                        <h3><span>8</span><a onclick="moreurl(this, {from:'new_title'})" href="http://movie.douban.com/subject/10793719/">时间的风景</a></h3>
+                        <div class="star clearfix">
+                            <span class="allstar45"></span>8.5
+                        </div>
+                        
+                            <span class="pl">导演:</span> Tom Lowe<br>
+                        
+                        
+                        <span class="pl">令人震撼窒息的画面，对白只显得苍白无力。</span>
+                    </div>
+                </li>
+                    
+                <li class="clearfix">
+                <div class="img"><a onclick="moreurl(this, {from:'new_img'})" href="http://movie.douban.com/subject/6900092/"><img src="files/s8874089.jpg"></a></div>
+                    <div class="intro">
+                        <h3><span>9</span><a onclick="moreurl(this, {from:'new_title'})" href="http://movie.douban.com/subject/6900092/">建筑学概论</a></h3>
+                        <div class="star clearfix">
+                            <span class="allstar40"></span>7.3
+                        </div>
+                        
+                            <span class="pl">导演:</span> 李勇周 Yong-Joo Lee<br>
+                        
+                            <span class="pl">主演:</span> 李济勋 Je-hun Lee <br>
+                        
+                        <span class="pl">在对的时间，遇到对的人，那是童话。在错的时间，遇到对的人，这才是青春。</span>
+                    </div>
+                </li>
+                    
+                <li class="clearfix">
+                <div class="img"><a onclick="moreurl(this, {from:'new_img'})" href="http://movie.douban.com/subject/6722888/"><img src="files/s9126922.jpg"></a></div>
+                    <div class="intro">
+                        <h3><span>10</span><a onclick="moreurl(this, {from:'new_title'})" href="http://movie.douban.com/subject/6722888/">醉后一夜</a></h3>
+                        <div class="star clearfix">
+                            <span class="allstar30"></span>5.2
+                        </div>
+                        
+                            <span class="pl">导演:</span> 曾国祥 Derek Tsang <br>
+                        
+                            <span class="pl">主演:</span> 余文乐 Shawn Yue <br>
+                        
+                        <span class="pl">京城夜生活指南。</span>
+                    </div>
+                </li>
+            </ul>
+            <ul style="display: none;" class="content clearfix" id="newcontent4">
+
+                    
+                <li class="clearfix">
+                <div class="img"><a onclick="moreurl(this, {from:'new_img'})" href="http://movie.douban.com/subject/10772258/"><img src="files/s10389149_002.jpg"></a></div>
+                    <div class="intro">
+                        <h3><span>1</span><a onclick="moreurl(this, {from:'new_title'})" href="http://movie.douban.com/subject/10772258/">麦兜当当伴我心</a></h3>
+                        <div class="star clearfix">
+                            <span class="allstar45"></span>8.3
+                        </div>
+                        
+                            <span class="pl">导演:</span> 谢立文 Brian Tse<br>
+                        
+                            <span class="pl">主演:</span> 黄秋生 Anthony Wong Chau-...<br>
+                        
+                        <span class="pl">我们庆幸心里总有一首歌，让硬邦邦的世界不至硬进心里，让软弱的心不至倒塌不起。</span>
+                    </div>
+                </li>
+                    
+                <li class="clearfix">
+                <div class="img"><a onclick="moreurl(this, {from:'new_img'})" href="http://movie.douban.com/subject/4807924/"><img src="files/s8951098.jpg"></a></div>
+                    <div class="intro">
+                        <h3><span>2</span><a onclick="moreurl(this, {from:'new_title'})" href="http://movie.douban.com/subject/4807924/">泰迪熊</a></h3>
+                        <div class="star clearfix">
+                            <span class="allstar40"></span>8.2
+                        </div>
+                        
+                            <span class="pl">导演:</span> 塞思·麦克法兰 Seth MacFar...<br>
+                        
+                            <span class="pl">主演:</span> 塞思·麦克法兰 Seth MacFar...<br>
+                        
+                        <span class="pl">人兽也可以好丽友好基友。</span>
+                    </div>
+                </li>
+                    
+                <li class="clearfix">
+                <div class="img"><a onclick="moreurl(this, {from:'new_img'})" href="http://movie.douban.com/subject/3036473/"><img src="files/s10385764.jpg"></a></div>
+                    <div class="intro">
+                        <h3><span>3</span><a onclick="moreurl(this, {from:'new_title'})" href="http://movie.douban.com/subject/3036473/">勇敢传说</a></h3>
+                        <div class="star clearfix">
+                            <span class="allstar40"></span>7.4
+                        </div>
+                        
+                            <span class="pl">导演:</span> 马克∙安德鲁斯 Mark Andre...<br>
+                        
+                            <span class="pl">主演:</span> 艾玛·汤普森 Emma Thomp...<br>
+                        
+                        <span class="pl">走下神坛的Pixar最终还是成为了百年不变迪士尼风格动画的生产线。</span>
+                    </div>
+                </li>
+                    
+                <li class="clearfix">
+                <div class="img"><a onclick="moreurl(this, {from:'new_img'})" href="http://movie.douban.com/subject/3178770/"><img src="files/s8966851.jpg"></a></div>
+                    <div class="intro">
+                        <h3><span>4</span><a onclick="moreurl(this, {from:'new_title'})" href="http://movie.douban.com/subject/3178770/">马达加斯加3</a></h3>
+                        <div class="star clearfix">
+                            <span class="allstar45"></span>8.3
+                        </div>
+                        
+                            <span class="pl">导演:</span> 康拉德·弗农 Conrad Verno...<br>
+                        
+                            <span class="pl">主演:</span> 本·斯蒂勒 Ben Stiller <br>
+                        
+                        <span class="pl">三部中最好看的，剧情上狗血，节奏上鸡血。</span>
+                    </div>
+                </li>
+                    
+                <li class="clearfix">
+                <div class="img"><a onclick="moreurl(this, {from:'new_img'})" href="http://movie.douban.com/subject/4914468/"><img src="files/s10387444.jpg"></a></div>
+                    <div class="intro">
+                        <h3><span>5</span><a onclick="moreurl(this, {from:'new_title'})" href="http://movie.douban.com/subject/4914468/">冰川时代4</a></h3>
+                        <div class="star clearfix">
+                            <span class="allstar40"></span>7.9
+                        </div>
+                        
+                            <span class="pl">导演:</span> 麦克·特米尔 Mike Thurmeie...<br>
+                        
+                            <span class="pl">主演:</span> 雷·罗马诺 Ray Romano <br>
+                        
+                        <span class="pl">保持开心的秘诀：蠢到底。</span>
+                    </div>
+                </li>
+                    
+                <li class="clearfix">
+                <div class="img"><a onclick="moreurl(this, {from:'new_img'})" href="http://movie.douban.com/subject/4745470/"><img src="files/s7016593.jpg"></a></div>
+                    <div class="intro">
+                        <h3><span>6</span><a onclick="moreurl(this, {from:'new_title'})" href="http://movie.douban.com/subject/4745470/">美国派4：美国重逢</a></h3>
+                        <div class="star clearfix">
+                            <span class="allstar35"></span>7.0
+                        </div>
+                        
+                            <span class="pl">导演:</span> 乔恩·赫维兹 Jon Hurwitz <br>
+                        
+                            <span class="pl">主演:</span> 贾森·比格斯 Jason Biggs <br>
+                        
+                        <span class="pl">老套路，调侃各种流行文化使故事与时俱进，重口味有升级。</span>
+                    </div>
+                </li>
+                    
+                <li class="clearfix">
+                <div class="img"><a onclick="moreurl(this, {from:'new_img'})" href="http://movie.douban.com/subject/4845728/"><img src="files/s9014118.jpg"></a></div>
+                    <div class="intro">
+                        <h3><span>7</span><a onclick="moreurl(this, {from:'new_title'})" href="http://movie.douban.com/subject/4845728/">独裁者</a></h3>
+                        <div class="star clearfix">
+                            <span class="allstar40"></span>7.9
+                        </div>
+                        
+                            <span class="pl">导演:</span> 拉里·查尔斯 Larry Charles<br>
+                        
+                            <span class="pl">主演:</span> 萨莎·拜伦·科恩 Sacha Bar...<br>
+                        
+                        <span class="pl">笑出腹肌，比《波拉特》又要在屎尿屁方面更上一层楼。</span>
+                    </div>
+                </li>
+                    
+                <li class="clearfix">
+                <div class="img"><a onclick="moreurl(this, {from:'new_img'})" href="http://movie.douban.com/subject/6768838/"><img src="files/s6919409.jpg"></a></div>
+                    <div class="intro">
+                        <h3><span>8</span><a onclick="moreurl(this, {from:'new_title'})" href="http://movie.douban.com/subject/6768838/">上帝保佑美国</a></h3>
+                        <div class="star clearfix">
+                            <span class="allstar40"></span>7.7
+                        </div>
+                        
+                            <span class="pl">导演:</span> 博卡·格德斯维特 Bobcat Go...<br>
+                        
+                            <span class="pl">主演:</span> Joel Murray <br>
+                        
+                        <span class="pl">绝望大叔和孤独萝莉暴走之旅。</span>
+                    </div>
+                </li>
+                    
+                <li class="clearfix">
+                <div class="img"><a onclick="moreurl(this, {from:'new_img'})" href="http://movie.douban.com/subject/3642835/"><img src="files/s8904327.jpg"></a></div>
+                    <div class="intro">
+                        <h3><span>9</span><a onclick="moreurl(this, {from:'new_title'})" href="http://movie.douban.com/subject/3642835/">黑衣人3</a></h3>
+                        <div class="star clearfix">
+                            <span class="allstar40"></span>7.7
+                        </div>
+                        
+                            <span class="pl">导演:</span> 巴里·索南菲尔德 Barry Son...<br>
+                        
+                            <span class="pl">主演:</span> 威尔·史密斯 Will Smith <br>
+                        
+                        <span class="pl">无比欢乐和俏皮的脱口秀3D大片。</span>
+                    </div>
+                </li>
+                    
+                <li class="clearfix">
+                <div class="img"><a onclick="moreurl(this, {from:'new_img'})" href="http://movie.douban.com/subject/5967821/"><img src="files/s7025645.jpg"></a></div>
+                    <div class="intro">
+                        <h3><span>10</span><a onclick="moreurl(this, {from:'new_title'})" href="http://movie.douban.com/subject/5967821/">白雪公主之魔镜魔镜</a></h3>
+                        <div class="star clearfix">
+                            <span class="allstar30"></span>5.6
+                        </div>
+                        
+                            <span class="pl">导演:</span> 塔西姆·辛 Tarsem Singh<br>
+                        
+                            <span class="pl">主演:</span> 朱莉娅·罗伯茨 Julia Robert...<br>
+                        
+                        <span class="pl">最炫阿三风。</span>
+                    </div>
+                </li>
+            </ul>
+            <ul style="display: none;" class="content clearfix" id="newcontent5">
+
+                    
+                <li class="clearfix">
+                <div class="img"><a onclick="moreurl(this, {from:'new_img'})" href="http://movie.douban.com/subject/10508879/"><img src="files/s10385772.jpg"></a></div>
+                    <div class="intro">
+                        <h3><span>1</span><a onclick="moreurl(this, {from:'new_title'})" href="http://movie.douban.com/subject/10508879/">青魇</a></h3>
+                        <div class="star clearfix">
+                            <span class="allstar30"></span>6.1
+                        </div>
+                        
+                            <span class="pl">导演:</span> 邱礼涛 Herman Yau<br>
+                        
+                            <span class="pl">主演:</span> 薛凯琪 Fiona Sit <br>
+                        
+                        <span class="pl">完爆之前所有院线国产恐怖片。</span>
+                    </div>
+                </li>
+                    
+                <li class="clearfix">
+                <div class="img"><a onclick="moreurl(this, {from:'new_img'})" href="http://movie.douban.com/subject/4301662/"><img src="files/s9079883.jpg"></a></div>
+                    <div class="intro">
+                        <h3><span>2</span><a onclick="moreurl(this, {from:'new_title'})" href="http://movie.douban.com/subject/4301662/">太空一号</a></h3>
+                        <div class="star clearfix">
+                            <span class="allstar30"></span>5.9
+                        </div>
+                        
+                            <span class="pl">导演:</span> James Mather <br>
+                        
+                            <span class="pl">主演:</span> 盖·皮尔斯 Guy Pearce <br>
+                        
+                        <span class="pl">简直是美国版西天取经，碰见个女唐僧。</span>
+                    </div>
+                </li>
+                    
+                <li class="clearfix">
+                <div class="img"><a onclick="moreurl(this, {from:'new_img'})" href="http://movie.douban.com/subject/6053731/"><img src="files/s7261878.jpg"></a></div>
+                    <div class="intro">
+                        <h3><span>3</span><a onclick="moreurl(this, {from:'new_title'})" href="http://movie.douban.com/subject/6053731/">超能失控</a></h3>
+                        <div class="star clearfix">
+                            <span class="allstar35"></span>6.9
+                        </div>
+                        
+                            <span class="pl">导演:</span> 乔什·特兰克 Josh Trank<br>
+                        
+                            <span class="pl">主演:</span> 戴恩·德哈恩 Dane DeHaan...<br>
+                        
+                        <span class="pl">难得一个异能的片子没有上升到拯救世界之类的高度。 </span>
+                    </div>
+                </li>
+                    
+                <li class="clearfix">
+                <div class="img"><a onclick="moreurl(this, {from:'new_img'})" href="http://movie.douban.com/subject/3143676/"><img src="files/s7009449.jpg"></a></div>
+                    <div class="intro">
+                        <h3><span>4</span><a onclick="moreurl(this, {from:'new_title'})" href="http://movie.douban.com/subject/3143676/">林中小屋</a></h3>
+                        <div class="star clearfix">
+                            <span class="allstar35"></span>7.1
+                        </div>
+                        
+                            <span class="pl">导演:</span> 德鲁·高达 Drew Goddard<br>
+                        
+                            <span class="pl">主演:</span> 克里斯汀 康奈利 Kristen Con...<br>
+                        
+                        <span class="pl">和《饥饿游戏》有异曲同工之处，后半段恶趣味大爆发，精彩过瘾，又血腥又恶心。</span>
+                    </div>
+                </li>
+                    
+                <li class="clearfix">
+                <div class="img"><a onclick="moreurl(this, {from:'new_img'})" href="http://movie.douban.com/subject/3990098/"><img src="files/s7022535.jpg"></a></div>
+                    <div class="intro">
+                        <h3><span>5</span><a onclick="moreurl(this, {from:'new_title'})" href="http://movie.douban.com/subject/3990098/">黑夜传说4：觉醒</a></h3>
+                        <div class="star clearfix">
+                            <span class="allstar35"></span>6.3
+                        </div>
+                        
+                            <span class="pl">导演:</span> 曼斯·马林德 Måns Mårlin...<br>
+                        
+                            <span class="pl">主演:</span> 凯特·贝金赛尔 Kate Beckin...<br>
+                        
+                        <span class="pl">原来，吸血鬼和人狼的孩子就是贞子！</span>
+                    </div>
+                </li>
+                    
+                <li class="clearfix">
+                <div class="img"><a onclick="moreurl(this, {from:'new_img'})" href="http://movie.douban.com/subject/4903581/"><img src="files/s9066213.jpg"></a></div>
+                    <div class="intro">
+                        <h3><span>6</span><a onclick="moreurl(this, {from:'new_title'})" href="http://movie.douban.com/subject/4903581/">追凶</a></h3>
+                        <div class="star clearfix">
+                            <span class="allstar20"></span>4.1
+                        </div>
+                        
+                            <span class="pl">导演:</span> 彭发 Danny Pang<br>
+                        
+                            <span class="pl">主演:</span> 刘青云 Ching Wan Lau <br>
+                        
+                        <span class="pl">王宝强华丽蜕变，但傻根狠起来还是难逃傻气。</span>
+                    </div>
+                </li>
+                    
+                <li class="clearfix">
+                <div class="img"><a onclick="moreurl(this, {from:'new_img'})" href="http://movie.douban.com/subject/5908473/"><img src="files/s8938949.jpg"></a></div>
+                    <div class="intro">
+                        <h3><span>7</span><a onclick="moreurl(this, {from:'new_title'})" href="http://movie.douban.com/subject/5908473/">火车</a></h3>
+                        <div class="star clearfix">
+                            <span class="allstar35"></span>6.7
+                        </div>
+                        
+                            <span class="pl">导演:</span> 边永柱 Young-Joo Byun<br>
+                        
+                            <span class="pl">主演:</span> 李善均 Seon-gyun Lee <br>
+                        
+                        <span class="pl">一个人的过去，无论怎样隐瞒，终究也无法逃过命运的掌心。</span>
+                    </div>
+                </li>
+                    
+                <li class="clearfix">
+                <div class="img"><a onclick="moreurl(this, {from:'new_img'})" href="http://movie.douban.com/subject/10569133/"><img src="files/s10014150.jpg"></a></div>
+                    <div class="intro">
+                        <h3><span>8</span><a onclick="moreurl(this, {from:'new_title'})" href="http://movie.douban.com/subject/10569133/">半夜不要照镜子</a></h3>
+                        <div class="star clearfix">
+                            <span class="allstar20"></span>3.5
+                        </div>
+                        
+                            <span class="pl">导演:</span> 牛朝阳 Chaoyang Niu<br>
+                        
+                            <span class="pl">主演:</span> 关智斌 Kenny Kwan <br>
+                        
+                        <span class="pl">一个丑T的逆袭。</span>
+                    </div>
+                </li>
+                    
+                <li class="clearfix">
+                <div class="img"><a onclick="moreurl(this, {from:'new_img'})" href="http://movie.douban.com/subject/5156706/"><img src="files/s7028139.jpg"></a></div>
+                    <div class="intro">
+                        <h3><span>9</span><a onclick="moreurl(this, {from:'new_title'})" href="http://movie.douban.com/subject/5156706/">黑衣女人</a></h3>
+                        <div class="star clearfix">
+                            <span class="allstar30"></span>5.7
+                        </div>
+                        
+                            <span class="pl">导演:</span> James Watkins<br>
+                        
+                            <span class="pl">主演:</span> 丹尼尔·雷德克里夫 Daniel ...<br>
+                        
+                        <span class="pl">不是恐怖，是一惊一乍。</span>
+                    </div>
+                </li>
+                    
+                <li class="clearfix">
+                <div class="img"><a onclick="moreurl(this, {from:'new_img'})" href="http://movie.douban.com/subject/5323911/"><img src="files/s6949106.jpg"></a></div>
+                    <div class="intro">
+                        <h3><span>10</span><a onclick="moreurl(this, {from:'new_title'})" href="http://movie.douban.com/subject/5323911/">食人鱼3DD</a></h3>
+                        <div class="star clearfix">
+                            <span class="allstar20"></span>4.1
+                        </div>
+                        
+                            <span class="pl">导演:</span> John Gulager<br>
+                        
+                            <span class="pl">主演:</span> 丹妮尔·帕娜贝克 Danielle P...<br>
+                        
+                        <span class="pl">什么元素都有了，就是没有诚意。</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+      </div>
+        <div class="aside">
+            
+    <!-- douban ad begin -->
+    <div id="google_ads_slot_movie_home_side_top"></div>
+    <div id="dale_movie_home_side_top"></div>
+    <!-- douban ad end -->
+    
+    
+    
+
+
+   
+
+    <!-- douban ad begin -->
+    <div id="google_ads_slot_movie_home_top_right"></div>
+    <div id="google_ads_slot_movie_home_top_right2"></div>
+    <div id="dale_movie_home_top_right">
+    	<iframe id="f" width="300px" height="250px" src= "http://union.yihaodian.com/link_make/viewPicInfo.do?imgSize=300x250&truckerU=10924508" frameborder="no" border="0" marginwidth="0" marginheight="0" allowtransparency="yes" scrolling="NO" > </iframe>
+   	</div>
+    <div id="dale_movie_home_top_right2"></div>
+    <!-- douban ad end -->
+
+
+    
+    
+    
+        <div class="newtags">
+            <h2>热门电影标签· · · · <span class="pl">(<a href="http://movie.douban.com/tag/?view=cloud">所有热门标签</a>)</span></h2>
+            <ul class="content clearfix">
+                <li>类型</li>
+                <li><a href="http://movie.douban.com/tag/%E7%88%B1%E6%83%85">爱情</a></li>
+                <li><a href="http://movie.douban.com/tag/%E5%96%9C%E5%89%A7">喜剧</a></li>
+                <li><a href="http://movie.douban.com/tag/%E5%8A%A8%E7%94%BB">动画</a></li>
+                <li><a href="http://movie.douban.com/tag/%E7%BB%8F%E5%85%B8">经典</a></li>
+                <li><a href="http://movie.douban.com/tag/%E7%A7%91%E5%B9%BB">科幻</a></li>
+                <li><a href="http://movie.douban.com/tag/%E5%8A%A8%E4%BD%9C">动作</a></li>
+                <li><a href="http://movie.douban.com/tag/%E9%9D%92%E6%98%A5">青春</a></li>
+                <li><a href="http://movie.douban.com/tag/%E5%89%A7%E6%83%85">剧情</a></li>
+                <li><a href="http://movie.douban.com/tag/%E6%82%AC%E7%96%91">悬疑</a></li>
+                <li><a href="http://movie.douban.com/tag/%E6%83%8A%E6%82%9A">惊悚</a></li>
+                <li><a href="http://movie.douban.com/tag/%E7%BA%AA%E5%BD%95%E7%89%87">纪录片</a></li>
+                <li><a href="http://movie.douban.com/tag/%E7%8A%AF%E7%BD%AA">犯罪</a></li>
+                <li><a href="http://movie.douban.com/tag/%E5%8A%B1%E5%BF%97">励志</a></li>
+                <li><a href="http://movie.douban.com/tag/%E6%96%87%E8%89%BA">文艺</a></li>
+                <li><a href="http://movie.douban.com/tag/%E6%90%9E%E7%AC%91">搞笑</a></li>
+                <li><a href="http://movie.douban.com/tag/%E6%81%90%E6%80%96">恐怖</a></li>
+                <li><a href="http://movie.douban.com/tag/%E6%88%98%E4%BA%89">战争</a></li>
+                <li><a href="http://movie.douban.com/tag/%E9%AD%94%E5%B9%BB">魔幻</a></li>
+                <li><a href="http://movie.douban.com/tag/?view=type#%E7%B1%BB%E5%9E%8B">(更多)</a></li>
+            </ul>
+            <ul class="content clearfix last">
+                <li>国家/地区</li>
+                <li><a href="http://movie.douban.com/tag/%E7%BE%8E%E5%9B%BD">美国</a></li>
+                <li><a href="http://movie.douban.com/tag/%E9%A6%99%E6%B8%AF">香港</a></li>
+                <li><a href="http://movie.douban.com/tag/%E6%97%A5%E6%9C%AC">日本</a></li>
+                <li><a href="http://movie.douban.com/tag/%E4%B8%AD%E5%9B%BD">中国</a></li>
+                <li><a href="http://movie.douban.com/tag/%E6%B3%95%E5%9B%BD">法国</a></li>
+                <li><a href="http://movie.douban.com/tag/%E8%8B%B1%E5%9B%BD">英国</a></li>
+                <li><a href="http://movie.douban.com/tag/%E9%9F%A9%E5%9B%BD">韩国</a></li>
+                <li><a href="http://movie.douban.com/tag/%E5%8F%B0%E6%B9%BE">台湾</a></li>
+                <li><a href="http://movie.douban.com/tag/%E6%84%8F%E5%A4%A7%E5%88%A9">意大利</a></li>
+                <li><a href="http://movie.douban.com/tag/%E5%BE%B7%E5%9B%BD">德国</a></li>
+                <li><a href="http://movie.douban.com/tag/%E5%86%85%E5%9C%B0">内地</a></li>
+                <li><a href="http://movie.douban.com/tag/%E6%B3%B0%E5%9B%BD">泰国</a></li>
+                <li><a href="http://movie.douban.com/tag/%E8%A5%BF%E7%8F%AD%E7%89%99">西班牙</a></li>
+                <li><a href="http://movie.douban.com/tag/?view=type#%E5%9B%BD%E5%AE%B6/%E5%9C%B0%E5%8C%BA">(更多)</a></li>
+            </ul>
+
+        </div>
+
+
+    <div class="movie_top" id="ranking">
+        <h2 class="green_tab clearfix">
+            <div class="ll">排行· · · · · · </div>
+        </h2>
+    <ul class="content" id="listCont1">
+         <li class="clearfix">
+                    <div class="no">1</div>
+                    <div class="box_chart">
+                        <a onclick="moreurl(this, {from:'mv_us_week'})" href="http://movie.douban.com/subject/4914468/">冰川时代4</a>
+                            <img src="files/box_new.png">
+                    </div>
+                    <span class="box_chart_num color-gray">4600万</span>
+                </li>
+            
+                <li class="clearfix">
+                    <div class="no">2</div>
+                    <div class="box_chart">
+                        <a onclick="moreurl(this, {from:'mv_us_week'})" href="http://movie.douban.com/subject/2129132/">超凡蜘蛛侠</a>
+                    </div>
+                    <span class="box_chart_num color-gray">3500万</span>
+                </li>
+            
+                <li class="clearfix">
+                    <div class="no">3</div>
+                    <div class="box_chart">
+                        <a onclick="moreurl(this, {from:'mv_us_week'})" href="http://movie.douban.com/subject/4807924/">泰迪熊</a>
+                    </div>
+                    <span class="box_chart_num color-gray">2215万</span>
+                </li>
+            
+                <li class="clearfix">
+                    <div class="no">4</div>
+                    <div class="box_chart">
+                        <a onclick="moreurl(this, {from:'mv_us_week'})" href="http://movie.douban.com/subject/3036473/">勇敢传说</a>
+                    </div>
+                    <span class="box_chart_num color-gray">1070万</span>
+                </li>
+            
+                <li class="clearfix">
+                    <div class="no">5</div>
+                    <div class="box_chart">
+                        <a onclick="moreurl(this, {from:'mv_us_week'})" href="http://movie.douban.com/subject/6383498/">魔力迈克</a>
+                    </div>
+                    <span class="box_chart_num color-gray">903万</span>
+                </li>
+            
+                <li class="clearfix">
+                    <div class="no">6</div>
+                    <div class="box_chart">
+                        <a onclick="moreurl(this, {from:'mv_us_week'})" href="http://movie.douban.com/subject/5973984/">野蛮人</a>
+                    </div>
+                    <span class="box_chart_num color-gray">874万</span>
+                </li>
+            
+                <li class="clearfix">
+                    <div class="no">7</div>
+                    <div class="box_chart">
+                        <a onclick="moreurl(this, {from:'mv_us_week'})" href="http://movie.douban.com/subject/10599723/">黑疯婆子的证人保护计划</a>
+                    </div>
+                    <span class="box_chart_num color-gray">560万</span>
+                </li>
+            
+                <li class="clearfix">
+                    <div class="no">8</div>
+                    <div class="box_chart">
+                        <a onclick="moreurl(this, {from:'mv_us_week'})" href="http://movie.douban.com/subject/10571724/">凯蒂·派瑞：部分的我</a>
+                    </div>
+                    <span class="box_chart_num color-gray">374万</span>
+                </li>
+            
+                <li class="clearfix">
+                    <div class="no">9</div>
+                    <div class="box_chart">
+                        <a onclick="moreurl(this, {from:'mv_us_week'})" href="http://movie.douban.com/subject/5360889/">月升王国</a>
+                    </div>
+                    <span class="box_chart_num color-gray">366万</span>
+                </li>
+            
+                <li class="clearfix">
+                    <div class="no">10</div>
+                    <div class="box_chart">
+                        <a onclick="moreurl(this, {from:'mv_us_week'})" href="http://movie.douban.com/subject/3178770/">马达加斯加3</a>
+                    </div>
+                    <span class="box_chart_num color-gray">350万</span>
+                </li>
+    </ul>
+
+
+        
+        
+    
+    <ul style="display: none;" class="content" id="listCont2">
+        <li class="clearfix">
+            <span class="box_chart_num color-gray">7月9日- 7月16日</span>
+        </li>
+        <li class="clearfix">
+            <div class="no">1</div>
+            <div class="name"><a onclick="moreurl(this, {from:'mv_week'})" href="http://movie.douban.com/subject/10772258/">麦兜当当伴我心</a></div>
+            <div class="up">10</div>
+        </li>
+        <li class="clearfix">
+            <div class="no">2</div>
+            <div class="name"><a onclick="moreurl(this, {from:'mv_week'})" href="http://movie.douban.com/subject/6753589/">理查二世</a></div>
+            <div class="up">9</div>
+        </li>
+        <li class="clearfix">
+            <div class="no">3</div>
+            <div class="name"><a onclick="moreurl(this, {from:'mv_week'})" href="http://movie.douban.com/subject/3156032/">三个臭皮匠</a></div>
+            <div class="up">8</div>
+        </li>
+        <li class="clearfix">
+            <div class="no">4</div>
+            <div class="name"><a onclick="moreurl(this, {from:'mv_week'})" href="http://movie.douban.com/subject/10793719/">时间的风景</a></div>
+            <div class="up">7</div>
+        </li>
+        <li class="clearfix">
+            <div class="no">5</div>
+            <div class="name"><a onclick="moreurl(this, {from:'mv_week'})" href="http://movie.douban.com/subject/6091398/">啄木鸟和雨</a></div>
+            <div class="up">6</div>
+        </li>
+        <li class="clearfix">
+            <div class="no">6</div>
+            <div class="name"><a onclick="moreurl(this, {from:'mv_week'})" href="http://movie.douban.com/subject/10830069/">测谎仪</a></div>
+            <div class="down">3</div>
+        </li>
+        <li class="clearfix">
+            <div class="no">7</div>
+            <div class="name"><a onclick="moreurl(this, {from:'mv_week'})" href="http://movie.douban.com/subject/6123978/">庸才</a></div>
+            <div class="up">4</div>
+        </li>
+        <li class="clearfix">
+            <div class="no">8</div>
+            <div class="name"><a onclick="moreurl(this, {from:'mv_week'})" href="http://movie.douban.com/subject/6799191/">搜索</a></div>
+            <div class="up">3</div>
+        </li>
+        <li class="clearfix">
+            <div class="no">9</div>
+            <div class="name"><a onclick="moreurl(this, {from:'mv_week'})" href="http://movie.douban.com/subject/5262338/">虞美人盛开的山坡</a></div>
+            <div class="down">4</div>
+        </li>
+        <li class="clearfix">
+            <div class="no">10</div>
+            <div class="name"><a onclick="moreurl(this, {from:'mv_week'})" href="http://movie.douban.com/subject/6859676/">亿万少年的顶级机密</a></div>
+            <div class="up">1</div>
+        </li>
+    </ul>
+
+
+    </div>
+
+    <div class="block5 movie_show"><h2>豆瓣电影250  · · · · · ·
+            <span class="pl">( <a href="http://movie.douban.com/top250">更多</a> )</span></h2>
+
+        <div class="content clearfix" id="movie_rec">
+                
+                
+        <dl>
+            <dt><a onclick="moreurl(this, {from:'mv_tops'})" href="http://movie.douban.com/subject/1300741/"><img src="files/s1326050.jpg" class="m_sub_img"></a></dt>
+            <dd><a onclick="moreurl(this, {from:'mv_tops'})" href="http://movie.douban.com/subject/1300741/">枪火</a><span class="gact"></span><br></dd>
+        </dl>
+        <dl>
+            <dt><a onclick="moreurl(this, {from:'mv_tops'})" href="http://movie.douban.com/subject/1308777/"><img src="files/s1327734.jpg" class="m_sub_img"></a></dt>
+            <dd><a onclick="moreurl(this, {from:'mv_tops'})" href="http://movie.douban.com/subject/1308777/">暖暖内含光</a><span class="gact"></span><br></dd>
+        </dl>
+        <dl>
+            <dt><a onclick="moreurl(this, {from:'mv_tops'})" href="http://movie.douban.com/subject/1293350/"><img src="files/s1401145.jpg" class="m_sub_img"></a></dt>
+            <dd><a onclick="moreurl(this, {from:'mv_tops'})" href="http://movie.douban.com/subject/1293350/">两杆大烟枪</a><span class="gact"></span><br></dd>
+        </dl>
+        <div class="clearfix rr" style="width:100%"></div>
+        <dl>
+            <dt><a onclick="moreurl(this, {from:'mv_tops'})" href="http://movie.douban.com/subject/1756073/"><img src="files/s2547906.jpg" class="m_sub_img"></a></dt>
+            <dd><a onclick="moreurl(this, {from:'mv_tops'})" href="http://movie.douban.com/subject/1756073/">我们俩</a><span class="gact"></span><br></dd>
+        </dl>
+        <dl>
+            <dt><a onclick="moreurl(this, {from:'mv_tops'})" href="http://movie.douban.com/subject/1291549/"><img src="files/s2751787.jpg" class="m_sub_img"></a></dt>
+            <dd><a onclick="moreurl(this, {from:'mv_tops'})" href="http://movie.douban.com/subject/1291549/">放牛班的春天</a><span class="gact"></span><br></dd>
+        </dl>
+        <dl>
+            <dt><a onclick="moreurl(this, {from:'mv_tops'})" href="http://movie.douban.com/subject/1309163/"><img src="files/s1986504.jpg" class="m_sub_img"></a></dt>
+            <dd><a onclick="moreurl(this, {from:'mv_tops'})" href="http://movie.douban.com/subject/1309163/">恋恋笔记本</a><span class="gact"></span><br></dd>
+        </dl>
+        <div class="clearfix rr" style="width:100%"></div>
+        <dl>
+            <dt><a onclick="moreurl(this, {from:'mv_tops'})" href="http://movie.douban.com/subject/1780330/"><img src="files/s1872245.jpg" class="m_sub_img"></a></dt>
+            <dd><a onclick="moreurl(this, {from:'mv_tops'})" href="http://movie.douban.com/subject/1780330/">致命魔术</a><span class="gact"></span><br></dd>
+        </dl>
+        <dl>
+            <dt><a onclick="moreurl(this, {from:'mv_tops'})" href="http://movie.douban.com/subject/1292052/"><img src="files/s1311361.jpg" class="m_sub_img"></a></dt>
+            <dd><a onclick="moreurl(this, {from:'mv_tops'})" href="http://movie.douban.com/subject/1292052/">肖申克的救赎</a><span class="gact"></span><br></dd>
+        </dl>
+        <dl>
+            <dt><a onclick="moreurl(this, {from:'mv_tops'})" href="http://movie.douban.com/subject/3075287/"><img src="files/s6776201.jpg" class="m_sub_img"></a></dt>
+            <dd><a onclick="moreurl(this, {from:'mv_tops'})" href="http://movie.douban.com/subject/3075287/">源代码</a><span class="gact"></span><br></dd>
+        </dl>
+        <div class="clearfix rr" style="width:100%"></div>
+
+
+
+        </div>
+    </div>
+
+        </div>
+        <div class="extra">
+            
+        </div>
+    </div>
+    </div>
+
+        
+    <div id="footer">
+        
+<span id="icp" class="fleft gray-link">
+    © 2005－2012 douban.com, all rights reserved
+</span>
+
+<span class="fright">
+    <a href="http://www.douban.com/about">关于豆瓣</a>
+    · <a href="http://www.douban.com/jobs">在豆瓣工作</a>
+    · <a href="http://www.douban.com/about?topic=contactus">联系我们</a>
+    · <a href="http://www.douban.com/about?policy=disclaimer">免责声明</a>
+    
+    · <a href="http://movie.douban.com/help/">帮助中心</a>
+    · <a href="http://www.douban.com/service/">API</a>
+    · <a href="http://movie.douban.com/mobile">手机电影</a>
+    · <a href="http://www.douban.com/partner/">豆瓣广告</a>
+</span>
+
+
+    </div>
+
+  </div>
+    <script type="text/javascript">
+    $(function() {
+        $("#menu1 .clearfix").addClass("on");
+        $("#content_menu1").show();
+        $(".movie_new .content").hide();
+        $("#newcontent1").show();
+        $(".movie_review .content").hide();
+        $("#review1").show();
+        $("#listCont2").hide();
+
+        var hl=$("#hot_movies_menu li"),content=$(".movie_headerline .content");
+        hl.mouseover(function() {
+            $(".menu li .clearfix").removeClass("on");
+            $("#"+this.id+" .clearfix").addClass("on");
+            content.hide();
+            $("#content_"+this.id).show();
+            return false;
+        });
+
+        $("#ranking h2 a").each(function(i){
+            $(this).click(function(){
+                $("#ranking a.on").removeClass("on");
+                $(this).addClass("on");
+                $("#ranking ul").hide().eq(i).show();
+            })
+        })
+
+        $(hl[0]).addClass("on");
+        for(var i=5; i; --i) {
+            tab("#new"+i,".movie_new","#newcontent")
+            if(i<=3) {
+                  tab("#reviewtab"+i,".movie_review","#review")
+            }
+        }
+        bind_movie_x();
+    });
+
+    function bind_movie_x() {
+        var c = arguments.callee;
+        $('.movie_x').click(function() {
+            if(confirm("你确定要" + this.title)) {
+                $("#movie_rec").load_withck(
+                    "/j/movie/j_movie_rec",{s:this.rel},c
+                );
+            }
+        });
+    }
+
+
+    function tab(e,t,c) {
+        $(e).mousedown(function() {
+            $(t+" .green_tab a").removeClass("on");
+            $(this).addClass("on");
+            $(t+" .content").hide();
+            $(c+this.id.slice(-1)).show();
+            $.get("/j/movie/j_tab_count",{id:this.id})
+        })
+    }
+
+
+    Do(function(){var a=$(".top-nav-more a.more").click(function(d){d.preventDefault();var b=$(d.currentTarget),c=b.parent();c.toggleClass("on");return false});$("body").click(function(){a.parent().removeClass("on")})});
+  
+    (function(a){a.fn.iSuggest=function(m){var d={api:"",delay_ms:300,tmplId:"suggResult",currClass:"curr_item"};var k;var j=a(this);var i=a("<div id='search_suggest'><ul></ul></div>");var b=a.extend({},d,m);i.appendTo("body").hide();j.blur(function(){setTimeout(function(){i.hide()},300)});a(window).load(e).resize(e);return j.each(function(){j.attr("autocomplete","off");j.keyup(function(n){c(n)}).keydown(function(n){if(/27$|38$|40$/.test(n.keyCode)&&i.is(":visible")){n.preventDefault()}})});function c(n){if(k){k.abort()}if(/27$|38$|40$/.test(n.keyCode)&&i.is(":visible")){n.preventDefault();switch(n.keyCode){case 38:h("up");break;case 40:h("down");break;case 27:i.hide();break}}else{if(/13$/.test(n.keyCode)&&i.find("."+b.currClass).length){n.preventDefault();l(i.find("."+b.currClass))}else{try{clearTimeout(delay);delay=null}catch(n){}delay=setTimeout(function(){var o=a.trim(j.val());f(o)},b.delay_ms)}}}function f(n){if(n.length){k=a.get(b.api,{q:n},function(o){if(o.length){a("#search_suggest ul").empty();g(o)}else{i.hide()}})}else{i.hide()}}function g(n){if(n.length){a("#search_suggest ul").html(a("#"+b.tmplId).tmpl(n));e();i.show();a("#search_suggest ul").delegate("li","click",function(){l(this)})}}function e(){var o=j.offset();var n=j.outerHeight();i.css({top:(o.top+n)+"px",left:o.left+"px"})}function h(n){var o=i.find("."+b.currClass);if(o.length){o.removeClass(b.currClass);if(n=="up"){if(o.prev("li").length){o.prev("li").addClass(b.currClass)}else{i.find("li:last").addClass(b.currClass)}}else{if(n=="down"){if(o.next("li").length){o.next("li").addClass(b.currClass)}else{i.find("li:first").addClass(b.currClass)}}}}else{if(n=="up"){i.find("li:last").addClass(b.currClass)}else{if(n=="down"){i.find("li:first").addClass(b.currClass)}}}}function l(n){if(a.isFunction(b.item_act)){b.item_act(n)}else{console.error("iSuggest: call back is not a function")}}}})(jQuery);
+    Do(
+        function(){
+            $("#db-nav-movie").find("input[name=search_text]").iSuggest({
+                api: '/j/subject_suggest',
+                tmplId: 'suggResult',
+                item_act: function(item){
+                    window.location = item.data("link");
+                }
+        });
+    });
+  
+    Do = (typeof Do === 'undefined')? $ : Do;
+    Do(function(){
+      var app_name='movie';
+      $("form[name=ssform]").submit(function(){
+          if($("input[name=search_text]").val()==="电影、影人、影院、电视剧"){
+              return false;
+          }
+      });
+      Do(function(){$("#db-nav-"+app_name+" .nav-srh form").prettyField();$("#db-nav-"+app_name+" .guide a.close").click(function(a){a.preventDefault();$.post_withck("/j/accounts/hidetip",{kind:$(this).next().val()},function(b){});$(this).parent().fadeOut("normal")})});
+    });
+  
+        
+    </script>
+</body></html>
