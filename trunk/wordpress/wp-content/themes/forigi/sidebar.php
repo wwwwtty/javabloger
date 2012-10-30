@@ -97,8 +97,6 @@
 					<h3><?php _e('友情连接'); ?></h3>
 					<ul>
 						<?php get_links(-1, '<li>', '</li>', ' - '); ?>
-						<!-- 为了保证后期可以得到持续的技术支持，请您保留此连接 -->
-						<li><a href="http://www.qintag.com/" target="_blank">forigi theme</a></li>
 					</ul>
 				</li>
 				<li>
