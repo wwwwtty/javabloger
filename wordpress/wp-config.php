@@ -15,7 +15,7 @@
 
 // ** MySQL 设置 - 具体信息来自您正在使用的主机 ** //
 /** WordPress 数据库的名称 */
-define('DB_NAME', 'wordpress_bak');
+define('DB_NAME', 'wordpress');
 
 /** MySQL 数据库用户名 */
 define('DB_USER', 'root');
@@ -24,7 +24,7 @@ define('DB_USER', 'root');
 define('DB_PASSWORD', 'wsketgfhv');
 
 /** MySQL 主机 */
-define('DB_HOST', 'localhost');
+define('DB_HOST', '127.0.0.1');
 
 /** 创建数据表时默认的文字编码 */
 define('DB_CHARSET', 'utf8');
