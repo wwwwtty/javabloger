@@ -30,7 +30,7 @@
 										<?php edit_post_link('编辑', ' &nbsp;', ''); ?>
 								</p>
 								<!-- Post Content -->
-								<?php the_content(); ?>
+								<?php echo mb_strimwidth(strip_tags(apply_filters('the_content', $post->post_content)), 0, 420,"......"); ?>
 								<p class="h24 lh24 pt5 pb5 g9 ml10 articleInfo meta"><?php _e("Tags:"); ?><?php the_tags(__(' '), '、'); ?></p>
 							</li>
 							<?php endwhile; ?>

@@ -13,7 +13,26 @@
 		register_setting( 'theme-settings', 'web_tip');
 		register_setting( 'theme-settings', 'web_if_tip');
 	}
-
+	////////////////最新日志 热评日志 随机日志 三合一代码//////////////////
+	function filter_where($where = '') {
+		$where .= " AND post_date > '" . date('Y-m-d', strtotime('-300 days')) . "'";
+		return $where;
+	}
+	function some_posts($orderby = '', $plusmsg = '',$limit = 10) {
+		add_filter('posts_where', 'filter_where');
+		$some_posts = query_posts('posts_per_page='.$limit.'&ignore_sticky_posts=1&orderby='.$orderby);
+		foreach ($some_posts as $some_post) {
+			$output = '';
+			$post_date = mysql2date('y年m月d日', $some_post->post_date);
+			$commentcount = '('.$some_post->comment_count.' 条评论)';
+			$post_title = htmlspecialchars(stripslashes($some_post->post_title));
+			$permalink = get_permalink($some_post->ID);
+			$output = '<li><a href="'.$permalink.'" title="'.$post_title.'">'.cut_str($post_title,44).'</a>'.$$plusmsg.'</li>';
+			echo $output;
+		}
+		wp_reset_query();
+	}
+	// -------- END -------------------------------------------------------
 	function theme_form() {
 		global $themename;
 		
