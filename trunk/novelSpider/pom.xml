@@ -25,6 +25,28 @@
 	  <artifactId>logback-classic</artifactId>
 	  <version>1.0.7</version>
 	</dependency>
+	<!-- hibernate -->
+	<dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-core</artifactId>
+      <version>4.1.8.Final</version>
+      <type>pom</type>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-entitymanager</artifactId>
+      <version>4.1.8.Final</version>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-ehcache</artifactId>
+      <version>4.1.8.Final</version>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-c3p0</artifactId>
+      <version>4.1.8.Final</version>
+    </dependency>
   </dependencies>
    <repositories>
     <repository>
