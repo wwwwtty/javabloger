@@ -10,30 +10,23 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.apache.commons.lang.Validate;
+import org.apache.commons.lang3.Validate;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.VisitorSupport;
 import org.dom4j.io.SAXReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.context.ResourceLoaderAware;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
-import org.springframework.core.io.support.ResourcePatternResolver;
 import org.xml.sax.InputSource;
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.Template;
 
-public class DynamicSQLBuilder implements ResourceLoaderAware,InitializingBean  {  
+public class DynamicSQLBuilder {  
     private static final Logger logger = LoggerFactory.getLogger(DynamicSQLBuilder.class);  
    
     private String[] fileNames = new String[0];  
     private Map<URL,Long> cachedFile= new HashMap<URL,Long> ();  
-    
-    private ResourceLoader resourceLoader;  
     private Configuration configuration;
     /** 查询语句名称缓存，不允许重复 */
     protected final static Map<String,Template> templateCache=new HashMap<String,Template>();  
@@ -75,17 +68,12 @@ public class DynamicSQLBuilder implements ResourceLoaderAware,InitializingBean  
     	return bf.getBuffer().toString();
     }
   
-  
-    public void setResourceLoader(ResourceLoader resourceLoader) {  
-        this.resourceLoader = resourceLoader;  
-    }  
-  
-    private void buildMap(Resource[] resources) throws IOException {  
+    private void buildMap(URL[] resources) throws IOException {  
         if (resources == null) {  
             return;  
         }  
-        for (Resource resource : resources) {  
-            buildMap(resource.getURL());  
+        for (URL resource : resources) {  
+            buildMap(resource);  
         }  
     }  
   
@@ -146,21 +134,18 @@ public class DynamicSQLBuilder implements ResourceLoaderAware,InitializingBean  
         }  
   
     }  
-  
-    
-
-	@Override
-	public void afterPropertiesSet() throws Exception {
-		
-        for (String file : fileNames) {  
-            if (this.resourceLoader instanceof ResourcePatternResolver) {  
-                Resource[] resources = ((ResourcePatternResolver) this.resourceLoader).getResources(file);  
-                buildMap(resources);  
-            } else {  
-        	
-                Resource resource = resourceLoader.getResource(file);  
-                buildMap(resource.getURL());  
-            }  
-        }  
-	}  
+//	@Override
+//	public void afterPropertiesSet() throws Exception {
+//		
+//        for (String file : fileNames) {  
+//            if (this.resourceLoader instanceof ResourcePatternResolver) {  
+//                Resource[] resources = ((ResourcePatternResolver) this.resourceLoader).getResources(file);  
+//                buildMap(resources);  
+//            } else {  
+//        	
+//                Resource resource = resourceLoader.getResource(file);  
+//                buildMap(resource.getURL());  
+//            }  
+//        }  
+//	}  
 }  
