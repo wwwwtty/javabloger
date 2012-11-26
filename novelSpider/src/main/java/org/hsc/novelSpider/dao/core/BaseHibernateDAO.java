@@ -14,16 +14,10 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Projections;
 import org.hibernate.transform.Transformers;
+import org.hsc.novelSpider.dao.utils.HibernateUtil;
+import org.hsc.novelSpider.dao.utils.Pager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.support.SQLStateSQLExceptionTranslator;
-import org.springframework.orm.hibernate3.HibernateCallback;
-import org.springframework.orm.hibernate4.HibernateSystemException;
-import org.springframework.orm.hibernate4.SessionFactoryUtils;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.ty.parkCloud.service.query.Pager;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
@@ -35,11 +29,7 @@ public abstract class BaseHibernateDAO<T>  implements IBaseHibernateDAO<T> {
 	private static final Logger log = LoggerFactory.getLogger(BaseHibernateDAO.class);
 	private Class<T> entityClass;
 	
-	@Autowired
     protected DynamicSQLBuilder dynamicStatementBuilder;  
-	
-	@Autowired
-	private SessionFactory sessionFactory;
 	
 	public BaseHibernateDAO() {
 		 Class<?> c = getClass();
@@ -53,22 +43,20 @@ public abstract class BaseHibernateDAO<T>  implements IBaseHibernateDAO<T> {
 	protected <L> L doExecute(HibernateCallback<L> action){
 		Session session;
 		boolean isnew=false;
-		try{ session= sessionFactory.getCurrentSession();}
-		catch(HibernateException e){
-			session= SessionFactoryUtils.openSession(sessionFactory);
+		 SessionFactory sessionFactory= HibernateUtil.getSessionFactory();
+		try{ 
+			session=sessionFactory.getCurrentSession();
+		}catch(HibernateException e){
+			session=sessionFactory.openSession();
 			isnew=true;
 		}
 		
 		try{
 			return action.doInHibernate(session);
-		}catch (HibernateException ex) {
-			throw new HibernateSystemException(ex);
-		}catch (SQLException ex) {
-			throw new SQLStateSQLExceptionTranslator().translate("Hibernate-related JDBC operation", null, ex);
 		}
 		finally{
 			if(isnew){
-				SessionFactoryUtils.closeSession(session);
+				session.close();
 			}
 		}
 	}
@@ -90,7 +78,7 @@ public abstract class BaseHibernateDAO<T>  implements IBaseHibernateDAO<T> {
 	 * @see com.ty.core.dao.IBaseHibernateDAO#save(java.lang.Object)
 	 */
 	@Override
-	@Transactional
+	
 	public Integer save(final T transientInstance) {
 		log.debug("saving instance");
 		return doExecute(new HibernateCallback<Integer>() {
@@ -101,7 +89,6 @@ public abstract class BaseHibernateDAO<T>  implements IBaseHibernateDAO<T> {
 		});
 	}
 	
-	@Transactional
 	public void saveBate(final List<T> list) {
 		doExecute(new HibernateCallback<Object>() {
 			@Override
@@ -115,7 +102,7 @@ public abstract class BaseHibernateDAO<T>  implements IBaseHibernateDAO<T> {
 	}
 
 	@Override
-	@Transactional
+	
 	public void delete(final T t) {
 		log.debug("deleting instance");
 		doExecute(new HibernateCallback<Object>() {
@@ -128,7 +115,7 @@ public abstract class BaseHibernateDAO<T>  implements IBaseHibernateDAO<T> {
 	}
 
 	@Override
-	@Transactional
+	
 	public void deleteByID(final Serializable id) {
 		doExecute(new HibernateCallback<Object>() {
 			@Override
@@ -140,7 +127,7 @@ public abstract class BaseHibernateDAO<T>  implements IBaseHibernateDAO<T> {
 	}
 	
 	@Override
-	@Transactional
+	
 	public T merge(final T t) {
 		log.debug("merging instance");
 		return doExecute(new HibernateCallback<T>() {
@@ -151,7 +138,7 @@ public abstract class BaseHibernateDAO<T>  implements IBaseHibernateDAO<T> {
 		});
 	}
 	@Override
-	@Transactional
+	
 	public void saveOrUpdate(final T t) {
 		log.debug("saveOrUpdate instance");
 		doExecute(new HibernateCallback<Object>() {
@@ -163,7 +150,7 @@ public abstract class BaseHibernateDAO<T>  implements IBaseHibernateDAO<T> {
 		});
 	}
 	@Override
-	@Transactional
+	
 	public void update(final T t) {
 		log.debug("update instance");
 		doExecute(new HibernateCallback<Object>() {
@@ -213,8 +200,6 @@ public abstract class BaseHibernateDAO<T>  implements IBaseHibernateDAO<T> {
 	}
 	
 	protected  <L> List<L> queryPageBO(final DetachedCriteria query,final Pager<?> pager,final Class<L> clazz){
-		
-		
 		return doExecute(new HibernateCallback<List<L>>() {
 			@Override @SuppressWarnings("unchecked")
 			public List<L> doInHibernate(Session session){
@@ -235,7 +220,6 @@ public abstract class BaseHibernateDAO<T>  implements IBaseHibernateDAO<T> {
 		});
 	}
 	
-	@Transactional(readOnly=true)
 	protected List<T> query(final DetachedCriteria query){
 		
 		return doExecute(new HibernateCallback<List<T>>() {
