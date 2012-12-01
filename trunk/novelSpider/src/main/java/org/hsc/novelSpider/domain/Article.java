@@ -30,6 +30,8 @@ public class Article {
 	private String author;
 	@Column(name = "create_time", unique = true, nullable = false)
 	private Date createTime;
+	@Column(name = "last_update_time", unique = true, nullable = false)
+	private Date lastupdate;
 	
 	@OneToMany(fetch=FetchType.LAZY)
 	@Column(name = "ch_id",insertable=false,updatable=false)
