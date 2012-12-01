@@ -11,6 +11,7 @@ import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Projections;
 import org.hibernate.transform.Transformers;
@@ -52,12 +53,14 @@ public abstract class BaseHibernateDAO<T>  implements IBaseHibernateDAO<T> {
 		}
 		
 		try{
+			session.beginTransaction();
 			return action.doInHibernate(session);
 		}
 		finally{
 			if(isnew){
 				session.close();
 			}
+			session.getTransaction().commit();
 		}
 	}
 	
