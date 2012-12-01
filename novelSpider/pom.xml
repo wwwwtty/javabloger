@@ -70,6 +70,12 @@
 	  	<artifactId>commons-lang3</artifactId>
 	  	<version>3.1</version>
 	</dependency>
+	<!-- mysql -->
+	  <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>5.1.20</version>
+    </dependency>
   </dependencies>
    <repositories>
     <repository>
