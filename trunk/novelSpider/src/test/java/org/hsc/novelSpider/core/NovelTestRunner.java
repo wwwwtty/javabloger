@@ -20,7 +20,7 @@ public class NovelTestRunner extends BlockJUnit4ClassRunner {
 	@Override
 	protected Statement withBeforeClasses(Statement statement) {
 		Statement junitBeforeClasses = super.withBeforeClasses(statement);
-		return new RunBeforeTestClassCallbacks(junitBeforeClasses, getTestContextManager());
+		return new RunBeforeTestClassCallbacks();
 	}
 
 	/**
@@ -32,6 +32,6 @@ public class NovelTestRunner extends BlockJUnit4ClassRunner {
 	@Override
 	protected Statement withAfterClasses(Statement statement) {
 		Statement junitAfterClasses = super.withAfterClasses(statement);
-		return new RunAfterTestClassCallbacks(junitAfterClasses, getTestContextManager());
+		return new RunAfterTestClassCallbacks();
 	}
 }
