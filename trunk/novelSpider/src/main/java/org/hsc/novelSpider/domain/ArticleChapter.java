@@ -18,20 +18,20 @@ public class ArticleChapter {
 	
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
-	@Column(name = "ch_id", unique = true, nullable = false)
+	@Column(name = "ch_id")
 	private Integer ID;
-	@ManyToOne(fetch=FetchType.LAZY)
-	@Column(name = "art_id",insertable=false,updatable=false)
-	private Article article;
+//	@ManyToOne(fetch=FetchType.LAZY)
+//	@Column(name = "art_id",insertable=false,updatable=false)
+//	private Article article;
 	@Column(name = "art_id")
 	private Integer artID;
-	@Column(name = "ch_url", unique = true, nullable = false)
+	@Column(name = "ch_url")
 	private String url;
-	@Column(name = "reference", unique = true, nullable = false)
+	@Column(name = "reference")
 	private String reference;
-	@Column(name = "index", unique = true, nullable = false)
-	private String index;
-	@Column(name = "create_time", unique = true, nullable = false)
+	@Column(name = "seq_no")
+	private int index;
+	@Column(name = "create_time")
 	private Date createTime;
 	
 	public Integer getID() {
@@ -58,10 +58,10 @@ public class ArticleChapter {
 	public void setReference(String reference) {
 		this.reference = reference;
 	}
-	public String getIndex() {
+	public int getIndex() {
 		return index;
 	}
-	public void setIndex(String index) {
+	public void setIndex(int index) {
 		this.index = index;
 	}
 	public Date getCreateTime() {
@@ -69,11 +69,5 @@ public class ArticleChapter {
 	}
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
-	}
-	public Article getArticle() {
-		return article;
-	}
-	public void setArticle(Article article) {
-		this.article = article;
 	}
 }
