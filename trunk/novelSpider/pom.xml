@@ -47,6 +47,42 @@
       <artifactId>hibernate-c3p0</artifactId>
       <version>4.1.8.Final</version>
     </dependency>
+    <!-- Spring -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-core</artifactId>
+      <version>3.1.2.RELEASE</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-beans</artifactId>
+      <version>3.1.2.RELEASE</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+      <version>3.1.2.RELEASE</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-aop</artifactId>
+      <version>3.1.2.RELEASE</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-orm</artifactId>
+      <version>3.1.2.RELEASE</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-tx</artifactId>
+      <version>3.1.2.RELEASE</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
+      <version>3.1.2.RELEASE</version>
+    </dependency>
     <!-- sql测试代码 -->
     <dependency>
       <groupId>net.sf.log4jdbc</groupId>
@@ -70,6 +106,12 @@
 	  	<artifactId>commons-lang3</artifactId>
 	  	<version>3.1</version>
 	</dependency>
+	 <!-- 数据源组件 -->
+     <dependency>
+        <groupId>com.alibaba</groupId>
+        <artifactId>druid</artifactId>
+        <version>0.2.8</version>
+    </dependency>
 	<!-- mysql -->
 	  <dependency>
       <groupId>mysql</groupId>

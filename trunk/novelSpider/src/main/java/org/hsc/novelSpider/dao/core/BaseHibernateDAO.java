@@ -2,7 +2,6 @@ package org.hsc.novelSpider.dao.core;
 
 import java.io.Serializable;
 import java.math.BigInteger;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 import org.hibernate.Criteria;
@@ -11,7 +10,6 @@ import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Projections;
 import org.hibernate.transform.Transformers;
@@ -19,6 +17,8 @@ import org.hsc.novelSpider.dao.utils.HibernateUtil;
 import org.hsc.novelSpider.dao.utils.Pager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
@@ -29,7 +29,7 @@ import java.lang.reflect.Type;
 public abstract class BaseHibernateDAO<T>  implements IBaseHibernateDAO<T> {
 	private static final Logger log = LoggerFactory.getLogger(BaseHibernateDAO.class);
 	private Class<T> entityClass;
-	
+	@Autowired(required=true) private SessionFactory sessionFactory;
     protected DynamicSQLBuilder dynamicStatementBuilder;  
 	
 	public BaseHibernateDAO() {
@@ -44,7 +44,7 @@ public abstract class BaseHibernateDAO<T>  implements IBaseHibernateDAO<T> {
 	protected <L> L doExecute(HibernateCallback<L> action){
 		Session session;
 		boolean isnew=false;
-		 SessionFactory sessionFactory= HibernateUtil.getSessionFactory();
+		// SessionFactory sessionFactory= HibernateUtil.getSessionFactory();
 		try{ 
 			session=sessionFactory.getCurrentSession();
 		}catch(HibernateException e){
@@ -53,14 +53,12 @@ public abstract class BaseHibernateDAO<T>  implements IBaseHibernateDAO<T> {
 		}
 		
 		try{
-			session.beginTransaction();
 			return action.doInHibernate(session);
 		}
 		finally{
 			if(isnew){
 				session.close();
 			}
-			session.getTransaction().commit();
 		}
 	}
 	

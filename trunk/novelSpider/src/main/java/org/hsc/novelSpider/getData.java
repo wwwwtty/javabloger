@@ -1,31 +1,38 @@
 package org.hsc.novelSpider;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Date;
-
 import org.hsc.novelSpider.dao.ArticleDAO;
 import org.hsc.novelSpider.dao.utils.DateFormat;
 import org.hsc.novelSpider.domain.Article;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import jodd.io.FileUtil;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextInitializer;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import jodd.io.NetUtil;
 import jodd.lagarto.dom.jerry.Jerry;
 import jodd.lagarto.dom.jerry.JerryFunction;
-import jodd.util.SystemUtil;
 
 public class getData {
 
 	private static Logger log=LoggerFactory.getLogger(getData.class);
-	private ArticleDAO articleDao=new ArticleDAO();
+	private ArticleDAO articleDao;
+	
+	getData(){
+		System.setProperty("spring.profiles.active", "development");
+		
+		ConfigurableApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml"); 
+		
+		articleDao = ctx.getBean(ArticleDAO.class);
+	}
 	
 	public static void  main(String args[]) throws URISyntaxException, IOException{
-
+		 
+		
        
 		new getData().getArticle("http://www.17shu.com/book/24941.html");
 		
@@ -33,8 +40,7 @@ public class getData {
 
 	}
 
-	private static void getChapter() throws IOException,
-			UnsupportedEncodingException {
+	private void getChapter() throws IOException {
 		byte[] str=NetUtil.downloadBytes("http://www.17shu.com/Html/24/24941/");
         String html=new String(str,"gbk");
         log.info(html);
