@@ -27,6 +27,10 @@ public class ArticleChapter {
 	private Integer artID;
 	@Column(name = "ch_url")
 	private String url;
+	@Column(name = "content" ,columnDefinition="text")
+	private String content;
+	@Column(name = "title",length=50)
+	private String title;
 	@Column(name = "reference")
 	private String reference;
 	@Column(name = "seq_no")
@@ -69,5 +73,17 @@ public class ArticleChapter {
 	}
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
+	}
+	public String getContent() {
+		return content;
+	}
+	public void setContent(String content) {
+		this.content = content;
+	}
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
 	}
 }

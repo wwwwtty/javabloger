@@ -4,9 +4,13 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.util.Date;
+
+import org.apache.commons.lang3.StringUtils;
+import org.hsc.novelSpider.dao.ArticleChapterDAO;
 import org.hsc.novelSpider.dao.ArticleDAO;
 import org.hsc.novelSpider.dao.utils.DateFormat;
 import org.hsc.novelSpider.domain.Article;
+import org.hsc.novelSpider.domain.ArticleChapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -21,6 +25,7 @@ public class getData {
 
 	private static Logger log=LoggerFactory.getLogger(getData.class);
 	private ArticleDAO articleDao;
+	private ArticleChapterDAO chpterDao;
 	
 	getData(){
 		System.setProperty("spring.profiles.active", "development");
@@ -28,6 +33,7 @@ public class getData {
 		ConfigurableApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml"); 
 		
 		articleDao = ctx.getBean(ArticleDAO.class);
+		chpterDao=ctx.getBean(ArticleChapterDAO.class);
 	}
 	
 	public static void  main(String args[]) throws URISyntaxException, IOException{
@@ -40,21 +46,56 @@ public class getData {
 
 	}
 
-	private void getChapter() throws IOException {
-		byte[] str=NetUtil.downloadBytes("http://www.17shu.com/Html/24/24941/");
+	/**获取章节
+	 * @param url
+	 * @throws IOException
+	 */
+	private void getChapter(final String url,final Integer articleID) throws IOException {
+	//	byte[] str=NetUtil.downloadBytes("http://www.17shu.com/Html/24/24941/");
+		
+		byte[] str=NetUtil.downloadBytes(url);
         String html=new String(str,"gbk");
-        log.info(html);
         
         Jerry doc = Jerry.jerry(html);
         doc.$("table td.L").each(new JerryFunction() {
             public boolean onNode(Jerry $this, int index) {
-                log.info($this.find("a").attr("href")+",text:"+$this.text());
+               
+                String content=trimBlank(getCharpterContent(url+$this.find("a").attr("href")));
+                String title=$this.text();
+                
+                content=content.replaceAll("<b>一起看书网,看书无弹窗,牢记网址:www.17shu.com</b>","");
+                log.info(title+",text:"+content);
+                
+                ArticleChapter ch=new ArticleChapter();
+                ch.setCreateTime(new Date());
+                ch.setArtID(articleID);
+                ch.setIndex(index);
+                ch.setContent(content);
+                ch.setTitle(title);
+                
+                chpterDao.save(ch);
+                
                 return true;
             }
         });
+	}
+	private String getCharpterContent(String url) {
+		try{
+		byte[] str=NetUtil.downloadBytes(url);
+        	String html=new String(str,"gbk");
         
+        	Jerry doc = Jerry.jerry(html);
+        	return doc.$("#a_main #contents").html();
+		}catch(Exception e){
+			log.error(e.getMessage(),e);
+			return "";
+		}
+		
 	}
 	
+	/**获取文章
+	 * @param url
+	 */
 	public void getArticle(String url){
 		 try {
 			byte[] str=NetUtil.downloadBytes(url);
@@ -75,7 +116,7 @@ public class getData {
 		     art.setName(name[0]);
 		   ///作者 
 			 log.info(doc.$("table th:eq(1)").text()+",text:"+doc.$("table td:eq(1)").text().trim());
-		     art.setAuthor(doc.$("table td:eq(1)").text().trim());
+		     art.setAuthor(trimBlank(doc.$("table td:eq(1)").text().trim()));
 		   ///收 藏 数
 		     log.info(doc.$("table th:eq(3)").text()+",text:"+doc.$("table td:eq(3)").text().trim());
 		     art.setCollected(parseInt(doc.$("table td:eq(3)").text()));
@@ -101,8 +142,10 @@ public class getData {
 		     log.info(doc.$("table th:eq(11)").text()+",text:"+doc.$("table td:eq(11)").text());
 		     art.setRecommendPointWeek(parseInt(doc.$("table td:eq(11)").text()));
 
-		     articleDao.save(art);
+		     int articleID=articleDao.save(art);
 		     
+		     String charptersUrl=doc.$(".btnlinks .read").attr("href");
+		     getChapter(charptersUrl,articleID);
 		 } catch (Exception e) {
 			log.error(e.getMessage(),e);
 		}
@@ -113,8 +156,9 @@ public class getData {
 		return htmlText.replace("\u00a0"," ");
 	}
 	private String trimBlank(String htmlText){
-		//return htmlText.replace("&nbsp;","");
-		return htmlText.replace("\u00a0","");
+		if(StringUtils.isEmpty(htmlText))return "";
+		String text=htmlText.replace("&nbsp;","");
+		return text.replace("\u00a0","");
 	}
 	
 	private int parseInt(String htmlText){
