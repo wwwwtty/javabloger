@@ -3,8 +3,6 @@ package org.hsc.novelSpider.dao.utils;
 import java.util.Collection;
 import java.util.List;
 
-import javax.management.RuntimeErrorException;
-
 /**
  * 分页操作类,该类来自于互联网,做了部分修改,以适应需求
  * @author heshencao@163.com
