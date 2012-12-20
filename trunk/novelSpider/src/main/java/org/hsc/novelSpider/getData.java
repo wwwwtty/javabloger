@@ -21,6 +21,10 @@ import jodd.io.NetUtil;
 import jodd.lagarto.dom.jerry.Jerry;
 import jodd.lagarto.dom.jerry.JerryFunction;
 
+/**17shu抓取
+ * @author heshengchao
+ *
+ */
 public class getData {
 
 	private static Logger log=LoggerFactory.getLogger(getData.class);
@@ -37,12 +41,7 @@ public class getData {
 	}
 	
 	public static void  main(String args[]) throws URISyntaxException, IOException{
-		 
-		
-       
 		new getData().getArticle("http://www.17shu.com/book/24941.html");
-		
-     //   getChapter();
 
 	}
 
