@@ -30,18 +30,11 @@
 			<param-value>true</param-value>
 		</init-param>
 	</filter>
-	<filter>
-		<filter-name>AuthoritFilter</filter-name>
-		<filter-class>com.ty.parkCloud.web.core.AuthoritFilter</filter-class>
-	</filter>
+	
 	<filter>
 		<filter-name>EncodeFilter</filter-name>
-		<filter-class>com.ty.parkCloud.web.core.EncodeFilter</filter-class>
+		<filter-class>org.hsc.novelSpider.web.filter.EncodeFilter</filter-class>
 	</filter>
-	<filter-mapping>
-		<filter-name>AuthoritFilter</filter-name>
-		<url-pattern>/html/*</url-pattern>
-	</filter-mapping>
 	<filter-mapping>
 		<filter-name>EncodeFilter</filter-name>
 		<url-pattern>*.do</url-pattern>
@@ -51,25 +44,12 @@
 		<url-pattern>*.jsp</url-pattern>
 	</filter-mapping>
 	<servlet>
-		<servlet-name>AbstractServlet</servlet-name>
-		<servlet-class>com.ty.parkCloud.web.core.AbstractServlet</servlet-class>
-		<init-param>
-			<param-name>contextPath</param-name>
-			<param-value>com.ty.parkCloud.web</param-value>
-		</init-param>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
-	<servlet>
 		<servlet-name>fileUploadServlet</servlet-name>
 		<servlet-class>com.ty.parkCloud.web.core.FileUploadServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>fileUploadServlet</servlet-name>
 		<url-pattern>/fileUploadServlet.action</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>AbstractServlet</servlet-name>
-		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>
 	<!-- WebServices设置 -->
 	<welcome-file-list>

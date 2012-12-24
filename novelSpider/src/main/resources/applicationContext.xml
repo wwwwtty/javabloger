@@ -69,7 +69,7 @@
 		      <property name="url" value="jdbc:log4jdbc:mysql://localhost:3306/novel" />
 		      <property name="driverClassName" value="net.sf.log4jdbc.DriverSpy" />
 		      <property name="username" value="root" />
-		      <property name="password" value="wsketgfhv" />
+		      <property name="password" value="password" />
 		</bean>
 	</beans>
 	
@@ -79,7 +79,7 @@
 		      <property name="url" value="jdbc:log4jdbc:mysql://localhost:3306/novel" />
 		      <property name="driverClassName" value="net.sf.log4jdbc.DriverSpy" />
 		      <property name="username" value="root" />
-		      <property name="password" value="wsketgfhv" />
+		      <property name="password" value="password" />
 		</bean>
 	</beans>
 </beans>
