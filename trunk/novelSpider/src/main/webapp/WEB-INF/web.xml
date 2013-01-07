@@ -45,7 +45,7 @@
 	</filter-mapping>
 	<servlet>
 		<servlet-name>fileUploadServlet</servlet-name>
-		<servlet-class>com.ty.parkCloud.web.core.FileUploadServlet</servlet-class>
+		<servlet-class>org.hsc.novelSpider.web.core.FileUploadServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>fileUploadServlet</servlet-name>
