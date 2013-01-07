@@ -12,14 +12,101 @@
     
   </head>
   
-  <body>
-  	<ul class="nav nav-pills nav-stacked">
-	  <li class="active">
-	  	<a href="">首页</a></li>
-	  <li><a href="">一栏</a></li>
-	  <li><a href="">二栏</a></li>
-	  <li><a href="">三栏</a></li>
-	</ul>
-    This is my HTML page. <br>
+  <body data-spy="scroll">
+  
+		
+  
+  <div class="container-fluid">
+  <div class="row-fluid">
+  <!--  
+ 	 <div class="span12 navbar navbar-fixed-top">
+          <ul class="nav nav-pills">
+            <li class="active"><a href="#global">全局样式</a></li>
+            <li class=""><a href="#gridSystem">栅格系统</a></li>
+            <li class=""><a href="#fluidGridSystem">流动栅格系统</a></li>
+            <li class=""><a href="#gridCustomization">自定义</a></li>
+            <li class=""><a href="#layouts">布局</a></li>
+            <li class=""><a href="#responsive">响应式设计</a></li>
+          </ul>
+        </div>
+        -->
+  </div>
+  
+  	<div class="row-fluid">
+  	 <div class="span2">
+  	 	<div class="subnav">
+		  	<ul class="nav nav-pills nav-stacked">
+			  <li class="active">
+			  	<a href="">首页</a></li>
+			  <li><a href="">一栏</a></li>
+			  <li><a href="">二栏</a></li>
+			  <li><a href="">三栏</a></li>
+			</ul>
+		</div>
+	   </div>
+	 <div class="span10">
+		<section id="gridCustomization">
+		  <div class="page-header">
+		    <h1>自定义栅格</h1>
+		  </div>
+		  <table class="table table-bordered table-striped">
+		    <thead>
+		      <tr>
+		        <th>变量</th>
+		        <th>默认值</th>
+		        <th>描述</th>
+		      </tr>
+		    </thead>
+		    <tbody>
+		      <tr>
+		        <td><code>@gridColumns</code></td>
+		        <td>12</td>
+		        <td>列的数量</td>
+		      </tr>
+		      <tr>
+		        <td><code>@gridColumnWidth</code></td>
+		        <td>60px</td>
+		        <td>每列的宽度</td>
+		      </tr>
+		      <tr>
+		        <td><code>@gridGutterWidth</code></td>
+		        <td>20px</td>
+		        <td>列之间的间隔宽度</td>
+		      </tr>
+		      <tr>
+		        <td><code>@siteWidth</code></td>
+		        <td><em>计算所有列的总宽度（含间隔）</em></td>
+		        <td>计算列的总宽度以设置 <code>.container-fixed()</code> 的宽度</td>
+		      </tr>
+		    </tbody>
+		  </table>
+		  <div class="row">
+		    <div class="span4">
+		      <h3>LESS中的变量</h3>
+		      <p>
+			Bootstrap内置了一组很有用的变量，用以定制上述的默认940px栅格系统。这些变量保存在variables.less中。
+		      </p>
+		    </div><!-- /.span -->
+		    <div class="span4">
+		      <h3>如何定制</h3>
+		      <p>
+			修改栅格意味着改变三个 <code>@grid*</code> 变量并要重新编译Bootstrap。
+			改变variables.less中的栅格变量，再使用<a href="less.html#compiling">四种方式中的某一种重编译less</a>。
+			在添加更多列之前，要先在grid.less在定义这三个变量。
+		      </p>
+		    </div><!-- /.span -->
+		    <div class="span4">
+		      <h3>保持响应性</h3>
+		      <p>
+			定制的栅格只能工作在默认的940px下，若要保证Bootstrap的全面响应性，还得更改responsive.less中的栅格内容。
+		      </p>
+		    </div><!-- /.span -->
+		  </div><!-- /.row -->
+		
+		</section>
+		 </div> 
+      </div> 
+   </div> 
+    
   </body>
 </html>
