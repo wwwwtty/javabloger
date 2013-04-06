@@ -1,10 +1,8 @@
 package org.hsc.novelSpider;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.util.Date;
-
 import org.apache.commons.lang3.StringUtils;
 import org.hsc.novelSpider.dao.ArticleChapterDAO;
 import org.hsc.novelSpider.dao.ArticleDAO;
@@ -13,8 +11,6 @@ import org.hsc.novelSpider.domain.Article;
 import org.hsc.novelSpider.domain.ArticleChapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import jodd.io.NetUtil;
