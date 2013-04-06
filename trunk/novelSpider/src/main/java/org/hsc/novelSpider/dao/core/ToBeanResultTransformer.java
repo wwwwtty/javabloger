@@ -39,7 +39,7 @@ public class ToBeanResultTransformer extends AliasToBeanResultTransformer {
 	// 		this transformer
 
 	private final Class<?> resultClass;
-	private boolean isInitialized;
+//	private boolean isInitialized;
 //	private String[] aliases;
 //	private Setter[] setters;
 	private Map<String,Meta> cachedField=new HashMap<String,Meta>();
@@ -49,7 +49,7 @@ public class ToBeanResultTransformer extends AliasToBeanResultTransformer {
 		if ( resultClass == null ) {
 			throw new IllegalArgumentException( "resultClass cannot be null" );
 		}
-		isInitialized = false;
+//		isInitialized = false;
 		this.resultClass = resultClass;
 		
 		Class<?> parentClass=resultClass.getSuperclass();
@@ -123,13 +123,13 @@ public class ToBeanResultTransformer extends AliasToBeanResultTransformer {
 		return result;
 	}
 
-	public static ToBeanResultTransformer aliase(Class clazz){
+	public static ToBeanResultTransformer aliase(Class<?> clazz){
 		return new ToBeanResultTransformer(clazz);
 	}
 	
 	private class Meta{
 		private Method setter;
 		private Class<?> filedType;
-		private String fieldName;
+//		private String fieldName;
 	}
 }
