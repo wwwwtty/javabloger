@@ -13,7 +13,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Projections;
 import org.hibernate.transform.Transformers;
-import org.hsc.novelSpider.dao.utils.HibernateUtil;
 import org.hsc.novelSpider.dao.utils.Pager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
