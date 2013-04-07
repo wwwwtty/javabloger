@@ -47,7 +47,7 @@
     <!-- ===================================事务定义结束================================ -->  
     
     
-     <bean id="dynamicStatementBuilder" class="org.hsc.novelSpider.dao.core.DynamicSQLBuilder">  
+     <bean id="dynamicStatementBuilder" class="org.hsc.core.dao.hibernate.DynamicSQLBuilder">  
         <property name="fileNames">  
             <list>  
                 <value>classpath*:/sql/*sql.xml</value><!--这里我们指定要加载某个文件夹下所有以-dynamic.xml结尾的文件 -->  
@@ -56,7 +56,7 @@
     </bean>
     
     
-    <bean id="springContextUtils" class="org.hsc.novelSpider.utils.SpringContextUtils" scope="singleton"/>  
+    <bean id="springContextUtils" class="org.hsc.core.support.SpringContextUtils" scope="singleton"/>  
     
     <context:component-scan base-package="org.hsc.novelSpider.dao"></context:component-scan>
     <context:component-scan base-package="org.hsc.novelSpider.service"></context:component-scan>
