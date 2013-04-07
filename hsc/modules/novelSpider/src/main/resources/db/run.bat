@@ -1,1 +1,0 @@
-java -cp hsqldb-2.2.9.jar org.hsqldb.Server -database.0 hsqldb/novel -dbname.0 novel

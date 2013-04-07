@@ -1,4 +1,4 @@
-package org.hsc.novelSpider;
+package org.hsc.novelSpider.service;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -11,8 +11,11 @@ import org.hsc.novelSpider.domain.Article;
 import org.hsc.novelSpider.domain.ArticleChapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.stereotype.Service;
+
 import jodd.io.NetUtil;
 import jodd.lagarto.dom.jerry.Jerry;
 import jodd.lagarto.dom.jerry.JerryFunction;
@@ -21,32 +24,26 @@ import jodd.lagarto.dom.jerry.JerryFunction;
  * @author heshengchao
  *
  */
-public class getData {
+@Service
+public class CaptureService {
 
-	private static Logger log=LoggerFactory.getLogger(getData.class);
-	private ArticleDAO articleDao;
-	private ArticleChapterDAO chpterDao;
+	private static final Logger log=LoggerFactory.getLogger(CaptureService.class);
+	private @Autowired ArticleDAO articleDao;
+	private @Autowired ArticleChapterDAO chpterDao;
 	
-	getData(){
-		System.setProperty("spring.profiles.active", "development");
-		
-		ConfigurableApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml"); 
-		
-		articleDao = ctx.getBean(ArticleDAO.class);
-		chpterDao=ctx.getBean(ArticleChapterDAO.class);
-	}
 	
-	public static void  main(String args[]) throws URISyntaxException, IOException{
-		new getData().getArticle("http://www.17shu.com/book/24941.html");
-
+	public void  doCaptureData() throws IOException{
+		
+		Article art=getArticle("http://www.17shu.com/book/24941.html");
+		Integer articleID=articleDao.save(art);
+		getChapter(art.getCharpterPageUrl(),articleID);
 	}
 
 	/**获取章节
 	 * @param url
 	 * @throws IOException
 	 */
-	private void getChapter(final String url,final Integer articleID) throws IOException {
-	//	byte[] str=NetUtil.downloadBytes("http://www.17shu.com/Html/24/24941/");
+	public void getChapter(final String url,final Integer articleID) throws IOException {
 		
 		byte[] str=NetUtil.downloadBytes(url);
         String html=new String(str,"gbk");
@@ -74,6 +71,8 @@ public class getData {
             }
         });
 	}
+	
+	
 	private String getCharpterContent(String url) {
 		try{
 		byte[] str=NetUtil.downloadBytes(url);
@@ -91,7 +90,7 @@ public class getData {
 	/**获取文章
 	 * @param url
 	 */
-	public void getArticle(String url){
+	public Article getArticle(String url){
 		 try {
 			byte[] str=NetUtil.downloadBytes(url);
 			String html=new String(str,"gbk");
@@ -137,13 +136,15 @@ public class getData {
 		     log.info(doc.$("table th:eq(11)").text()+",text:"+doc.$("table td:eq(11)").text());
 		     art.setRecommendPointWeek(parseInt(doc.$("table td:eq(11)").text()));
 
-		     int articleID=articleDao.save(art);
+//		     int articleID=articleDao.save(art);
+		     art.setCharpterPageUrl(doc.$(".btnlinks .read").attr("href"));
 		     
-		     String charptersUrl=doc.$(".btnlinks .read").attr("href");
-		     getChapter(charptersUrl,articleID);
+		     return art;
+		    
 		 } catch (Exception e) {
 			log.error(e.getMessage(),e);
 		}
+		 return null;
 	}
 	
 	private String replaceBlank(String htmlText){
