@@ -6,10 +6,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -25,6 +23,9 @@ public class ArticleChapter {
 //	private Article article;
 	@Column(name = "art_id")
 	private Integer artID;
+	
+	@Column(name = "section")
+	private String section;
 	@Column(name = "ch_url")
 	private String url;
 	@Column(name = "content" ,columnDefinition="text")
@@ -49,6 +50,13 @@ public class ArticleChapter {
 	}
 	public void setArtID(Integer artID) {
 		this.artID = artID;
+	}
+	
+	public String getSection() {
+		return section;
+	}
+	public void setSection(String section) {
+		this.section = section;
 	}
 	public String getUrl() {
 		return url;

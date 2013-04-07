@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "novel_article")
@@ -41,6 +42,8 @@ public class Article {
 	private int clickmonth;
 	@Column(name = "click_week")
 	private int clickWeek;
+	@Transient
+	private String charpterPageUrl;
 	
 	/**收 藏 数*/
 	@Column(name = "collected")
@@ -126,5 +129,12 @@ public class Article {
 	}
 	public void setClickWeek(int clickWeek) {
 		this.clickWeek = clickWeek;
+	}
+	
+	public String getCharpterPageUrl() {
+		return charpterPageUrl;
+	}
+	public void setCharpterPageUrl(String charpterPageUrl) {
+		this.charpterPageUrl = charpterPageUrl;
 	}
 }
