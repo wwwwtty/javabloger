@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+
+    <session-factory>
+        <!-- Database connection settings -->
+        <property name="connection.driver_class">net.sf.log4jdbc.DriverSpy</property>
+        <property name="connection.url">jdbc:log4jdbc:mysql://localhost:3306/novel</property>
+        <property name="connection.username">root</property>
+        <property name="connection.password">wsketgfhv</property>
+
+        <!-- JDBC connection pool (use the built-in) -->
+        <property name="connection.pool_size">5</property>
+
+        <property name="current_session_context_class">thread</property>
+
+        <!-- Disable the second-level cache  -->
+        <property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
+
+        <!-- Drop and re-create the database schema on startup -->
+        <property name="hbm2ddl.auto">update</property>
+        
+        <mapping class="org.hsc.novelSpider.domain.Article" />
+        <mapping class="org.hsc.novelSpider.domain.ArticleChapter" />
+        <mapping class="org.hsc.novelSpider.domain.Category" />
+    </session-factory>
+
+</hibernate-configuration>
