@@ -29,7 +29,7 @@
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>druid</artifactId>
-			<version>0.2.15</version>
+			<version>0.2.14</version>
 		</dependency>
 		<!-- mysql -->
 		<dependency>

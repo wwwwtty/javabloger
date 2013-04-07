@@ -1,4 +1,4 @@
-package org.hsc.novelSpider.web.core;
+package org.hsc.novelSpider.web;
 
 import java.io.File;
 import java.io.IOException;

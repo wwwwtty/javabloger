@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Date;
 import org.apache.commons.lang3.StringUtils;
+import org.hsc.core.utils.DateFormatUtils;
 import org.hsc.novelSpider.dao.ArticleChapterDAO;
 import org.hsc.novelSpider.dao.ArticleDAO;
-import org.hsc.novelSpider.dao.utils.DateFormat;
 import org.hsc.novelSpider.domain.Article;
 import org.hsc.novelSpider.domain.ArticleChapter;
 import org.slf4j.Logger;
@@ -162,6 +162,6 @@ public class getData {
 	}
 	private Date parseDate(String htmlText){
 		String t=trimBlank(htmlText);
-		return DateFormat.parse(t,DateFormat.DATE_FORMAT);
+		return DateFormatUtils.parse(t,DateFormatUtils.DATE_FORMAT);
 	}
 }
