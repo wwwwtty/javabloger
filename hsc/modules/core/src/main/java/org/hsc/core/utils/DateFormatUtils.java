@@ -265,6 +265,11 @@ public class DateFormatUtils extends org.apache.commons.lang3.time.DateFormatUti
       public static Date parse(String aValue){
            return  parse(aValue,DATETIME_FORMAT);
       }
+      /**根据字符串返回DATE 字符串格式：yyyy-MM-dd HH:mm:ss*/
+      public static Date parse(String aValue,String patter){
+    	  SimpleDateFormat format=new SimpleDateFormat(patter);
+           return  parse(aValue,format);
+      }
 
       /**
        * 把字符串转换为数据库类型Timestamp。
