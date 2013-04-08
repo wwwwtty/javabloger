@@ -30,15 +30,28 @@ public class ArticleChapter {
 	private String url;
 	@Column(name = "content" ,columnDefinition="text")
 	private String content;
-	@Column(name = "title",length=50)
+	@Column(name = "title",length=200)
 	private String title;
 	@Column(name = "reference")
 	private String reference;
+	/**更新时间（来源）*/
+	@Column(name = "ref_update_time")
+	private Date refUpdateTime;
 	@Column(name = "seq_no")
 	private int index;
 	@Column(name = "create_time")
 	private Date createTime;
 	
+	/**数据抓取状态*/
+	@Column(name = "parse_status")
+	private int parseStatus;
+	
+	public int getParseStatus() {
+		return parseStatus;
+	}
+	public void setParseStatus(int parseStatus) {
+		this.parseStatus = parseStatus;
+	}
 	public Integer getID() {
 		return ID;
 	}
@@ -93,5 +106,38 @@ public class ArticleChapter {
 	}
 	public void setTitle(String title) {
 		this.title = title;
+	}
+	public Date getRefUpdateTime() {
+		return refUpdateTime;
+	}
+	public void setRefUpdateTime(Date refUpdateTime) {
+		this.refUpdateTime = refUpdateTime;
+	}
+	
+	/**获取状态*/
+	public enum ParseStatus{
+		NOT_RUN(0,"未开始"),RUN(1,"正在运行"),FAIL(2,"失败");
+		
+	    private  String name;  
+	    private   int  index; 
+		private ParseStatus(int index,String value){
+			this.index=index;this.name=value;
+		}
+		
+		public   static  String getName( int  index) {  
+	        for  (ParseStatus c : ParseStatus.values()) {  
+	            if  (c.getIndex() == index) {  
+	                return  c.name;  
+	            }  
+	        }  
+	        return   null ;  
+	    }
+		
+	    public  String getName() {  
+	        return  name;  
+	    }
+	    public   int  getIndex() {  
+	        return  index;  
+	    }
 	}
 }
