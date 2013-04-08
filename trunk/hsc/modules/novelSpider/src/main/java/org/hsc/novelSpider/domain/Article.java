@@ -19,14 +19,14 @@ public class Article {
 	private Integer ID;
 	@Column(name = "art_name")
 	private String name;
-	@Column(name = "art_desc")
+	@Column(name = "art_desc",columnDefinition="text")
 	private String desc;
 	@Column(name = "art_author")
 	private String author;
 	@Column(name = "create_time")
 	private Date createTime;
 	@Column(name = "last_update_time")
-	private Date lastupdate;
+	private Date lastUpdate;
 	/**推荐数*/
 	@Column(name = "recommend_point_totle")
 	private int recommendPointTotle;
@@ -82,11 +82,11 @@ public class Article {
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
-	public Date getLastupdate() {
-		return lastupdate;
+	public Date getLastUpdate() {
+		return lastUpdate;
 	}
-	public void setLastupdate(Date lastupdate) {
-		this.lastupdate = lastupdate;
+	public void setLastUpdate(Date lastupdate) {
+		this.lastUpdate = lastupdate;
 	}
 	public int getRecommendPointTotle() {
 		return recommendPointTotle;

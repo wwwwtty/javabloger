@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import jodd.io.NetUtil;
 import jodd.lagarto.dom.jerry.Jerry;
@@ -25,13 +26,13 @@ import jodd.lagarto.dom.jerry.JerryFunction;
  *
  */
 @Service
-public class CaptureService {
+public class CaptureService_17shu implements ICaptureService {
 
-	private static final Logger log=LoggerFactory.getLogger(CaptureService.class);
+	private static final Logger log=LoggerFactory.getLogger(CaptureService_17shu.class);
 	private @Autowired ArticleDAO articleDao;
 	private @Autowired ArticleChapterDAO chpterDao;
 	
-	
+	@Transactional @Override
 	public void  doCaptureData() throws IOException{
 		
 		Article art=getArticle("http://www.17shu.com/book/24941.html");
@@ -43,6 +44,7 @@ public class CaptureService {
 	 * @param url
 	 * @throws IOException
 	 */
+	@Transactional
 	public void getChapter(final String url,final Integer articleID) throws IOException {
 		
 		byte[] str=NetUtil.downloadBytes(url);
@@ -51,20 +53,24 @@ public class CaptureService {
         Jerry doc = Jerry.jerry(html);
         doc.$("table td.L").each(new JerryFunction() {
             public boolean onNode(Jerry $this, int index) {
-               
-                String content=trimBlank(getCharpterContent(url+$this.find("a").attr("href")));
-                String title=$this.text();
-                
-                content=content.replaceAll("<b>一起看书网,看书无弹窗,牢记网址:www.17shu.com</b>","");
-                log.info(title+",text:"+content);
-                
-                ArticleChapter ch=new ArticleChapter();
+            	
+            	String title=$this.text();
+            	
+            	if(StringUtils.isEmpty(title)){
+            		return true;
+            	}
+            	
+            	String contentURL=url+$this.find("a").attr("href");
+            	
+            	log.info(title+",url:"+contentURL);
+            	ArticleChapter ch=getCharpterContent(contentURL);
+              
                 ch.setCreateTime(new Date());
                 ch.setArtID(articleID);
                 ch.setIndex(index);
-                ch.setContent(content);
+               
                 ch.setTitle(title);
-                
+                ch.setUrl(contentURL);
                 chpterDao.save(ch);
                 
                 return true;
@@ -73,18 +79,31 @@ public class CaptureService {
 	}
 	
 	
-	private String getCharpterContent(String url) {
+	private ArticleChapter getCharpterContent(String url) {
+		ArticleChapter ch=new ArticleChapter();
 		try{
 		byte[] str=NetUtil.downloadBytes(url);
         	String html=new String(str,"gbk");
         
         	Jerry doc = Jerry.jerry(html);
-        	return doc.$("#a_main #contents").html();
+        	String content=trimBlank(doc.$("#a_main #contents").html()).toLowerCase();
+        	
+        	 content=content.replaceAll("一起看书网,","");
+             content=content.replaceAll("看书无弹窗,","");
+             content=content.replaceAll("看书无弹窗,手机阅读","");
+             content=content.replaceAll("www.17shu.com","");
+             content=content.replaceAll("()","");
+             content=content.replaceAll("//","");
+             content=content.replaceAll("牢记网址:","");
+             content=content.replaceAll("百度搜索：一起看书网看小说","");
+             
+             ch.setContent(content);
+             ch.setParseStatus(ArticleChapter.ParseStatus.RUN.getIndex());
 		}catch(Exception e){
 			log.error(e.getMessage(),e);
-			return "";
+			ch.setParseStatus(ArticleChapter.ParseStatus.FAIL.getIndex());
 		}
-		
+		return ch;
 	}
 	
 	/**获取文章
@@ -116,7 +135,7 @@ public class CaptureService {
 		     art.setCollected(parseInt(doc.$("table td:eq(3)").text()));
 		     ///最后更新
 		     log.info(doc.$("table th:eq(5)").text()+",text:"+doc.$("table td:eq(5)").text());
-		     art.setLastupdate(parseDate(doc.$("table td:eq(5)").text().trim()));
+		     art.setLastUpdate(parseDate(doc.$("table td:eq(5)").text().trim()));
 		     ///总推荐数
 		     log.info(doc.$("table th:eq(6)").text()+",text:"+doc.$("table td:eq(6)").text());
 		     art.setClickTotle(parseInt(doc.$("table td:eq(6)").text()));
@@ -163,6 +182,6 @@ public class CaptureService {
 	}
 	private Date parseDate(String htmlText){
 		String t=trimBlank(htmlText);
-		return DateFormatUtils.parse(t,DateFormatUtils.DATE_FORMAT);
+		return DateFormatUtils.parse(t,"yyyy-MM-dd");
 	}
 }

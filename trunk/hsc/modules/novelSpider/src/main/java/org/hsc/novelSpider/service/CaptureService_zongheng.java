@@ -2,6 +2,8 @@ package org.hsc.novelSpider.service;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import jodd.io.NetUtil;
 import jodd.lagarto.dom.jerry.Jerry;
@@ -20,7 +22,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CaptureService_zongheng implements ICaptureService {
-	private static final Logger log=LoggerFactory.getLogger(CaptureService.class);
+	private static final Logger log=LoggerFactory.getLogger(CaptureService_17shu.class);
 	private @Autowired ArticleDAO articleDao;
 	private @Autowired ArticleChapterDAO chpterDao;
 	
@@ -44,34 +46,30 @@ public class CaptureService_zongheng implements ICaptureService {
         
         final Jerry sectionEL=doc.$(".chaplist .chapter h2");
         
+        final SeqIndex seq=new SeqIndex();
+        
         doc.$(".chaplist .chapter .booklist").each(new JerryFunction() {
             public boolean onNode(Jerry $this, int index) {
             	 
             	final String section=sectionEL.get(index).getTextContent();
             	log.info("章节："+section);
             	  
-            	$this.$(" td").each(new JerryFunction() {
+            	$this.$("td").each(new JerryFunction() {
             		  public boolean onNode(Jerry $this, int index) {
-            			
             			  
-            			  String title=$this.text();
+            			  String title=trimBlank($this.text());
             			  String url=$this.$("a").attr("href");
             			  log.info("title:"+title+",url:"+url);
-            			  String content=trimBlank(getCharpterContent(url));
+                          
+                          ArticleChapter ch= getCharpterContent(url);
                          
-                          
-//                          content=content.replaceAll("<b>一起看书网,看书无弹窗,牢记网址:www.17shu.com</b>","");
-                          log.info(title+",text:"+content);
-                          
-                          ArticleChapter ch=new ArticleChapter();
                           ch.setCreateTime(new Date());
                           ch.setArtID(articleID);
-                          ch.setIndex(index);
+                          ch.setIndex(seq.seq++);
                           ch.setSection(section);
-                          ch.setContent(content);
                           ch.setTitle(title);
                           ch.setUrl(url);
-                          
+                         
                           chpterDao.save(ch);
                           
                           return true;
@@ -84,27 +82,31 @@ public class CaptureService_zongheng implements ICaptureService {
 	}
 	
 	
-	private String getCharpterContent(String url) {
+	private ArticleChapter getCharpterContent(String url) {
+		 ArticleChapter ch=new ArticleChapter();
 		try{
-//        	Jerry doc = Jerry.jerry(new String(NetUtil.downloadBytes(url)));
-//        	final StringBuilder content=new StringBuilder();
-//        	doc.$("#chapterContent p").each(new JerryFunction() {
-//      		  public boolean onNode(Jerry $this, int index) {
-//      			  content.append("<p>"+$this.text()+"</p>");
-//      			  return true;
-//      		  }  
-//      		});
-//      		return content.toString();
-			
 			Jerry doc = Jerry.jerry(new String(NetUtil.downloadBytes(url)));
 			Jerry CEL=doc.$("#chapterContent");
 			CEL.$("p span").remove();
-			return CEL.html();
+			CEL.$("div").remove();
 			
+			ch.setContent(trimBlank(CEL.html()));
+			ch.setParseStatus(ArticleChapter.ParseStatus.RUN.getIndex());
+			
+			String dateText=trimBlank(doc.$(".readcon .tc .number").text());
+			
+			Pattern pattern = Pattern.compile("\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}");
+			Matcher matcher= pattern.matcher(dateText);
+			 
+			 if(matcher.find()){
+				 ch.setRefUpdateTime(DateFormatUtils.parse(matcher.group(0),"yyyy-MM-dd HH:mm:ss"));
+			 }
 		}catch(Exception e){
 			log.error(e.getMessage(),e);
-			return "";
+			ch.setParseStatus(ArticleChapter.ParseStatus.FAIL.getIndex());
 		}
+		
+		return ch;
 	}
 	
 	/**获取文章
@@ -113,7 +115,6 @@ public class CaptureService_zongheng implements ICaptureService {
 	public Article getArticle(String url){
 		 try {
 			byte[] html=NetUtil.downloadBytes(url);
-//			String html=new String(str,"gbk");
 			
 			 Jerry doc = Jerry.jerry(new String(html));
 			 doc.$("table th").each(new JerryFunction() {
@@ -139,7 +140,7 @@ public class CaptureService_zongheng implements ICaptureService {
 		     String lastUpdate=doc.$(".zhbook_info .status p:last").text();
 		     lastUpdate=lastUpdate.split("：")[1];
 		     log.info("最后更新:"+lastUpdate);
-		     art.setLastupdate(DateFormatUtils.parse(StringUtils.trim(lastUpdate),"yyyy-MM-dd"));
+		     art.setLastUpdate(DateFormatUtils.parse(StringUtils.trim(lastUpdate),"yyyy-MM-dd"));
 		     ///总点击数
 		     String clickTotle=doc.$(".zhbook_info .status p:eq(4)").text();
 		     clickTotle=clickTotle.split("：")[1];
@@ -187,8 +188,8 @@ public class CaptureService_zongheng implements ICaptureService {
 		String t=trimBlank(htmlText);
 		return Integer.parseInt(t);
 	}
-	private Date parseDate(String htmlText){
-		String t=trimBlank(htmlText);
-		return DateFormatUtils.parse(t,DateFormatUtils.DATE_FORMAT);
+	
+	class SeqIndex{
+		public int seq=0;
 	}
 }

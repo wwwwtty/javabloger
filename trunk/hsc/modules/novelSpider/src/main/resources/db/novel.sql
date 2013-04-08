@@ -4,20 +4,19 @@
 DROP TABLE IF EXISTS `novel_article`;
 
 CREATE TABLE `novel_article` (
-  `art_id` int(11) NOT NULL AUTO_INCREMENT,
-  `art_author` varchar(255) DEFAULT NULL,
-  `click_totle` int(11) DEFAULT NULL,
-  `click_week` int(11) DEFAULT NULL,
-  `click_month` int(11) DEFAULT NULL,
-  `collected` int(11) DEFAULT NULL,
-  `create_time` datetime DEFAULT NULL,
-  `art_desc` varchar(255) DEFAULT NULL,
-  `last_update_time` datetime DEFAULT NULL,
-  `art_name` varchar(255) DEFAULT NULL,
-  `recommend_point_month` int(11) DEFAULT NULL,
-  `recommend_point_totle` int(11) DEFAULT NULL,
-  `recommend_point_week` int(11) DEFAULT NULL,
-  PRIMARY KEY (`art_id`)
+  `art_id` 			int		NOT NULL 	PRIMARY KEY AUTO_INCREMENT,
+  `art_author` 				varchar(255) 	DEFAULT NULL,
+  `click_totle` 			int				DEFAULT NULL,
+  `click_week` 				int				DEFAULT NULL,
+  `click_month` 			int				DEFAULT NULL,
+  `collected` 				int				DEFAULT NULL,
+  `create_time` 			datetime 		DEFAULT NULL,
+  `art_desc` 				text		 	DEFAULT NULL,
+  `last_update_time` 		datetime 		DEFAULT NULL,
+  `art_name` 				varchar(255) 	DEFAULT NULL,
+  `recommend_point_month` 	int				DEFAULT NULL,
+  `recommend_point_totle` 	int				DEFAULT NULL,
+  `recommend_point_week`	int				DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `novel_article` */
