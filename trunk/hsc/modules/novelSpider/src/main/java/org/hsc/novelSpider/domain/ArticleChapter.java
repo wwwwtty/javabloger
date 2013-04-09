@@ -53,10 +53,10 @@ public class ArticleChapter {
 		this.parseStatus = parseStatus;
 	}
 	public Integer getID() {
-		return ID;
+		return this.ID;
 	}
 	public void setID(Integer iD) {
-		ID = iD;
+		this.ID = iD;
 	}
 	public Integer getArtID() {
 		return artID;
