@@ -66,7 +66,7 @@
 	<!-- local development环境 -->
 	<beans profile="development">
 		<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close"> 
-		      <property name="url" value="jdbc:log4jdbc:mysql://localhost:3306/novel" />
+		      <property name="url" value="jdbc:log4jdbc:mysql://222.211.73.63:3306/novel" />
 		      <property name="driverClassName" value="net.sf.log4jdbc.DriverSpy" />
 		      <property name="username" value="root" />
 		      <property name="password" value="password" />
