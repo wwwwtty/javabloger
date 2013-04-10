@@ -38,6 +38,26 @@
 			<version>5.1.24</version>
 		</dependency>
 		
+		<dependency>
+		  <groupId>org.apache.felix</groupId>
+		  <artifactId>org.apache.felix.framework</artifactId>
+		  <version>4.2.1</version>
+		</dependency>
+		
+		<dependency>
+		  <groupId>org.apache.felix</groupId>
+		  <artifactId>org.apache.felix.framework</artifactId>
+		  <version>4.2.1</version>
+		  <classifier>source-release</classifier>
+		  <type>zip</type>
+		</dependency>
+
+		<dependency>
+		  <groupId>org.osgi</groupId>
+		  <artifactId>org.osgi.core</artifactId>
+		  <version>4.2.0</version>
+		</dependency>
+		
 	</dependencies>
 	<build>
 		<sourceDirectory>src/main/java</sourceDirectory>
