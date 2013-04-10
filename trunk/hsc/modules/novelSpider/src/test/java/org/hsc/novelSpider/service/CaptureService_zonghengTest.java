@@ -13,7 +13,8 @@ public class CaptureService_zonghengTest extends BaseTest{
 	CaptureService_zongheng service;
 	
 	
-	@Test @Rollback(value=false)
+	@Test
+	@Rollback(value=false)
 	public void testCapture() throws IOException{
 		service.doCaptureData();
 	}

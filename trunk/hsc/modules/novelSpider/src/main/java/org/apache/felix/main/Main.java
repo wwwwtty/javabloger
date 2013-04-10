@@ -201,34 +201,6 @@ public class Main
     **/
     public void main(String[] args) throws Exception
     {
-        // Look for bundle directory and/or cache directory.
-        // We support at most one argument, which is the bundle
-        // cache directory.
-        String bundleDir = null;
-        String cacheDir = null;
-        boolean expectBundleDir = false;
-        for (int i = 0; i < args.length; i++)
-        {
-            if (args[i].equals(BUNDLE_DIR_SWITCH))
-            {
-                expectBundleDir = true;
-            }
-            else if (expectBundleDir)
-            {
-                bundleDir = args[i];
-                expectBundleDir = false;
-            }
-            else
-            {
-                cacheDir = args[i];
-            }
-        }
-
-        if ((args.length > 3) || (expectBundleDir && bundleDir == null))
-        {
-            System.out.println("Usage: [-b <bundle-deploy-dir>] [<bundle-cache-dir>]");
-            System.exit(0);
-        }
 
         // Load system properties.
         this.loadSystemProperties();
@@ -237,8 +209,7 @@ public class Main
         Map<String, String> configProps = loadConfigProperties();
         // If no configuration properties were found, then create
         // an empty properties object.
-        if (configProps == null)
-        {
+        if (configProps == null){
             System.err.println("No " + CONFIG_PROPERTIES_FILE_VALUE + " found.");
             configProps = new HashMap<String, String>();
         }
@@ -246,46 +217,28 @@ public class Main
         // Copy framework properties from the system properties.
         Main.copySystemProperties(configProps);
 
-        // If there is a passed in bundle auto-deploy directory, then
-        // that overwrites anything in the config file.
-        if (bundleDir != null)
-        {
-            configProps.put(AutoProcessor.AUTO_DEPLOY_DIR_PROPERY, bundleDir);
-        }
-
-        // If there is a passed in bundle cache directory, then
-        // that overwrites anything in the config file.
-        if (cacheDir != null)
-        {
-            configProps.put(Constants.FRAMEWORK_STORAGE, cacheDir);
-        }
 
         // If enabled, register a shutdown hook to make sure the framework is
         // cleanly shutdown when the VM exits.
         String enableHook = configProps.get(SHUTDOWN_HOOK_PROP);
-        if ((enableHook == null) || !enableHook.equalsIgnoreCase("false"))
-        {
+        if ((enableHook == null) || !enableHook.equalsIgnoreCase("false")){
             Runtime.getRuntime().addShutdownHook(new Thread("Felix Shutdown Hook") {
-                public void run()
-                {
-                    try
-                    {
-                        if (m_fwk != null)
-                        {
+                public void run(){
+                    try{
+                        if (m_fwk != null){
                             m_fwk.stop();
                             m_fwk.waitForStop(0);
                         }
                     }
-                    catch (Exception ex)
-                    {
+                    catch (Exception ex){
                         System.err.println("Error stopping framework: " + ex);
+                        ex.printStackTrace();
                     }
                 }
             });
         }
 
-        try
-        {
+        try{
             // Create an instance of the framework.
             FrameworkFactory factory = getFrameworkFactory();
             m_fwk = factory.newFramework(configProps);
@@ -295,8 +248,7 @@ public class Main
             // and auto-install/auto-start properties.
             AutoProcessor.process(configProps, m_fwk.getBundleContext());
             FrameworkEvent event;
-            do
-            {
+            do{
                 // Start the framework.
                 m_fwk.start();
                 // Wait for framework to stop to exit the VM.
@@ -307,8 +259,7 @@ public class Main
             // Otherwise, exit.
             System.exit(0);
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex){
             System.err.println("Could not create framework: " + ex);
             ex.printStackTrace();
             System.exit(0);
