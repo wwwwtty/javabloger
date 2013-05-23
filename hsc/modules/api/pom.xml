@@ -1,48 +1,31 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.hsc.novelSpider</groupId>
 		<artifactId>novelSpider-parent</artifactId>
 		<version>0.0.1</version>
 		<relativePath>../parent/pom.xml</relativePath>
 	</parent>
-	
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>novelSpider-api</artifactId>
+	<name>novelSpider-api</name>
+
 	<packaging>bundle</packaging>
-	<artifactId>novelSpider</artifactId>
-	<name>novelSpider</name>
 	
 	<dependencies>
+	
 		<dependency>
-			<groupId>org.hsc</groupId>
-			<artifactId>core</artifactId>
-			<version>${project.parent.version}</version>
-		</dependency>
-
-		<!-- sql测试代码 -->
-		<dependency>
-			<groupId>net.sf.log4jdbc</groupId>
-			<artifactId>log4jdbc4</artifactId>
-			<version>1.2</version>
-		</dependency>
-		<!-- 数据源组件 -->
-		<dependency>
-			<groupId>com.alibaba</groupId>
-			<artifactId>druid</artifactId>
-			<version>0.2.14</version>
-		</dependency>
-		<!-- mysql -->
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.24</version>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+			<scope>test</scope>
 		</dependency>
 		
 	</dependencies>
+	
 	<build>
 		<sourceDirectory>src/main/java</sourceDirectory>
 		<testSourceDirectory>src/test/java</testSourceDirectory>
-		<outputDirectory>src/main/webapp/WEB-INF/classes</outputDirectory>
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
@@ -53,22 +36,20 @@
 				<directory>src/test/resources</directory>
 			</testResource>
 		</testResources>
-		<plugins>
+		
+       <plugins>
 			 <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>
-                       	<Import-Package>***,org.osgi.framework;version="[4.0,4.3]",org.slf4j</Import-Package>
-                        <Private-Package>
-						    org.apache.felix.gogo.shell,org.apache.felix.gogo.options
-						</Private-Package>
-                        <Private-Package></Private-Package>
-           				<Bundle-Activator></Bundle-Activator>
+                        <Export-Package>org.hsc.novelSpide.service</Export-Package>
+           				<Bundle-Activator>org.hsc.novelSpider.Active</Bundle-Activator>
                     </instructions>
                 </configuration>
             </plugin>
-		</plugins>
-	</build>
+        </plugins>
+    </build>
+
 </project>
