@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1369300657152
+Build-Jdk: 1.6.0_25
+Built-By: heshengchao
+Bundle-Activator: org.hsc.novelSpider.Active
+Bundle-ManifestVersion: 2
+Bundle-Name: novelSpider-api
+Bundle-SymbolicName: org.hsc.novelSpider.api
+Bundle-Version: 0.0.1
+Created-By: Apache Maven Bundle Plugin
+Import-Package: org.osgi.framework;version="[1.6,2)"
+Tool: Bnd-1.50.0
