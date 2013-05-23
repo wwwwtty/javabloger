@@ -1,4 +1,4 @@
-package org.hsc.core.web;
+package org.hsc.core.web.filter;
 
 import java.io.IOException;
 
@@ -12,12 +12,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 public class EncodeFilter extends HttpServlet implements Filter {
 
 	private static final long serialVersionUID = 1L;
 //	private final static Logger log=LoggerFactory.getLogger(EncodeFilter.class);
 
+	@Override
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain filterChain) throws IOException, ServletException {
 		 HttpServletRequest httpRequest = (HttpServletRequest) request;  
@@ -38,6 +38,7 @@ public class EncodeFilter extends HttpServlet implements Filter {
 		 filterChain.doFilter(httpRequest, httpResponse);
 	}
 
+	@Override
 	public void init(FilterConfig arg0) throws ServletException {
 		
 	}

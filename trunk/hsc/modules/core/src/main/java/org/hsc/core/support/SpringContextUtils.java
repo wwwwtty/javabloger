@@ -13,7 +13,6 @@ public class SpringContextUtils implements BeanFactoryAware{
 	private BeanFactory factory=null;
 	private static SpringContextUtils instance=null;
 	
-	@Override
 	public void setBeanFactory(BeanFactory factory) throws BeansException {
 		instance=this;
 		this.factory=factory;
