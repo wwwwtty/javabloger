@@ -56,9 +56,11 @@ public abstract class BaseHibernateDAO<T> {
 		}
 		
 		try{
+			session.beginTransaction();
 			return action.doInHibernate(session);
 		}
 		finally{
+			session.getTransaction().commit();
 			if(isnew){
 				session.close();
 			}

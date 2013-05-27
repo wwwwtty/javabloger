@@ -18,7 +18,7 @@ import org.hsc.novelSpider.domain.ArticleChapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class CaptureService_zongheng implements ICaptureService {
+public class CaptureService_zongheng implements ICaputerService {
 	private static final Logger log=LoggerFactory.getLogger(CaptureService_17shu.class);
 	private ArticleDAO articleDao;
 	private ArticleChapterDAO chpterDao;

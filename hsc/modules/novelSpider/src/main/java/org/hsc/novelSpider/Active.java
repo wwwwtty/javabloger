@@ -1,7 +1,6 @@
 package org.hsc.novelSpider;
 
 import java.util.Dictionary;
-import java.util.HashMap;
 import java.util.Hashtable;
 
 import org.hsc.novelSpider.service.CaptureService_17shu;

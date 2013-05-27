@@ -15,7 +15,7 @@ public class SessionFactoryUtils {
 	
 	public static void init(){
 		 Configuration cfg = new Configuration();  
-	     cfg.configure("hibernateConfiguration.xml");//读取配置文件  
+	     cfg.configure("hibernate.cfg.xml");//读取配置文件  
 	          
 	     ServiceRegistry serviceRegistry =new ServiceRegistryBuilder().  
 	     applySettings(cfg.getProperties()).buildServiceRegistry();  

@@ -6,7 +6,7 @@ import org.junit.Test;
 
 public class ArticleDAOTest extends BaseTest{
 
-	private ArticleDAO dao;
+	private ArticleDAO dao=new ArticleDAO();
 	
 	@Test
 	public void testSave(){
