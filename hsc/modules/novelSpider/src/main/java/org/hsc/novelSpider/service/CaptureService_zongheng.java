@@ -10,7 +10,6 @@ import jodd.lagarto.dom.jerry.Jerry;
 import jodd.lagarto.dom.jerry.JerryFunction;
 
 import org.apache.commons.lang3.StringUtils;
-import org.hsc.core.support.SpringContextUtils;
 import org.hsc.core.utils.DateFormatUtils;
 import org.hsc.novelSpider.dao.ArticleChapterDAO;
 import org.hsc.novelSpider.dao.ArticleDAO;
@@ -18,14 +17,11 @@ import org.hsc.novelSpider.domain.Article;
 import org.hsc.novelSpider.domain.ArticleChapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-@Service
 public class CaptureService_zongheng implements ICaptureService {
 	private static final Logger log=LoggerFactory.getLogger(CaptureService_17shu.class);
-	private @Autowired ArticleDAO articleDao;
-	private @Autowired ArticleChapterDAO chpterDao;
+	private ArticleDAO articleDao;
+	private ArticleChapterDAO chpterDao;
 	
 	
 	public void  doCaptureData() throws IOException{

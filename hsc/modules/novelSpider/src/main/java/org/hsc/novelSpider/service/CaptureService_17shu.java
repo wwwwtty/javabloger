@@ -1,7 +1,6 @@
 package org.hsc.novelSpider.service;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.Date;
 import org.apache.commons.lang3.StringUtils;
 import org.hsc.core.utils.DateFormatUtils;
@@ -11,11 +10,6 @@ import org.hsc.novelSpider.domain.Article;
 import org.hsc.novelSpider.domain.ArticleChapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import jodd.io.NetUtil;
 import jodd.lagarto.dom.jerry.Jerry;
@@ -25,14 +19,14 @@ import jodd.lagarto.dom.jerry.JerryFunction;
  * @author heshengchao
  *
  */
-@Service
-public class CaptureService_17shu implements ICaptureService {
+
+public class CaptureService_17shu implements ICaputerService {
 
 	private static final Logger log=LoggerFactory.getLogger(CaptureService_17shu.class);
-	private @Autowired ArticleDAO articleDao;
-	private @Autowired ArticleChapterDAO chpterDao;
+	private ArticleDAO articleDao=new ArticleDAO();
+	private ArticleChapterDAO chpterDao=new ArticleChapterDAO();
 	
-	@Transactional @Override
+	@Override
 	public void  doCaptureData() throws IOException{
 		
 		Article art=getArticle("http://www.17shu.com/book/24941.html");
@@ -44,7 +38,6 @@ public class CaptureService_17shu implements ICaptureService {
 	 * @param url
 	 * @throws IOException
 	 */
-	@Transactional
 	public void getChapter(final String url,final Integer articleID) throws IOException {
 		
 		byte[] str=NetUtil.downloadBytes(url);

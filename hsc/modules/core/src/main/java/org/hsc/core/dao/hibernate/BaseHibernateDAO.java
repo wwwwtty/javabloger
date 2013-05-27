@@ -10,13 +10,16 @@ import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Projections;
+import org.hibernate.internal.SessionFactoryImpl;
+import org.hibernate.service.ServiceRegistry;
+import org.hibernate.service.ServiceRegistryBuilder;
 import org.hibernate.transform.Transformers;
 import org.hsc.core.support.Pager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
@@ -27,7 +30,7 @@ import java.lang.reflect.Type;
 public abstract class BaseHibernateDAO<T> {
 	private static final Logger log = LoggerFactory.getLogger(BaseHibernateDAO.class);
 	private Class<T> entityClass;
-	@Autowired(required=true) private SessionFactory sessionFactory;
+	private SessionFactory sessionFactory;
     protected DynamicSQLBuilder dynamicStatementBuilder;  
 	
 	@SuppressWarnings("unchecked")
@@ -38,12 +41,13 @@ public abstract class BaseHibernateDAO<T> {
 	          Type[] p = ((ParameterizedType) t).getActualTypeArguments();
 	          this.entityClass = (Class<T>) p[0];
 	     }
+	     
+	     sessionFactory=SessionFactoryUtils.getSessionFactory();  
 	}
 	
 	protected <L> L doExecute(HibernateCallback<L> action){
 		Session session;
 		boolean isnew=false;
-		// SessionFactory sessionFactory= HibernateUtil.getSessionFactory();
 		try{ 
 			session=sessionFactory.getCurrentSession();
 		}catch(HibernateException e){
