@@ -14,11 +14,22 @@
 	
 	<dependencies>
 		<dependency>
-			<groupId>org.hsc</groupId>
+			<groupId>org.hsc.novelSpider</groupId>
 			<artifactId>core</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.hsc.novelSpider</groupId>
+			<artifactId>novelSpider-api</artifactId>
+			<version>${project.parent.version}</version>
+			<scope>provided</scope>
+		</dependency>
 
+		<dependency>
+		  	<groupId>org.jodd</groupId>
+		  	<artifactId>jodd-wot</artifactId>
+		  	<version>3.3.8</version>
+		</dependency>
 		<!-- sql测试代码 -->
 		<dependency>
 			<groupId>net.sf.log4jdbc</groupId>
@@ -27,9 +38,9 @@
 		</dependency>
 		<!-- 数据源组件 -->
 		<dependency>
-			<groupId>com.alibaba</groupId>
-			<artifactId>druid</artifactId>
-			<version>0.2.14</version>
+		  <groupId>org.hibernate</groupId>
+		  <artifactId>hibernate-c3p0</artifactId>
+		  <version>4.2.1.Final</version>
 		</dependency>
 		<!-- mysql -->
 		<dependency>
@@ -54,15 +65,36 @@
 			</testResource>
 		</testResources>
 		<plugins>
-			 <plugin>
+			<plugin>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+		    		<archive>  
+		      			<manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+		    		</archive> 
+		  		</configuration>
+			</plugin>  
+			<plugin>
+  				<groupId>org.ops4j</groupId>
+				<artifactId>maven-pax-plugin</artifactId>
+				<version>1.5</version>
+			</plugin>
+			<plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>
-                    	<Export-Package>org.hsc.novelSpide</Export-Package>
+            			<Bundle-Version>${pom.version}</Bundle-Version>
+            			<Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
            				<Bundle-Activator>org.hsc.novelSpider.Active</Bundle-Activator>
+           				<Embed-Dependency>*;scope=compile|!provided;inline=false</Embed-Dependency>
+         				<Embed-Directory>target/dependency</Embed-Directory>
+            			<Embed-StripGroup>true</Embed-StripGroup>
+            			<Embed-Transitive>true</Embed-Transitive>
            				<Include-Resource>{maven-resources}, {maven-dependencies}</Include-Resource>
+            			<Export-Package>org.hsc.novelSpide</Export-Package>
+            			<_exportcontents>org.hsc.novelSpide</_exportcontents>
+            			<_include>-osgi.bnd</_include>
                     </instructions>
                 </configuration>
             </plugin>

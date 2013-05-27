@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
-import org.hsc.core.support.SpringContextUtils;
 import org.hsc.core.utils.DateFormatUtils;
 import org.hsc.core.web.annotation.Action;
 import org.hsc.core.web.annotation.ActionHttpRequest;
@@ -29,7 +28,8 @@ import org.hsc.core.web.annotation.ContextPath;
 import org.hsc.core.web.annotation.ParameterType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.google.gson.Gson;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 public class AbstractServlet extends HttpServlet {
@@ -39,7 +39,7 @@ public class AbstractServlet extends HttpServlet {
 	/**
 	 * 用于JSON处理
 	 */
-	private final static Gson gson = new Gson();
+	private static final ObjectMapper objectMapper = new ObjectMapper();
 	
 	private final static Logger log=LoggerFactory.getLogger(AbstractServlet.class);
 
@@ -109,7 +109,14 @@ public class AbstractServlet extends HttpServlet {
 				}
 				
 				//从Spring容器中获取托管对象
-				Object actionInstance=SpringContextUtils.getBean(meta.actionClazz);
+				Object actionInstance=null;
+				try {
+					actionInstance = meta.actionClazz.newInstance();
+				} catch (InstantiationException e1) {
+					e1.printStackTrace();
+				} catch (IllegalAccessException e1) {
+					e1.printStackTrace();
+				}
 				
 				
 				if(actionInstance==null){
@@ -197,7 +204,7 @@ public class AbstractServlet extends HttpServlet {
 //				
 				response.setContentType("text/x-json;charset=UTF-8");           
 				response.setHeader("Cache-Control", "no-cache");
-				response.getWriter().write(gson.toJson(result));
+				response.getWriter().write(objectMapper.writeValueAsString(result));
 				response.getWriter().close();
 			}
 	}
