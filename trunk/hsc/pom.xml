@@ -11,8 +11,6 @@
 		<module>modules/core</module>
 		<module>modules/api</module>
 		<module>modules/novelSpider</module>
-		
-		<module>tools/maven-osgi-plugin</module>
 	</modules>
 	
 </project>
