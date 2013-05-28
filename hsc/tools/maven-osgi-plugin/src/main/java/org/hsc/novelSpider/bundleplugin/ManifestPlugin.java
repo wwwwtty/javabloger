@@ -37,10 +37,10 @@ import org.apache.maven.project.MavenProject;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import aQute.lib.osgi.Analyzer;
-import aQute.lib.osgi.Builder;
-import aQute.lib.osgi.Jar;
-import aQute.lib.osgi.Resource;
+import aQute.bnd.osgi.Analyzer;
+import aQute.bnd.osgi.Builder;
+import aQute.bnd.osgi.Jar;
+import aQute.bnd.osgi.Resource;
 
 
 /**

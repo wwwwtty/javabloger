@@ -21,14 +21,17 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
+import aQute.bnd.header.Parameters;
+import aQute.bnd.osgi.Analyzer;
 import aQute.bnd.service.AnalyzerPlugin;
-import aQute.lib.osgi.Analyzer;
-import aQute.lib.osgi.Jar;
-import aQute.lib.osgi.Processor;
-import aQute.lib.osgi.Resource;
+import aQute.bnd.osgi.Descriptors.PackageRef;
+import aQute.bnd.osgi.Descriptors;
+import aQute.bnd.osgi.Jar;
+import aQute.bnd.osgi.Processor;
+import aQute.bnd.osgi.Resource;
 import aQute.libg.generics.Create;
 import aQute.libg.qtokens.QuotedTokenizer;
-import aQute.libg.reporter.Reporter;
+import aQute.service.reporter.Reporter;
 
 
 public class BlueprintPlugin implements AnalyzerPlugin
@@ -46,7 +49,7 @@ public class BlueprintPlugin implements AnalyzerPlugin
     }
 
 
-    public boolean analyzeJar( Analyzer analyzer ) throws Exception
+    public boolean analyzeJar( Analyzer analyzer) throws Exception
     {
         transformer.setParameter( "nsh_interface",
             analyzer.getProperty( "nsh_interface" ) != null ? analyzer.getProperty( "nsh_interface" ) : "" );
@@ -56,8 +59,8 @@ public class BlueprintPlugin implements AnalyzerPlugin
         Set<String> headers = Create.set();
 
         String bpHeader = analyzer.getProperty( "Bundle-Blueprint", "OSGI-INF/blueprint" );
-        Map<String, Map<String, String>> map = Processor.parseHeader( bpHeader, null );
-        for ( String root : map.keySet() )
+        Parameters parmeter = Processor.parseHeader( bpHeader,null);
+        for ( String root : parmeter.keySet() )
         {
             Jar jar = analyzer.getJar();
             Map<String, Resource> dir = jar.getDirectories().get( root );
@@ -102,27 +105,22 @@ public class BlueprintPlugin implements AnalyzerPlugin
         // Merge
         for ( String header : hdrs.keySet() )
         {
-            if ( "Import-Class".equals( header ) || "Import-Package".equals( header ) )
-            {
+            if ( "Import-Class".equals( header ) || "Import-Package".equals( header ) ){
                 Set<Attribute> newAttr = hdrs.get( header );
-                for ( Attribute a : newAttr )
-                {
-                    String pkg = a.getName();
-                    if ( "Import-Class".equals( header ) )
-                    {
-                        int n = a.getName().lastIndexOf( '.' );
-                        if ( n > 0 )
-                        {
-                            pkg = pkg.subSequence( 0, n ).toString();
+                for ( Attribute a : newAttr ) {
+                    String pname = a.getName();
+                    if ( "Import-Class".equals( header ) ){
+                        int n = pname.lastIndexOf( '.' );
+                        if ( n > 0 ){
+                        	pname = pname.subSequence( 0, n ).toString();
                         }
-                        else
-                        {
+                        else{
                             continue;
                         }
                     }
-                    if ( !analyzer.getReferred().containsKey( pkg ) )
-                    {
-                        analyzer.getReferred().put( pkg, a.getProperties() );
+                    PackageRef pkg=analyzer.getPackageRef(pname);
+                    if ( !analyzer.getReferred().containsKey( pkg ) ){
+                        analyzer.getReferred().put(pkg );
                     }
                 }
             }

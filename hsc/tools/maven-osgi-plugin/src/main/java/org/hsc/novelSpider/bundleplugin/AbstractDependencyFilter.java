@@ -28,8 +28,8 @@ import java.util.regex.Pattern;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugin.MojoExecutionException;
 
-import aQute.lib.osgi.Instruction;
-import aQute.libg.header.OSGiHeader;
+import aQute.bnd.osgi.Instruction;
+import aQute.bnd.header.OSGiHeader;
 
 
 /**
@@ -66,7 +66,8 @@ public abstract class AbstractDependencyFilter
 
         public DependencyFilter( String expression, String defaultValue )
         {
-            m_instruction = Instruction.getPattern( expression );
+        	//m_instruction = Instruction.getPattern( expression );
+        	m_instruction = new Instruction(expression);
             m_defaultValue = defaultValue;
         }
 

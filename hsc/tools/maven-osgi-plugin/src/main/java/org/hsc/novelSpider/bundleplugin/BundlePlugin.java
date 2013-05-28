@@ -67,13 +67,14 @@ import org.codehaus.plexus.util.StringUtils;
 import org.hsc.maven.shared.osgi.DefaultMaven2OsgiConverter;
 import org.hsc.maven.shared.osgi.Maven2OsgiConverter;
 
-import aQute.lib.osgi.Analyzer;
-import aQute.lib.osgi.Builder;
-import aQute.lib.osgi.Constants;
-import aQute.lib.osgi.EmbeddedResource;
-import aQute.lib.osgi.FileResource;
-import aQute.lib.osgi.Jar;
-import aQute.lib.osgi.Processor;
+import aQute.bnd.header.Parameters;
+import aQute.bnd.osgi.Analyzer;
+import aQute.bnd.osgi.Builder;
+import aQute.bnd.osgi.Constants;
+import aQute.bnd.osgi.EmbeddedResource;
+import aQute.bnd.osgi.FileResource;
+import aQute.bnd.osgi.Jar;
+import aQute.bnd.osgi.Processor;
 import aQute.lib.spring.SpringXMLType;
 
 
@@ -145,8 +146,7 @@ public class BundlePlugin extends AbstractMojo
      * Project types which this plugin supports.
      * @parameter
      */
-    protected List<String> supportedProjectTypes = Arrays.asList( new String[]
-        { "jar", "bundle" } );
+    protected List<String> supportedProjectTypes = Arrays.asList( new String[]{ "jar", "bundle" } );
 
     /**
      * The directory for the generated bundles.
@@ -176,7 +176,7 @@ public class BundlePlugin extends AbstractMojo
      *
      * @parameter
      */
-    private Map instructions = new LinkedHashMap();
+    private Map<String,String> instructions = new LinkedHashMap<String,String>();
 
     /**
      * Use locally patched version for now.
@@ -231,8 +231,8 @@ public class BundlePlugin extends AbstractMojo
     /**
      * @see org.apache.maven.plugin.AbstractMojo#execute()
      */
-    public void execute() throws MojoExecutionException
-    {
+    public void execute() throws MojoExecutionException{
+    	getLog().warn("输出 1 构建环境开始执行");
         Properties properties = new Properties();
         String projectType = getProject().getArtifact().getType();
 
@@ -254,12 +254,12 @@ public class BundlePlugin extends AbstractMojo
 
 
     /* transform directives from their XML form to the expected BND syntax (eg. _include becomes -include) */
-    protected static Map transformDirectives( Map originalInstructions )
+    protected static Map<String,String> transformDirectives( Map<String,String> originalInstructions )
     {
-        Map transformedInstructions = new LinkedHashMap();
-        for ( Iterator i = originalInstructions.entrySet().iterator(); i.hasNext(); )
+        Map<String,String> transformedInstructions = new LinkedHashMap<String,String>();
+        for ( Iterator<Map.Entry<String,String>>  i = originalInstructions.entrySet().iterator(); i.hasNext(); )
         {
-            Map.Entry e = ( Map.Entry ) i.next();
+            Map.Entry<String,String> e = i.next();
 
             String key = ( String ) e.getKey();
             if ( key.startsWith( "_" ) )
@@ -267,7 +267,7 @@ public class BundlePlugin extends AbstractMojo
                 key = "-" + key.substring( 1 );
             }
 
-            String value = ( String ) e.getValue();
+            String value =e.getValue();
             if ( null == value )
             {
                 value = "";
@@ -297,7 +297,7 @@ public class BundlePlugin extends AbstractMojo
         for ( Iterator<String> w = warnings.iterator(); w.hasNext(); )
         {
             String msg =  w.next();
-            getLog().warn( prefix + " : " + msg );
+            getLog().warn("构建警告信息："+ prefix + " : " + msg );
         }
 
         boolean hasErrors = false;
@@ -309,11 +309,11 @@ public class BundlePlugin extends AbstractMojo
             {
                 // treat as warning; this error happens when you have duplicate entries in Include-Resource
                 String duplicate = Processor.removeDuplicateMarker( msg.substring( fileNotFound.length() ) );
-                getLog().warn( prefix + " : Duplicate path '" + duplicate + "' in Include-Resource" );
+                getLog().warn("构建异常信息1："+ prefix + " : Duplicate path '" + duplicate + "' in Include-Resource" );
             }
             else
             {
-                getLog().error( prefix + " : " + msg );
+                getLog().error("构建异常信息2："+ prefix + " : " + msg );
                 hasErrors = true;
             }
         }
@@ -321,12 +321,17 @@ public class BundlePlugin extends AbstractMojo
     }
 
 
-    protected void execute( MavenProject currentProject, Map originalInstructions, Properties properties,
-        Jar[] classpath ) throws MojoExecutionException
-    {
+    protected void execute( MavenProject currentProject, Map<String,String> originalInstructions, Properties properties,
+        Jar[] classpath ) throws MojoExecutionException{
+    	
+    	getLog().warn("输出 2 构建环境开始执行");
+    	
         try
         {
             File jarFile = new File( getBuildDirectory(), getBundleName( currentProject ) );
+            
+            getLog().warn("输出 jarFile:"+jarFile.getAbsolutePath());
+            
             Builder builder = buildOSGiBundle( currentProject, originalInstructions, properties, classpath );
             boolean hasErrors = reportErrors( "Bundle " + currentProject.getArtifact(), builder );
             if ( hasErrors )
@@ -392,12 +397,12 @@ public class BundlePlugin extends AbstractMojo
         catch ( Exception e )
         {
             getLog().error( "An internal error occurred", e );
-            throw new MojoExecutionException( "Internal error in maven-bundle-plugin", e );
+            throw new MojoExecutionException( "OSGI构建插件异常", e );
         }
     }
 
 
-    protected Builder getOSGiBuilder( MavenProject currentProject, Map originalInstructions, Properties properties,
+    protected Builder getOSGiBuilder( MavenProject currentProject, Map<String,String> originalInstructions, Properties properties,
         Jar[] classpath ) throws Exception
     {
         properties.putAll( getDefaultProperties( currentProject ) );
@@ -491,11 +496,10 @@ public class BundlePlugin extends AbstractMojo
         }
 
         // update BND instructions to embed selected Maven dependencies
-        Collection embeddableArtifacts = getEmbeddableArtifacts( currentProject, builder );
+        Collection<Artifact> embeddableArtifacts = getEmbeddableArtifacts( currentProject, builder );
         new DependencyEmbedder( getLog(), embeddableArtifacts ).processHeaders( builder );
 
-        if ( dumpInstructions != null || getLog().isDebugEnabled() )
-        {
+        if ( dumpInstructions != null ){
             StringBuilder buf = new StringBuilder();
             getLog().debug( "BND Instructions:" + NL + dumpInstructions( builder.getProperties(), buf ) );
             if ( dumpInstructions != null )
@@ -506,8 +510,7 @@ public class BundlePlugin extends AbstractMojo
             }
         }
 
-        if ( dumpClasspath != null || getLog().isDebugEnabled() )
-        {
+        if ( dumpClasspath != null ){
             StringBuilder buf = new StringBuilder();
             getLog().debug( "BND Classpath:" + NL + dumpClasspath( builder.getClasspath(), buf ) );
             if ( dumpClasspath != null )
@@ -520,17 +523,24 @@ public class BundlePlugin extends AbstractMojo
     }
 
 
-    protected Builder buildOSGiBundle( MavenProject currentProject, Map originalInstructions, Properties properties,
+    protected Builder buildOSGiBundle( MavenProject currentProject, Map<String,String> originalInstructions, Properties properties,
         Jar[] classpath ) throws Exception
     {
         Builder builder = getOSGiBuilder( currentProject, originalInstructions, properties, classpath );
 
+        getLog().warn("输出：buildOSGiBundle");
         addMavenInstructions( currentProject, builder );
 
+        if(builder.getErrors()!=null || builder.getWarnings()!=null){
+        	getLog().warn("异常信息检查未通过1！");
+        }
         builder.build();
 
+        if(builder.getErrors()!=null || builder.getWarnings()!=null){
+        	getLog().warn("异常信息检查未通过2！");
+        }
         mergeMavenManifest( currentProject, builder );
-
+       
         return builder;
     }
 
@@ -649,8 +659,7 @@ public class BundlePlugin extends AbstractMojo
     }
 
 
-    protected void mergeMavenManifest( MavenProject currentProject, Builder builder ) throws Exception
-    {
+    protected void mergeMavenManifest( MavenProject currentProject, Builder builder ) throws Exception{
         Jar jar = builder.getJar();
 
         if ( getLog().isDebugEnabled() )
@@ -689,19 +698,19 @@ public class BundlePlugin extends AbstractMojo
                 /*
                  * Add customized manifest sections (for some reason MavenArchiver doesn't do this for us)
                  */
-                List sections = archiveConfig.getManifestSections();
-                for ( Iterator i = sections.iterator(); i.hasNext(); )
+                List<ManifestSection> sections = archiveConfig.getManifestSections();
+                for ( Iterator<ManifestSection> i = sections.iterator(); i.hasNext(); )
                 {
                     ManifestSection section = ( ManifestSection ) i.next();
                     Attributes attributes = new Attributes();
 
                     if ( !section.isManifestEntriesEmpty() )
                     {
-                        Map entries = section.getManifestEntries();
-                        for ( Iterator j = entries.entrySet().iterator(); j.hasNext(); )
+                        Map<String,String> entries = section.getManifestEntries();
+                        for ( Iterator<Map.Entry<String,String>> j = entries.entrySet().iterator(); j.hasNext(); )
                         {
-                            Map.Entry entry = ( Map.Entry ) j.next();
-                            attributes.putValue( ( String ) entry.getKey(), ( String ) entry.getValue() );
+                            Map.Entry<String,String> entry =  j.next();
+                            attributes.putValue(entry.getKey(), entry.getValue() );
                         }
                     }
 
@@ -738,19 +747,24 @@ public class BundlePlugin extends AbstractMojo
             // optional resolution.
             String importPackages = bundleManifest.getMainAttributes().getValue( "Import-Package" );
             if ( importPackages != null ){
-                Set optionalPackages = getOptionalPackages( currentProject );
+                Set<String> optionalPackages = getOptionalPackages( currentProject );
 
-                Map<String, Map<String, String>> values = new Analyzer().parseHeader( importPackages );
-                for ( Map.Entry<String, Map<String, String>> entry : values.entrySet() )
+//                Map<String, Map<String, String>> values = new Analyzer().parseHeader( importPackages );
+              
+                Parameters params= new Analyzer().parseHeader( importPackages );
+                
+                for ( String pkg: params.keySet() )
                 {
-                    String pkg = entry.getKey();
-                    Map<String, String> options = entry.getValue();
+//                    String pkg = entry.getKey();
+                    Map<String, String> options = params.get(pkg);
                     if ( !options.containsKey( "resolution:" ) && optionalPackages.contains( pkg ) )
                     {
                         options.put( "resolution:", "optional" );
                     }
                 }
-                String result = Processor.printClauses( values );
+                String result = Processor.printClauses( params );
+                getLog().info("hsc info replace Import-Package:"+bundleManifest.getMainAttributes().getValue( "Import-Package" ));
+                
                 bundleManifest.getMainAttributes().putValue( "Import-Package", result );
             }
 
@@ -766,22 +780,19 @@ public class BundlePlugin extends AbstractMojo
             doMavenMetadata( currentProject, jar );
         }
 
-        if ( getLog().isDebugEnabled() )
-        {
-            getLog().debug( "Final Manifest:" + NL + dumpManifest( jar.getManifest(), new StringBuilder() ) );
-        }
+        getLog().debug( "Final Manifest:" + NL + dumpManifest( jar.getManifest(), new StringBuilder() ) );
 
         builder.setJar( jar );
     }
 
 
-    protected Set getOptionalPackages( MavenProject currentProject ) throws IOException, MojoExecutionException
+    protected Set<String> getOptionalPackages( MavenProject currentProject ) throws IOException, MojoExecutionException
     {
-        ArrayList inscope = new ArrayList();
-        final Collection artifacts = getSelectedDependencies( currentProject.getArtifacts() );
-        for ( Iterator it = artifacts.iterator(); it.hasNext(); )
+        ArrayList<Artifact> inscope = new ArrayList<Artifact>();
+        final Collection<Artifact> artifacts = getSelectedDependencies( currentProject.getArtifacts() );
+        for ( Iterator<Artifact> it = artifacts.iterator(); it.hasNext(); )
         {
-            Artifact artifact = ( Artifact ) it.next();
+            Artifact artifact = it.next();
             if ( artifact.getArtifactHandler().isAddedToClasspath() )
             {
                 if ( !Artifact.SCOPE_TEST.equals( artifact.getScope() ) )
@@ -791,8 +802,8 @@ public class BundlePlugin extends AbstractMojo
             }
         }
 
-        HashSet optionalArtifactIds = new HashSet();
-        for ( Iterator it = inscope.iterator(); it.hasNext(); )
+        HashSet<String> optionalArtifactIds = new HashSet<String> ();
+        for ( Iterator<Artifact> it = inscope.iterator(); it.hasNext(); )
         {
             Artifact artifact = ( Artifact ) it.next();
             if ( artifact.isOptional() )
@@ -808,11 +819,11 @@ public class BundlePlugin extends AbstractMojo
 
         }
 
-        HashSet required = new HashSet();
-        HashSet optional = new HashSet();
-        for ( Iterator it = inscope.iterator(); it.hasNext(); )
+        HashSet<String> required = new HashSet<String>();
+        HashSet<String> optional = new HashSet<String>();
+        for ( Iterator<Artifact> it = inscope.iterator(); it.hasNext(); )
         {
-            Artifact artifact = ( Artifact ) it.next();
+            Artifact artifact =  it.next();
             File file = getFile( artifact );
             if ( file == null )
             {
@@ -910,20 +921,17 @@ public class BundlePlugin extends AbstractMojo
     }
 
 
-    private static Map getProperties( Model projectModel, String prefix )
+    private Map<String,Object> getProperties( Model projectModel, String prefix )
     {
-        Map properties = new LinkedHashMap();
+        Map<String,Object> properties = new LinkedHashMap<String,Object>();
         Method methods[] = Model.class.getDeclaredMethods();
         for ( int i = 0; i < methods.length; i++ )
         {
             String name = methods[i].getName();
-            if ( name.startsWith( "get" ) )
-            {
-                try
-                {
+            if ( name.startsWith( "get" ) ){
+                try{
                     Object v = methods[i].invoke( projectModel, null );
-                    if ( v != null )
-                    {
+                    if ( v != null ) {
                         name = prefix + Character.toLowerCase( name.charAt( 3 ) ) + name.substring( 4 );
                         if ( v.getClass().isArray() )
                             properties.put( name, Arrays.asList( ( Object[] ) v ).toString() );
@@ -931,10 +939,8 @@ public class BundlePlugin extends AbstractMojo
                             properties.put( name, v );
 
                     }
-                }
-                catch ( Exception e )
-                {
-                    // too bad
+                }catch ( Exception e ) {
+                	this.getLog().error(e);
                 }
             }
         }
@@ -942,15 +948,15 @@ public class BundlePlugin extends AbstractMojo
     }
 
 
-    private static StringBuffer printLicenses( List licenses )
+    private static StringBuffer printLicenses( List<License> licenses )
     {
         if ( licenses == null || licenses.size() == 0 )
             return null;
         StringBuffer sb = new StringBuffer();
         String del = "";
-        for ( Iterator i = licenses.iterator(); i.hasNext(); )
+        for ( Iterator<License> i = licenses.iterator(); i.hasNext(); )
         {
-            License l = ( License ) i.next();
+            License l = i.next();
             String url = l.getUrl();
             if ( url == null )
                 continue;
@@ -986,15 +992,15 @@ public class BundlePlugin extends AbstractMojo
 
     protected Jar[] getClasspath( MavenProject currentProject ) throws IOException, MojoExecutionException
     {
-        List list = new ArrayList();
+        List<Jar> list = new ArrayList<Jar>();
 
         if ( getOutputDirectory() != null && getOutputDirectory().exists() )
         {
             list.add( new Jar( ".", getOutputDirectory() ) );
         }
 
-        final Collection artifacts = getSelectedDependencies( currentProject.getArtifacts() );
-        for ( Iterator it = artifacts.iterator(); it.hasNext(); )
+        final Collection<Artifact> artifacts = getSelectedDependencies( currentProject.getArtifacts() );
+        for ( Iterator<Artifact> it = artifacts.iterator(); it.hasNext(); )
         {
             Artifact artifact = ( Artifact ) it.next();
             if ( artifact.getArtifactHandler().isAddedToClasspath() )
@@ -1020,7 +1026,7 @@ public class BundlePlugin extends AbstractMojo
     }
 
 
-    private Collection getSelectedDependencies( Collection artifacts ) throws MojoExecutionException
+    private Collection<Artifact> getSelectedDependencies( Collection<Artifact> artifacts ) throws MojoExecutionException
     {
         if ( null == excludeDependencies || excludeDependencies.length() == 0 )
         {
@@ -1031,7 +1037,7 @@ public class BundlePlugin extends AbstractMojo
             return Collections.EMPTY_LIST;
         }
 
-        Collection selectedDependencies = new LinkedHashSet( artifacts );
+        Collection<Artifact> selectedDependencies = new LinkedHashSet<Artifact>( artifacts );
         DependencyExcluder excluder = new DependencyExcluder( artifacts );
         excluder.processHeaders( excludeDependencies );
         selectedDependencies.removeAll( excluder.getExcludedArtifacts() );
@@ -1221,9 +1227,9 @@ public class BundlePlugin extends AbstractMojo
     }
 
 
-    private static void addLocalPackages( File outputDirectory, Analyzer analyzer )
+    private void addLocalPackages( File outputDirectory, Analyzer analyzer )
     {
-        Collection packages = new TreeSet();
+        Collection<String> packages = new TreeSet<String>();
 
         if ( outputDirectory != null && outputDirectory.isDirectory() )
         {
@@ -1248,9 +1254,9 @@ public class BundlePlugin extends AbstractMojo
 
         boolean noprivatePackages = "!*".equals( analyzer.getProperty( Analyzer.PRIVATE_PACKAGE ) );
 
-        for ( Iterator i = packages.iterator(); i.hasNext(); )
+        for ( Iterator<String> i = packages.iterator(); i.hasNext(); )
         {
-            String pkg = ( String ) i.next();
+            String pkg = i.next();
 
             // mark all source packages as private by default (can be overridden by export list)
             if ( privatePkgs.length() > 0 )
@@ -1270,6 +1276,11 @@ public class BundlePlugin extends AbstractMojo
             }
         }
 
+        //TODO 
+        
+        getLog().warn("输出.EXPORT_PACKAGE:"+analyzer.getProperty( Analyzer.EXPORT_PACKAGE ));
+        getLog().warn("输出.EXPORT_CONTENTS:"+analyzer.getProperty( Analyzer.EXPORT_CONTENTS ));
+        
         if ( analyzer.getProperty( Analyzer.EXPORT_PACKAGE ) == null ){
         	
             if ( analyzer.getProperty( Analyzer.EXPORT_CONTENTS ) == null ){
@@ -1321,17 +1332,17 @@ public class BundlePlugin extends AbstractMojo
     }
 
 
-    private static List getMavenResources( MavenProject currentProject )
+    private static List<Resource> getMavenResources( MavenProject currentProject )
     {
-        List resources = new ArrayList( currentProject.getResources() );
+        List<Resource> resources = new ArrayList<Resource>( currentProject.getResources() );
 
         if ( currentProject.getCompileSourceRoots() != null )
         {
             // also scan for any "packageinfo" files lurking in the source folders
             List packageInfoIncludes = Collections.singletonList( "**/packageinfo" );
-            for ( Iterator i = currentProject.getCompileSourceRoots().iterator(); i.hasNext(); )
+            for ( Iterator<String> i = currentProject.getCompileSourceRoots().iterator(); i.hasNext(); )
             {
-                String sourceRoot = ( String ) i.next();
+                String sourceRoot = i.next();
                 Resource packageInfoResource = new Resource();
                 packageInfoResource.setDirectory( sourceRoot );
                 packageInfoResource.setIncludes( packageInfoIncludes );
@@ -1438,10 +1449,8 @@ public class BundlePlugin extends AbstractMojo
     }
 
 
-    protected Collection getEmbeddableArtifacts( MavenProject currentProject, Analyzer analyzer )
-        throws MojoExecutionException
-    {
-        final Collection artifacts;
+    protected Collection<Artifact> getEmbeddableArtifacts( MavenProject currentProject, Analyzer analyzer )throws MojoExecutionException{
+        final Collection<Artifact> artifacts;
 
         String embedTransitive = analyzer.getProperty( DependencyEmbedder.EMBED_TRANSITIVE );
         if ( Boolean.valueOf( embedTransitive ).booleanValue() )

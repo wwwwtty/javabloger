@@ -29,7 +29,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.project.MavenProject;
 
-import aQute.lib.osgi.Jar;
+import aQute.bnd.osgi.Jar;
 
 
 /**
@@ -69,7 +69,7 @@ public class InstructionsPlugin extends BundlePlugin
         catch ( Exception e )
         {
             getLog().error( "An internal error occurred", e );
-            throw new MojoExecutionException( "Internal error in maven-bundle-plugin", e );
+            throw new MojoExecutionException( "构建环境内部异常！", e );
         }
     }
 }
