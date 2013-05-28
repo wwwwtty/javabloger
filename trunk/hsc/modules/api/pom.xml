@@ -23,7 +23,6 @@
                     <instructions>
                         <Export-Package>org.hsc.novelSpide.service</Export-Package>
            				<Bundle-Activator>org.hsc.novelSpider.Active</Bundle-Activator>
-           				<Include-Resource>{maven-resources}, {maven-dependencies}</Include-Resource>
                     </instructions>
                 </configuration>
             </plugin>
