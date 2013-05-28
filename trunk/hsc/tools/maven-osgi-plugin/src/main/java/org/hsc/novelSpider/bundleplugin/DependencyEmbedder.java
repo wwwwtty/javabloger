@@ -29,7 +29,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.logging.Log;
 import org.codehaus.plexus.util.StringUtils;
 
-import aQute.lib.osgi.Analyzer;
+import aQute.bnd.osgi.Analyzer;
 
 
 /**
@@ -54,29 +54,23 @@ public final class DependencyEmbedder extends AbstractDependencyFilter
     private String m_embedStripVersion;
 
     /**
-     * Maven logger.
-     */
-    private final Log m_log;
-
-    /**
      * Inlined paths.
      */
-    private final Collection m_inlinedPaths;
+    private final Collection<String> m_inlinedPaths;
 
     /**
      * Embedded artifacts.
      */
-    private final Collection m_embeddedArtifacts;
+    private final Collection<Artifact> m_embeddedArtifacts;
 
 
-    public DependencyEmbedder( Log log, Collection dependencyArtifacts )
+    public DependencyEmbedder( Log log, Collection<Artifact> dependencyArtifacts )
     {
         super( dependencyArtifacts );
 
-        m_log = log;
-
-        m_inlinedPaths = new LinkedHashSet();
-        m_embeddedArtifacts = new LinkedHashSet();
+        m_inlinedPaths = new LinkedHashSet<String>();
+        m_embeddedArtifacts =dependencyArtifacts;
+//        m_embeddedArtifacts = new LinkedHashSet<Artifact>();
     }
 
 
@@ -98,13 +92,13 @@ public final class DependencyEmbedder extends AbstractDependencyFilter
 
             processInstructions( embedDependencyHeader );
 
-            for ( Iterator i = m_inlinedPaths.iterator(); i.hasNext(); )
+            for ( Iterator<String> i = m_inlinedPaths.iterator(); i.hasNext(); )
             {
-                inlineDependency( ( String ) i.next(), includeResource );
+                inlineDependency( i.next(), includeResource );
             }
-            for ( Iterator i = m_embeddedArtifacts.iterator(); i.hasNext(); )
+            for ( Iterator<Artifact> i = m_embeddedArtifacts.iterator(); i.hasNext(); )
             {
-                embedDependency( ( Artifact ) i.next(), includeResource, bundleClassPath, embeddedArtifacts );
+                embedDependency( i.next(), includeResource, bundleClassPath, embeddedArtifacts );
             }
         }
 
@@ -140,7 +134,7 @@ public final class DependencyEmbedder extends AbstractDependencyFilter
     }
 
 
-    private static void addInlinedPaths( Artifact dependency, String inline, Collection inlinedPaths )
+    private static void addInlinedPaths( Artifact dependency, String inline, Collection<String> inlinedPaths )
     {
         File path = dependency.getFile();
         if ( null != path && path.exists() )
@@ -251,13 +245,13 @@ public final class DependencyEmbedder extends AbstractDependencyFilter
     }
 
 
-    public Collection getInlinedPaths()
+    public Collection<String> getInlinedPaths()
     {
         return m_inlinedPaths;
     }
 
 
-    public Collection getEmbeddedArtifacts()
+    public Collection<Artifact> getEmbeddedArtifacts()
     {
         return m_embeddedArtifacts;
     }

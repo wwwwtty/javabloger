@@ -54,7 +54,7 @@ public final class JarPluginConfiguration
             try
             {
                 // first look for bundle specific archive settings
-                settings = getPluginConfiguration( project, "org.apache.felix", "maven-bundle-plugin" );
+                settings = getPluginConfiguration( project, "org.hsc.novelSpider", "novelSpide-builder" );
                 settings = settings.getChild( "archive" );
             }
             catch ( Exception e )
