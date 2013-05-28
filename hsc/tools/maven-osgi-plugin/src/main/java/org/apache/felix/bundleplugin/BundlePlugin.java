@@ -727,7 +727,7 @@ public class BundlePlugin extends AbstractMojo
             }
 
             Attributes mainMavenAttributes = mavenManifest.getMainAttributes();
-            mainMavenAttributes.putValue( "Created-By", "Apache Maven Bundle Plugin" );
+            mainMavenAttributes.putValue( "Created-By", "novelSpide Maven osgi Plugin" );
 
             String[] removeHeaders = builder.getProperty( Constants.REMOVEHEADERS, "" ).split( "," );
 
@@ -750,26 +750,26 @@ public class BundlePlugin extends AbstractMojo
             bundleManifest.getMainAttributes().putAll( mainMavenAttributes );
             bundleManifest.getEntries().putAll( mavenManifest.getEntries() );
 
+            getLog().info("hsc info Import-Package:"+bundleManifest.getMainAttributes().getValue( "Import-Package" ));
             // adjust the import package attributes so that optional dependencies use
             // optional resolution.
-            String importPackages = bundleManifest.getMainAttributes().getValue( "Import-Package" );
-            if ( importPackages != null )
-            {
-                Set optionalPackages = getOptionalPackages( currentProject );
-
-                Map<String, Map<String, String>> values = new Analyzer().parseHeader( importPackages );
-                for ( Map.Entry<String, Map<String, String>> entry : values.entrySet() )
-                {
-                    String pkg = entry.getKey();
-                    Map<String, String> options = entry.getValue();
-                    if ( !options.containsKey( "resolution:" ) && optionalPackages.contains( pkg ) )
-                    {
-                        options.put( "resolution:", "optional" );
-                    }
-                }
-                String result = Processor.printClauses( values );
-                bundleManifest.getMainAttributes().putValue( "Import-Package", result );
-            }
+//            String importPackages = bundleManifest.getMainAttributes().getValue( "Import-Package" );
+//            if ( importPackages != null ){
+//                Set optionalPackages = getOptionalPackages( currentProject );
+//
+//                Map<String, Map<String, String>> values = new Analyzer().parseHeader( importPackages );
+//                for ( Map.Entry<String, Map<String, String>> entry : values.entrySet() )
+//                {
+//                    String pkg = entry.getKey();
+//                    Map<String, String> options = entry.getValue();
+//                    if ( !options.containsKey( "resolution:" ) && optionalPackages.contains( pkg ) )
+//                    {
+//                        options.put( "resolution:", "optional" );
+//                    }
+//                }
+//                String result = Processor.printClauses( values );
+//                bundleManifest.getMainAttributes().putValue( "Import-Package", result );
+//            }
 
             jar.setManifest( bundleManifest );
         }
