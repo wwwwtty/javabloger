@@ -207,14 +207,13 @@ public final class DependencyEmbedder extends AbstractDependencyFilter
                 targetFilePath = targetFilePath.replace( File.separatorChar, '/' );
             }
 
-//            if ( includeResource.length() > 0 )
-//            {
-//                includeResource.append( ',' );
-//            }
+            if ( includeResource.length() > 0 ){
+                includeResource.append( ',' );
+            }
 
-//            includeResource.append( targetFilePath );
-//            includeResource.append( '=' );
-//            includeResource.append( sourceFile );
+            includeResource.append( targetFilePath );
+            includeResource.append( '=' );
+            includeResource.append( sourceFile );
 
             if ( bundleClassPath.length() > 0 )
             {
