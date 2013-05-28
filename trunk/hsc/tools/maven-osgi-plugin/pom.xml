@@ -2,10 +2,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.hsc.novelSpider</groupId>
-	<artifactId>maven-bundle-plugin</artifactId>
+	<artifactId>novelSpide-builder</artifactId>
 	<version>0.0.1</version>
 	<packaging>maven-plugin</packaging>
-	<name>maven-bundle-plugin</name>
+	<name>novelSpide-builder</name>
 	<description>构建OSGi bundle </description>
 
 
