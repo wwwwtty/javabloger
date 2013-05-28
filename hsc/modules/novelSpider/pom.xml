@@ -85,6 +85,7 @@
            				<Embed-Dependency>*;scope=compile|!provided;inline=true</Embed-Dependency>
          				<Embed-Directory>target/dependency</Embed-Directory>
             			<Embed-StripGroup>true</Embed-StripGroup>
+            			<Embed-StripVersion>true</Embed-StripVersion>
             			<Embed-Transitive>true</Embed-Transitive>
            				<Include-Resource>{maven-resources}, {maven-dependencies}</Include-Resource>
             			<Export-Package>org.hsc.novelSpide</Export-Package>
