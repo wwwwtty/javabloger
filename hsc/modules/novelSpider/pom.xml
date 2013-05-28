@@ -74,20 +74,15 @@
 		  		</configuration>
 			</plugin>  
 			<plugin>
-  				<groupId>org.ops4j</groupId>
-				<artifactId>maven-pax-plugin</artifactId>
-				<version>1.5</version>
-			</plugin>
-			<plugin>
                 <groupId>org.hsc.novelSpider</groupId>
-                <artifactId>maven-bundle-plugin</artifactId>
+                <artifactId>novelSpide-builder</artifactId>
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>
             			<Bundle-Version>${pom.version}</Bundle-Version>
             			<Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
            				<Bundle-Activator>org.hsc.novelSpider.Active</Bundle-Activator>
-           				<Embed-Dependency>*;scope=compile|!provided;inline=false</Embed-Dependency>
+           				<Embed-Dependency>*;scope=compile|!provided;inline=true</Embed-Dependency>
          				<Embed-Directory>target/dependency</Embed-Directory>
             			<Embed-StripGroup>true</Embed-StripGroup>
             			<Embed-Transitive>true</Embed-Transitive>
