@@ -47,33 +47,28 @@ public abstract class AbstractDependencyFilter
     private final Collection<Artifact> m_dependencyArtifacts;
 
 
-    public AbstractDependencyFilter( Collection<Artifact> dependencyArtifacts )
-    {
+    public AbstractDependencyFilter( Collection<Artifact> dependencyArtifacts ){
         m_dependencyArtifacts = dependencyArtifacts;
     }
 
-    private static abstract class DependencyFilter
-    {
+    private static abstract class DependencyFilter{
         private final Instruction m_instruction;
         private final String m_defaultValue;
 
 
-        public DependencyFilter( String expression )
-        {
+        public DependencyFilter( String expression ) {
             this( expression, "" );
         }
 
 
-        public DependencyFilter( String expression, String defaultValue )
-        {
+        public DependencyFilter( String expression, String defaultValue ){
         	//m_instruction = Instruction.getPattern( expression );
         	m_instruction = new Instruction(expression);
             m_defaultValue = defaultValue;
         }
 
 
-        public void filter( Collection<Artifact> dependencies )
-        {
+        public void filter( Collection<Artifact> dependencies ){
             for ( Iterator<Artifact> i = dependencies.iterator(); i.hasNext(); )
             {
                 if ( false == matches( ( Artifact ) i.next() ) )
@@ -91,12 +86,10 @@ public abstract class AbstractDependencyFilter
         {
             boolean result;
 
-            if ( null == text )
-            {
+            if ( null == text ){
                 result = m_instruction.matches( m_defaultValue );
             }
-            else
-            {
+            else{
                 result = m_instruction.matches( text );
             }
 
@@ -123,17 +116,14 @@ public abstract class AbstractDependencyFilter
             Map.Entry<String,Map> clause = clauseIterator.next();
             String primaryKey = ( ( String ) clause.getKey() ).replaceFirst( "~+$", "" );
             boolean isNegative = primaryKey.startsWith( "!" );
-            if ( isNegative )
-            {
+            
+            if ( isNegative ){
                 primaryKey = primaryKey.substring( 1 );
             }
 
-            if ( !"*".equals( primaryKey ) )
-            {
-                filter = new DependencyFilter( primaryKey )
-                {
-                    boolean matches( Artifact dependency )
-                    {
+            if ( !"*".equals( primaryKey ) ){
+                filter = new DependencyFilter( primaryKey ){
+                    boolean matches( Artifact dependency ){
                         return super.matches( dependency.getArtifactId() );
                     }
                 };
@@ -145,39 +135,28 @@ public abstract class AbstractDependencyFilter
             {
                 // ATTRIBUTE: KEY --> REGEXP
                 Map.Entry<String,String> attr =attrIterator.next();
-                if ( "groupId".equals( attr.getKey() ) )
-                {
-                    filter = new DependencyFilter( attr.getValue() )
-                    {
-                        boolean matches( Artifact dependency )
-                        {
+                if ( "groupId".equals( attr.getKey() ) ){
+                    filter = new DependencyFilter( attr.getValue() ){
+                        boolean matches( Artifact dependency ){
                             return super.matches( dependency.getGroupId() );
                         }
                     };
                 }
-                else if ( "artifactId".equals( attr.getKey() ) )
-                {
-                    filter = new DependencyFilter(  attr.getValue() )
-                    {
-                        boolean matches( Artifact dependency )
-                        {
+                else if ( "artifactId".equals( attr.getKey() ) ) {
+                    filter = new DependencyFilter(  attr.getValue() ){
+                        boolean matches( Artifact dependency ){
                             return super.matches( dependency.getArtifactId() );
                         }
                     };
                 }
-                else if ( "version".equals( attr.getKey() ) )
-                {
-                    filter = new DependencyFilter( attr.getValue() )
-                    {
-                        boolean matches( Artifact dependency )
-                        {
-                            try
-                            {
+                else if ( "version".equals( attr.getKey() ) ){
+                    filter = new DependencyFilter( attr.getValue() ) {
+                        boolean matches( Artifact dependency ){
+                            try{
                                 // use the symbolic version if available (ie. 1.0.0-SNAPSHOT)
                                 return super.matches( dependency.getSelectedVersion().toString() );
                             }
-                            catch ( Exception e )
-                            {
+                            catch ( Exception e ){
                                 return super.matches( dependency.getVersion() );
                             }
                         }
@@ -222,18 +201,15 @@ public abstract class AbstractDependencyFilter
                 filter.filter( filteredDependencies );
             }
 
-            if ( isNegative )
-            {
+            if ( isNegative ) {
                 // negative clauses reduce the set of available artifacts
                 availableDependencies.removeAll( filteredDependencies );
-                if ( !clauseIterator.hasNext() )
-                {
+                if ( !clauseIterator.hasNext() ){
                     // assume there's an implicit * missing at the end
                     processDependencies( availableDependencies, inline );
                 }
             }
-            else
-            {
+            else {
                 // positive clause; doesn't alter the available artifacts
                 processDependencies( filteredDependencies, inline );
             }

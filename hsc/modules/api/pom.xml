@@ -21,7 +21,7 @@
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>
-                        <Export-Package>org.hsc.novelSpide.service</Export-Package>
+                        <Export-Package>org.hsc.novelSpide.api</Export-Package>
            				<Bundle-Activator>org.hsc.novelSpider.Active</Bundle-Activator>
                     </instructions>
                 </configuration>

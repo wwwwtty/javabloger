@@ -76,16 +76,15 @@
             			<Bundle-Version>${pom.version}</Bundle-Version>
             			<Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
            				<Bundle-Activator>org.hsc.novelSpider.Active</Bundle-Activator>
-           				<Embed-Dependency>*;scope=compile|!provided;inline=true</Embed-Dependency>
+           				<Embed-Dependency>*;scope=compile;inline=false</Embed-Dependency>
          				<Embed-Directory>target/dependency</Embed-Directory>
             			<Embed-StripGroup>true</Embed-StripGroup>
             			<Embed-StripVersion>true</Embed-StripVersion>
             			<Embed-Transitive>true</Embed-Transitive>
            				<Include-Resource>{maven-resources}, {maven-dependencies}</Include-Resource>
+           				<Import-Package>org.hsc.novelSpide.api,org.osgi.framework</Import-Package>
             			<Export-Package>org.hsc.novelSpide</Export-Package>
-            			<_exportcontents>org.hsc.novelSpide</_exportcontents>
             			<exportcontents>org.hsc.novelSpide</exportcontents>
-            			<_include>*</_include>
                     </instructions>
                 </configuration>
             </plugin>

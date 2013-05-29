@@ -3,8 +3,8 @@ package org.hsc.novelSpider;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
+import org.hsc.novelSpider.api.ICaputerService;
 import org.hsc.novelSpider.service.CaptureService_17shu;
-import org.hsc.novelSpider.service.ICaputerService;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceEvent;
