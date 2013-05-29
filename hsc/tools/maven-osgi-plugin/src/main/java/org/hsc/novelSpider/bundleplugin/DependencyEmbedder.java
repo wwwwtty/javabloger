@@ -118,7 +118,7 @@ public final class DependencyEmbedder extends AbstractDependencyFilter
 
 
     @Override
-    protected void processDependencies( Collection dependencies, String inline )
+    protected void processDependencies( Collection<Artifact> dependencies, String inline )
     {
         if ( null == inline || "false".equalsIgnoreCase( inline ) )
         {
@@ -126,9 +126,9 @@ public final class DependencyEmbedder extends AbstractDependencyFilter
         }
         else
         {
-            for ( Iterator i = dependencies.iterator(); i.hasNext(); )
+            for ( Iterator<Artifact> i = dependencies.iterator(); i.hasNext(); )
             {
-                addInlinedPaths( ( Artifact ) i.next(), inline, m_inlinedPaths );
+                addInlinedPaths( i.next(), inline, m_inlinedPaths );
             }
         }
     }

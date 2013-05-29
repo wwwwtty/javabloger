@@ -25,7 +25,6 @@ import aQute.bnd.header.Parameters;
 import aQute.bnd.osgi.Analyzer;
 import aQute.bnd.service.AnalyzerPlugin;
 import aQute.bnd.osgi.Descriptors.PackageRef;
-import aQute.bnd.osgi.Descriptors;
 import aQute.bnd.osgi.Jar;
 import aQute.bnd.osgi.Processor;
 import aQute.bnd.osgi.Resource;

@@ -232,7 +232,7 @@ public class BundlePlugin extends AbstractMojo
      * @see org.apache.maven.plugin.AbstractMojo#execute()
      */
     public void execute() throws MojoExecutionException{
-    	getLog().warn(" ‰≥ˆ 1 ππΩ®ª∑æ≥ø™ º÷¥––");
+    	getLog().warn("ÔøΩÔøΩÔøΩ 1 ÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩ º÷¥ÔøΩÔøΩ");
         Properties properties = new Properties();
         String projectType = getProject().getArtifact().getType();
 
@@ -297,7 +297,7 @@ public class BundlePlugin extends AbstractMojo
         for ( Iterator<String> w = warnings.iterator(); w.hasNext(); )
         {
             String msg =  w.next();
-            getLog().warn("ππΩ®æØ∏Ê–≈œ¢£∫"+ prefix + " : " + msg );
+            getLog().warn("ÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩœ¢ÔøΩÔøΩ"+ prefix + " : " + msg );
         }
 
         boolean hasErrors = false;
@@ -309,11 +309,11 @@ public class BundlePlugin extends AbstractMojo
             {
                 // treat as warning; this error happens when you have duplicate entries in Include-Resource
                 String duplicate = Processor.removeDuplicateMarker( msg.substring( fileNotFound.length() ) );
-                getLog().warn("ππΩ®“Ï≥£–≈œ¢1£∫"+ prefix + " : Duplicate path '" + duplicate + "' in Include-Resource" );
+                getLog().warn("ÔøΩÔøΩÔøΩÔøΩÔøΩÏ≥£ÔøΩÔøΩœ¢1ÔøΩÔøΩ"+ prefix + " : Duplicate path '" + duplicate + "' in Include-Resource" );
             }
             else
             {
-                getLog().error("ππΩ®“Ï≥£–≈œ¢2£∫"+ prefix + " : " + msg );
+                getLog().error("ÔøΩÔøΩÔøΩÔøΩÔøΩÏ≥£ÔøΩÔøΩœ¢2ÔøΩÔøΩ"+ prefix + " : " + msg );
                 hasErrors = true;
             }
         }
@@ -324,13 +324,13 @@ public class BundlePlugin extends AbstractMojo
     protected void execute( MavenProject currentProject, Map<String,String> originalInstructions, Properties properties,
         Jar[] classpath ) throws MojoExecutionException{
     	
-    	getLog().warn(" ‰≥ˆ 2 ππΩ®ª∑æ≥ø™ º÷¥––");
+    	getLog().warn("ÔøΩÔøΩÔøΩ 2 ÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩ º÷¥ÔøΩÔøΩ");
     	
         try
         {
             File jarFile = new File( getBuildDirectory(), getBundleName( currentProject ) );
             
-            getLog().warn(" ‰≥ˆ jarFile:"+jarFile.getAbsolutePath());
+            getLog().warn("ÔøΩÔøΩÔøΩ jarFile:"+jarFile.getAbsolutePath());
             
             Builder builder = buildOSGiBundle( currentProject, originalInstructions, properties, classpath );
             boolean hasErrors = reportErrors( "Bundle " + currentProject.getArtifact(), builder );
@@ -397,7 +397,7 @@ public class BundlePlugin extends AbstractMojo
         catch ( Exception e )
         {
             getLog().error( "An internal error occurred", e );
-            throw new MojoExecutionException( "OSGIππΩ®≤Âº˛“Ï≥£", e );
+            throw new MojoExecutionException( "OSGIÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÏ≥£", e );
         }
     }
 
@@ -528,16 +528,16 @@ public class BundlePlugin extends AbstractMojo
     {
         Builder builder = getOSGiBuilder( currentProject, originalInstructions, properties, classpath );
 
-        getLog().warn(" ‰≥ˆ£∫buildOSGiBundle");
+        getLog().warn("ËæìÂá∫ÔºöbuildOSGiBundle");
         addMavenInstructions( currentProject, builder );
 
         if(builder.getErrors()!=null || builder.getWarnings()!=null){
-        	getLog().warn("“Ï≥£–≈œ¢ºÏ≤ÈŒ¥Õ®π˝1£°");
+        	getLog().warn("ËæìÂá∫ÔºåÂºÇÂ∏∏‰ø°ÊÅØÊ£ÄÊü•1");
         }
         builder.build();
 
         if(builder.getErrors()!=null || builder.getWarnings()!=null){
-        	getLog().warn("“Ï≥£–≈œ¢ºÏ≤ÈŒ¥Õ®π˝2£°");
+        	getLog().warn("ËæìÂá∫ÔºåÂºÇÂ∏∏‰ø°ÊÅØÊ£ÄÊü•2");
         }
         mergeMavenManifest( currentProject, builder );
        
@@ -574,15 +574,15 @@ public class BundlePlugin extends AbstractMojo
     }
 
 
-    protected static StringBuilder dumpClasspath( List classpath, StringBuilder buf )
+    protected StringBuilder dumpClasspath( List<Jar> classpath, StringBuilder buf )
     {
         try
         {
             buf.append( "#-----------------------------------------------------------------------" + NL );
             buf.append( "-classpath:\\" + NL );
-            for ( Iterator i = classpath.iterator(); i.hasNext(); )
+            for ( Iterator<Jar> i = classpath.iterator(); i.hasNext(); )
             {
-                File path = ( ( Jar ) i.next() ).getSource();
+                File path = i.next().getSource();
                 if ( path != null )
                 {
                     buf.append( ' ' + path.toString() + ( i.hasNext() ? ",\\" : "" ) + NL );
@@ -592,13 +592,13 @@ public class BundlePlugin extends AbstractMojo
         }
         catch ( Throwable e )
         {
-            // ignore...
+          	this.getLog().error(e);
         }
         return buf;
     }
 
 
-    protected static StringBuilder dumpManifest( Manifest manifest, StringBuilder buf )
+    protected StringBuilder dumpManifest( Manifest manifest, StringBuilder buf )
     {
         try
         {
@@ -610,7 +610,7 @@ public class BundlePlugin extends AbstractMojo
         }
         catch ( Throwable e )
         {
-            // ignore...
+        	this.getLog().error(e);
         }
         return buf;
     }
@@ -853,12 +853,12 @@ public class BundlePlugin extends AbstractMojo
      *
      * @param artifact
      */
-    protected boolean isTransitivelyOptional( HashSet optionalArtifactIds, Artifact artifact )
+    protected boolean isTransitivelyOptional( HashSet<String> optionalArtifactIds, Artifact artifact )
     {
-        List trail = artifact.getDependencyTrail();
-        for ( Iterator iterator = trail.iterator(); iterator.hasNext(); )
+        List<String> trail = artifact.getDependencyTrail();
+        for ( Iterator<String> iterator = trail.iterator(); iterator.hasNext(); )
         {
-            String next = ( String ) iterator.next();
+            String next = iterator.next();
             if ( optionalArtifactIds.contains( next ) )
             {
                 return true;
@@ -1278,8 +1278,8 @@ public class BundlePlugin extends AbstractMojo
 
         //TODO 
         
-        getLog().warn(" ‰≥ˆ.EXPORT_PACKAGE:"+analyzer.getProperty( Analyzer.EXPORT_PACKAGE ));
-        getLog().warn(" ‰≥ˆ.EXPORT_CONTENTS:"+analyzer.getProperty( Analyzer.EXPORT_CONTENTS ));
+        getLog().warn("ÔøΩÔøΩÔøΩ.EXPORT_PACKAGE:"+analyzer.getProperty( Analyzer.EXPORT_PACKAGE ));
+        getLog().warn("ÔøΩÔøΩÔøΩ.EXPORT_CONTENTS:"+analyzer.getProperty( Analyzer.EXPORT_CONTENTS ));
         
         if ( analyzer.getProperty( Analyzer.EXPORT_PACKAGE ) == null ){
         	
@@ -1339,7 +1339,7 @@ public class BundlePlugin extends AbstractMojo
         if ( currentProject.getCompileSourceRoots() != null )
         {
             // also scan for any "packageinfo" files lurking in the source folders
-            List packageInfoIncludes = Collections.singletonList( "**/packageinfo" );
+            List<String> packageInfoIncludes = Collections.singletonList( "**/packageinfo" );
             for ( Iterator<String> i = currentProject.getCompileSourceRoots().iterator(); i.hasNext(); )
             {
                 String sourceRoot = i.next();
@@ -1358,10 +1358,10 @@ public class BundlePlugin extends AbstractMojo
     {
         final String basePath = currentProject.getBasedir().getAbsolutePath();
 
-        Set pathSet = new LinkedHashSet();
-        for ( Iterator i = getMavenResources( currentProject ).iterator(); i.hasNext(); )
+        Set<String>  pathSet = new LinkedHashSet<String>();
+        for ( Iterator<Resource> i = getMavenResources( currentProject ).iterator(); i.hasNext(); )
         {
-            Resource resource = ( Resource ) i.next();
+            Resource resource = i.next();
 
             final String sourcePath = resource.getDirectory();
             final String targetPath = resource.getTargetPath();
@@ -1389,11 +1389,11 @@ public class BundlePlugin extends AbstractMojo
                 scanner.addDefaultExcludes();
                 scanner.scan();
 
-                List includedFiles = Arrays.asList( scanner.getIncludedFiles() );
+                List<String>  includedFiles = Arrays.asList( scanner.getIncludedFiles() );
 
-                for ( Iterator j = includedFiles.iterator(); j.hasNext(); )
+                for ( Iterator<String> j = includedFiles.iterator(); j.hasNext(); )
                 {
-                    String name = ( String ) j.next();
+                    String name = j.next();
                     String path = sourcePath + '/' + name;
 
                     // make relative to project
@@ -1436,7 +1436,7 @@ public class BundlePlugin extends AbstractMojo
         }
 
         StringBuffer resourcePaths = new StringBuffer();
-        for ( Iterator i = pathSet.iterator(); i.hasNext(); )
+        for ( Iterator<String>  i = pathSet.iterator(); i.hasNext(); )
         {
             resourcePaths.append( i.next() );
             if ( i.hasNext() )
@@ -1474,13 +1474,13 @@ public class BundlePlugin extends AbstractMojo
         StringBuilder mavenSourcePaths = new StringBuilder();
         if ( currentProject.getCompileSourceRoots() != null )
         {
-            for ( Iterator i = currentProject.getCompileSourceRoots().iterator(); i.hasNext(); )
+            for ( Iterator<String>  i = currentProject.getCompileSourceRoots().iterator(); i.hasNext(); )
             {
                 if ( mavenSourcePaths.length() > 0 )
                 {
                     mavenSourcePaths.append( ',' );
                 }
-                mavenSourcePaths.append( ( String ) i.next() );
+                mavenSourcePaths.append( i.next() );
             }
         }
         final String sourcePath = ( String ) analyzer.getProperty( Analyzer.SOURCEPATH );

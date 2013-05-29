@@ -44,10 +44,10 @@ public abstract class AbstractDependencyFilter
     /**
      * Dependency artifacts.
      */
-    private final Collection m_dependencyArtifacts;
+    private final Collection<Artifact> m_dependencyArtifacts;
 
 
-    public AbstractDependencyFilter( Collection dependencyArtifacts )
+    public AbstractDependencyFilter( Collection<Artifact> dependencyArtifacts )
     {
         m_dependencyArtifacts = dependencyArtifacts;
     }
@@ -72,9 +72,9 @@ public abstract class AbstractDependencyFilter
         }
 
 
-        public void filter( Collection dependencies )
+        public void filter( Collection<Artifact> dependencies )
         {
-            for ( Iterator i = dependencies.iterator(); i.hasNext(); )
+            for ( Iterator<Artifact> i = dependencies.iterator(); i.hasNext(); )
             {
                 if ( false == matches( ( Artifact ) i.next() ) )
                 {
@@ -109,18 +109,18 @@ public abstract class AbstractDependencyFilter
     {
         Map instructions = OSGiHeader.parseHeader( MISSING_KEY_PATTERN.matcher( header ).replaceAll( "$1$2*;$3" ) );
 
-        Collection availableDependencies = new LinkedHashSet( m_dependencyArtifacts );
+        Collection<Artifact> availableDependencies = new LinkedHashSet<Artifact>( m_dependencyArtifacts );
 
         DependencyFilter filter;
-        for ( Iterator clauseIterator = instructions.entrySet().iterator(); clauseIterator.hasNext(); )
+        for ( Iterator<Map.Entry<String,Map>> clauseIterator = instructions.entrySet().iterator(); clauseIterator.hasNext(); )
         {
             String inline = "false";
 
             // always start with a fresh *modifiable* collection for each unique clause
-            Collection filteredDependencies = new LinkedHashSet( availableDependencies );
+            Collection<Artifact> filteredDependencies = new LinkedHashSet<Artifact>( availableDependencies );
 
             // CLAUSE: REGEXP --> { ATTRIBUTE MAP }
-            Map.Entry clause = ( Map.Entry ) clauseIterator.next();
+            Map.Entry<String,Map> clause = clauseIterator.next();
             String primaryKey = ( ( String ) clause.getKey() ).replaceFirst( "~+$", "" );
             boolean isNegative = primaryKey.startsWith( "!" );
             if ( isNegative )
@@ -141,13 +141,13 @@ public abstract class AbstractDependencyFilter
                 filter.filter( filteredDependencies );
             }
 
-            for ( Iterator attrIterator = ( ( Map ) clause.getValue() ).entrySet().iterator(); attrIterator.hasNext(); )
+            for ( Iterator<Map.Entry<String,String>> attrIterator =  clause.getValue().entrySet().iterator(); attrIterator.hasNext(); )
             {
                 // ATTRIBUTE: KEY --> REGEXP
-                Map.Entry attr = ( Map.Entry ) attrIterator.next();
+                Map.Entry<String,String> attr =attrIterator.next();
                 if ( "groupId".equals( attr.getKey() ) )
                 {
-                    filter = new DependencyFilter( ( String ) attr.getValue() )
+                    filter = new DependencyFilter( attr.getValue() )
                     {
                         boolean matches( Artifact dependency )
                         {
@@ -157,7 +157,7 @@ public abstract class AbstractDependencyFilter
                 }
                 else if ( "artifactId".equals( attr.getKey() ) )
                 {
-                    filter = new DependencyFilter( ( String ) attr.getValue() )
+                    filter = new DependencyFilter(  attr.getValue() )
                     {
                         boolean matches( Artifact dependency )
                         {
@@ -167,7 +167,7 @@ public abstract class AbstractDependencyFilter
                 }
                 else if ( "version".equals( attr.getKey() ) )
                 {
-                    filter = new DependencyFilter( ( String ) attr.getValue() )
+                    filter = new DependencyFilter( attr.getValue() )
                     {
                         boolean matches( Artifact dependency )
                         {
@@ -185,7 +185,7 @@ public abstract class AbstractDependencyFilter
                 }
                 else if ( "scope".equals( attr.getKey() ) )
                 {
-                    filter = new DependencyFilter( ( String ) attr.getValue(), "compile" )
+                    filter = new DependencyFilter(attr.getValue(), "compile" )
                     {
                         boolean matches( Artifact dependency )
                         {
@@ -195,7 +195,7 @@ public abstract class AbstractDependencyFilter
                 }
                 else if ( "type".equals( attr.getKey() ) )
                 {
-                    filter = new DependencyFilter( ( String ) attr.getValue(), "jar" )
+                    filter = new DependencyFilter(  attr.getValue(), "jar" )
                     {
                         boolean matches( Artifact dependency )
                         {
@@ -205,7 +205,7 @@ public abstract class AbstractDependencyFilter
                 }
                 else if ( "classifier".equals( attr.getKey() ) )
                 {
-                    filter = new DependencyFilter( ( String ) attr.getValue() )
+                    filter = new DependencyFilter( attr.getValue() )
                     {
                         boolean matches( Artifact dependency )
                         {
@@ -256,5 +256,5 @@ public abstract class AbstractDependencyFilter
     }
 
 
-    protected abstract void processDependencies( Collection dependencies, String inline );
+    protected abstract void processDependencies( Collection<Artifact> dependencies, String inline );
 }

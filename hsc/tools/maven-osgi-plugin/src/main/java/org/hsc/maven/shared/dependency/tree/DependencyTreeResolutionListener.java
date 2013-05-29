@@ -10,7 +10,6 @@ import java.util.Stack;
 
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.resolver.ResolutionListener;
-import org.apache.maven.artifact.resolver.ResolutionListenerForDepMgmt;
 import org.apache.maven.artifact.versioning.VersionRange;
 import org.apache.maven.shared.dependency.tree.DependencyNode;
 import org.apache.maven.shared.dependency.tree.traversal.CollectingDependencyNodeVisitor;
@@ -24,8 +23,7 @@ import org.codehaus.plexus.logging.Logger;
  * @author <a href="mailto:markhobson@gmail.com">Mark Hobson</a>
  * @version $Id: DependencyTreeResolutionListener.java 661727 2008-05-30 14:21:49Z bentmann $
  */
-public class DependencyTreeResolutionListener implements ResolutionListener, ResolutionListenerForDepMgmt
-{
+public class DependencyTreeResolutionListener implements ResolutionListener{
     // fields -----------------------------------------------------------------
 
     /**
@@ -36,12 +34,12 @@ public class DependencyTreeResolutionListener implements ResolutionListener, Res
     /**
      * The parent dependency nodes of the current dependency node.
      */
-    private final Stack parentNodes;
+    private final Stack<DependencyNode> parentNodes;
 
     /**
      * A map of dependency nodes by their attached artifact.
      */
-    private final Map nodesByArtifact;
+    private final Map<Artifact,DependencyNode> nodesByArtifact;
 
     /**
      * The root dependency node of the computed dependency tree.
@@ -56,12 +54,12 @@ public class DependencyTreeResolutionListener implements ResolutionListener, Res
     /**
      * Map &lt; String replacementId, String premanaged version >
      */
-    private Map managedVersions = new HashMap();
+    private Map<String,String> managedVersions = new HashMap<String,String>();
 
     /**
      * Map &lt; String replacementId, String premanaged scope >
      */
-    private Map managedScopes = new HashMap();
+    private Map<String,String> managedScopes = new HashMap<String,String>();
 
 
     // constructors -----------------------------------------------------------
@@ -76,8 +74,8 @@ public class DependencyTreeResolutionListener implements ResolutionListener, Res
     {
         this.logger = logger;
 
-        parentNodes = new Stack();
-        nodesByArtifact = new IdentityHashMap();
+        parentNodes = new Stack<DependencyNode>();
+        nodesByArtifact = new IdentityHashMap<Artifact,DependencyNode>();
         rootNode = null;
         currentNode = null;
     }
@@ -369,7 +367,7 @@ public class DependencyTreeResolutionListener implements ResolutionListener, Res
      * @return a list of dependency nodes
      * @deprecated As of 1.1, use a {@link CollectingDependencyNodeVisitor} on the root dependency node
      */
-    public Collection getNodes()
+    public Collection<DependencyNode> getNodes()
     {
         return Collections.unmodifiableCollection( nodesByArtifact.values() );
     }
@@ -507,9 +505,9 @@ public class DependencyTreeResolutionListener implements ResolutionListener, Res
     {
         boolean included = true;
 
-        for ( Iterator iterator = parentNodes.iterator(); included && iterator.hasNext(); )
+        for ( Iterator<DependencyNode> iterator = parentNodes.iterator(); included && iterator.hasNext(); )
         {
-            DependencyNode node = ( DependencyNode ) iterator.next();
+            DependencyNode node =iterator.next();
 
             if ( node.getState() != DependencyNode.INCLUDED )
             {
