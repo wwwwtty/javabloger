@@ -15,12 +15,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Pattern;
-
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
-
 import aQute.bnd.header.Parameters;
 import aQute.bnd.osgi.Analyzer;
 import aQute.bnd.service.AnalyzerPlugin;
@@ -33,8 +31,7 @@ import aQute.libg.qtokens.QuotedTokenizer;
 import aQute.service.reporter.Reporter;
 
 
-public class BlueprintPlugin implements AnalyzerPlugin
-{
+public class BlueprintPlugin implements AnalyzerPlugin{
 
     static Pattern QN = Pattern.compile( "[_A-Za-z$][_A-Za-z0-9$]*(\\.[_A-Za-z$][_A-Za-z0-9$]*)*" );
     static Pattern PATHS = Pattern.compile( ".*\\.xml" );
@@ -42,8 +39,7 @@ public class BlueprintPlugin implements AnalyzerPlugin
     Transformer transformer;
 
 
-    public BlueprintPlugin() throws Exception
-    {
+    public BlueprintPlugin() throws Exception{
         transformer = getTransformer( getClass().getResource( "blueprint.xsl" ) );
     }
 
