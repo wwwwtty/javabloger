@@ -41,7 +41,7 @@ import aQute.bnd.osgi.Jar;
  */
 public class InstructionsPlugin extends BundlePlugin
 {
-    protected void execute( MavenProject project, Map instructions, Properties properties, Jar[] classpath )
+    protected void execute( MavenProject project, Map<String,String> instructions, Properties properties, Jar[] classpath )
         throws MojoExecutionException
     {
         if ( dumpInstructions == null )
@@ -69,7 +69,7 @@ public class InstructionsPlugin extends BundlePlugin
         catch ( Exception e )
         {
             getLog().error( "An internal error occurred", e );
-            throw new MojoExecutionException( "ππΩ®ª∑æ≥ƒ⁄≤ø“Ï≥££°", e );
+            throw new MojoExecutionException( "ÊûÑÂª∫ÁéØÂ¢ÉÂÜÖÈÉ®ÂºÇÂ∏∏ÔºÅ", e );
         }
     }
 }

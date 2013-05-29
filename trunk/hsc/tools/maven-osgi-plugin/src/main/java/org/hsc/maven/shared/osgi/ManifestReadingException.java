@@ -9,8 +9,10 @@ package org.hsc.maven.shared.osgi;
  */
 public class ManifestReadingException extends RuntimeException
 {
+	private static final long serialVersionUID = 1L;
 
-    public ManifestReadingException()
+
+	public ManifestReadingException()
     {
         super();
     }

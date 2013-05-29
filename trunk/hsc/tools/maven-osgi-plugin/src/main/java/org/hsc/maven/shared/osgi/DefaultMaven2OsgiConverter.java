@@ -6,8 +6,8 @@ import java.io.IOException;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Set;
+import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -15,6 +15,7 @@ import java.util.zip.ZipEntry;
 
 import org.apache.maven.artifact.Artifact;
 
+import aQute.bnd.header.Parameters;
 import aQute.bnd.osgi.Analyzer;
 
 
@@ -57,30 +58,29 @@ public class DefaultMaven2OsgiConverter implements Maven2OsgiConverter
     {
         if ( ( artifact.getFile() != null ) && artifact.getFile().isFile() )
         {
-            Analyzer analyzer = new Analyzer();
-
             JarFile jar = null;
             try
             {
                 jar = new JarFile( artifact.getFile(), false );
 
-                if ( jar.getManifest() != null )
-                {
-                    String symbolicNameAttribute = jar.getManifest().getMainAttributes()
-                        .getValue( Analyzer.BUNDLE_SYMBOLICNAME );
-                    Map bundleSymbolicNameHeader = analyzer.parseHeader( symbolicNameAttribute );
+                if ( jar.getManifest() != null ) {
+                    String symbolicNameAttribute = jar.getManifest().getMainAttributes().getValue( Analyzer.BUNDLE_SYMBOLICNAME );
+                  
+                    Analyzer analyzer = new Analyzer();
+                    Parameters bundleSymbolicNameHeader = analyzer.parseHeader( symbolicNameAttribute );
 
-                    Iterator it = bundleSymbolicNameHeader.keySet().iterator();
-                    if ( it.hasNext() )
-                    {
-                        return ( String ) it.next();
+                    analyzer.close();
+                    
+                    Iterator<String>  it = bundleSymbolicNameHeader.keySet().iterator();
+                    if ( it.hasNext() ){
+                        return it.next();
                     }
+                    
                 }
             }
             catch ( IOException e )
             {
-                throw new ManifestReadingException( "Error reading manifest in jar "
-                    + artifact.getFile().getAbsolutePath(), e );
+                throw new ManifestReadingException( "Error reading manifest in jar "+ artifact.getFile().getAbsolutePath(), e );
             }
             finally
             {
@@ -92,6 +92,7 @@ public class DefaultMaven2OsgiConverter implements Maven2OsgiConverter
                     }
                     catch ( IOException e )
                     {
+                    	
                     }
                 }
             }
@@ -132,9 +133,9 @@ public class DefaultMaven2OsgiConverter implements Maven2OsgiConverter
         try
         {
             /* get package names from jar */
-            Set packageNames = new HashSet();
+            Set<String> packageNames = new HashSet<String>();
             JarFile jar = new JarFile( artifactFile, false );
-            Enumeration entries = jar.entries();
+            Enumeration<JarEntry> entries = jar.entries();
             while ( entries.hasMoreElements() )
             {
                 ZipEntry entry = ( ZipEntry ) entries.nextElement();
@@ -152,9 +153,9 @@ public class DefaultMaven2OsgiConverter implements Maven2OsgiConverter
 
             /* find the top package */
             String[] groupIdSections = null;
-            for ( Iterator it = packageNames.iterator(); it.hasNext(); )
+            for ( Iterator<String> it = packageNames.iterator(); it.hasNext(); )
             {
-                String packageName = ( String ) it.next();
+                String packageName = it.next();
 
                 String[] packageNameSections = packageName.split( "\\" + FILE_SEPARATOR );
                 if ( groupIdSections == null )
