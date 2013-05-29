@@ -69,8 +69,8 @@ public final class DependencyEmbedder extends AbstractDependencyFilter
         super( dependencyArtifacts );
 
         m_inlinedPaths = new LinkedHashSet<String>();
-        m_embeddedArtifacts =dependencyArtifacts;
-//        m_embeddedArtifacts = new LinkedHashSet<Artifact>();
+//        m_embeddedArtifacts =dependencyArtifacts;
+        m_embeddedArtifacts = new LinkedHashSet<Artifact>();
     }
 
 
@@ -84,36 +84,31 @@ public final class DependencyEmbedder extends AbstractDependencyFilter
         m_embeddedArtifacts.clear();
 
         String embedDependencyHeader = analyzer.getProperty( EMBED_DEPENDENCY );
-        if ( StringUtils.isNotEmpty( embedDependencyHeader ) )
-        {
+        if ( StringUtils.isNotEmpty( embedDependencyHeader ) ){
             m_embedDirectory = analyzer.getProperty( EMBED_DIRECTORY );
             m_embedStripGroup = analyzer.getProperty( EMBED_STRIP_GROUP, "true" );
             m_embedStripVersion = analyzer.getProperty( EMBED_STRIP_VERSION );
 
             processInstructions( embedDependencyHeader );
 
-            for ( Iterator<String> i = m_inlinedPaths.iterator(); i.hasNext(); )
-            {
+            for ( Iterator<String> i = m_inlinedPaths.iterator(); i.hasNext(); ){
                 inlineDependency( i.next(), includeResource );
             }
-            for ( Iterator<Artifact> i = m_embeddedArtifacts.iterator(); i.hasNext(); )
-            {
+            for ( Iterator<Artifact> i = m_embeddedArtifacts.iterator(); i.hasNext(); ){
                 embedDependency( i.next(), includeResource, bundleClassPath, embeddedArtifacts );
             }
         }
 
-        if ( analyzer.getProperty( Analyzer.WAB ) == null && bundleClassPath.length() > 0 )
-        {
+        if ( analyzer.getProperty( Analyzer.WAB ) == null && bundleClassPath.length() > 0 ){
             // set explicit default before merging dependency classpath
-            if ( analyzer.getProperty( Analyzer.BUNDLE_CLASSPATH ) == null )
-            {
+            if ( analyzer.getProperty( Analyzer.BUNDLE_CLASSPATH ) == null ){
                 analyzer.setProperty( Analyzer.BUNDLE_CLASSPATH, "." );
             }
         }
 
         appendDependencies( analyzer, Analyzer.INCLUDE_RESOURCE, includeResource.toString() );
         appendDependencies( analyzer, Analyzer.BUNDLE_CLASSPATH, bundleClassPath.toString() );
-        appendDependencies( analyzer, EMBEDDED_ARTIFACTS, embeddedArtifacts.toString() );
+//        appendDependencies( analyzer, EMBEDDED_ARTIFACTS, embeddedArtifacts.toString() );
     }
 
 

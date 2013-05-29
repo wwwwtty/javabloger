@@ -1,4 +1,4 @@
-package org.hsc.novelSpider.service;
+package org.hsc.novelSpider.api;
 
 import java.io.IOException;
 

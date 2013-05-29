@@ -11,6 +11,7 @@ import jodd.lagarto.dom.jerry.JerryFunction;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hsc.core.utils.DateFormatUtils;
+import org.hsc.novelSpider.api.ICaputerService;
 import org.hsc.novelSpider.dao.ArticleChapterDAO;
 import org.hsc.novelSpider.dao.ArticleDAO;
 import org.hsc.novelSpider.domain.Article;
