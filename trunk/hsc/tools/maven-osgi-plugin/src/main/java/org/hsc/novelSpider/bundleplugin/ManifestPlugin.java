@@ -30,13 +30,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.jar.Manifest;
-
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.project.MavenProject;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import aQute.bnd.osgi.Analyzer;
 import aQute.bnd.osgi.Builder;
 import aQute.bnd.osgi.Jar;
@@ -59,8 +55,6 @@ public class ManifestPlugin extends BundlePlugin
      * @parameter expression="${rebuildBundle}"
      */
     protected boolean rebuildBundle;
-
-    final ObjectMapper objectMapper = new ObjectMapper();  
 
     @Override
     protected void execute( MavenProject project, Map<String,String> instructions, Properties properties, Jar[] classpath )
@@ -201,14 +195,10 @@ public class ManifestPlugin extends BundlePlugin
          */
         addMavenInstructions( project, analyzer );
 
-        getLog().info("hsc:"+objectMapper.writeValueAsString(analyzer));
         // if we spot Embed-Dependency and the bundle is "target/classes", assume we need to rebuild
-        if ( analyzer.getProperty( DependencyEmbedder.EMBED_DEPENDENCY ) != null && isOutputDirectory )
-        {
+        if ( analyzer.getProperty( DependencyEmbedder.EMBED_DEPENDENCY ) != null && isOutputDirectory ){
             analyzer.build();
-        }
-        else
-        {
+        }else{
             analyzer.mergeManifest( analyzer.getJar().getManifest() );
             analyzer.calcManifest();
         }

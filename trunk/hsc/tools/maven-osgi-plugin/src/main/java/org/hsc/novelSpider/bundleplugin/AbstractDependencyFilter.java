@@ -183,53 +183,38 @@ public abstract class AbstractDependencyFilter
                         }
                     };
                 }
-                else if ( "scope".equals( attr.getKey() ) )
-                {
-                    filter = new DependencyFilter(attr.getValue(), "compile" )
-                    {
-                        boolean matches( Artifact dependency )
-                        {
+                else if ( "scope".equals( attr.getKey() ) ) {
+                    filter = new DependencyFilter(attr.getValue(), "compile" )  {
+                        boolean matches( Artifact dependency ) {
                             return super.matches( dependency.getScope() );
                         }
                     };
                 }
-                else if ( "type".equals( attr.getKey() ) )
-                {
-                    filter = new DependencyFilter(  attr.getValue(), "jar" )
-                    {
-                        boolean matches( Artifact dependency )
-                        {
+                else if ( "type".equals( attr.getKey() ) )  {
+                    filter = new DependencyFilter(  attr.getValue(), "jar" ) {
+                        boolean matches( Artifact dependency )  {
                             return super.matches( dependency.getType() );
                         }
                     };
                 }
-                else if ( "classifier".equals( attr.getKey() ) )
-                {
-                    filter = new DependencyFilter( attr.getValue() )
-                    {
-                        boolean matches( Artifact dependency )
-                        {
+                else if ( "classifier".equals( attr.getKey() ) ) {
+                    filter = new DependencyFilter( attr.getValue() ) {
+                        boolean matches( Artifact dependency ) {
                             return super.matches( dependency.getClassifier() );
                         }
                     };
                 }
-                else if ( "optional".equals( attr.getKey() ) )
-                {
-                    filter = new DependencyFilter( ( String ) attr.getValue(), "false" )
-                    {
-                        boolean matches( Artifact dependency )
-                        {
+                else if ( "optional".equals( attr.getKey() ) ) {
+                    filter = new DependencyFilter( ( String ) attr.getValue(), "false" )  {
+                        boolean matches( Artifact dependency ) {
                             return super.matches( "" + dependency.isOptional() );
                         }
                     };
                 }
-                else if ( "inline".equals( attr.getKey() ) )
-                {
-                    inline = ( String ) attr.getValue();
+                else if ( "inline".equals( attr.getKey() ) ) {
+                    inline =attr.getValue();
                     continue;
-                }
-                else
-                {
+                } else {
                     throw new MojoExecutionException( "Unexpected attribute " + attr.getKey() );
                 }
 

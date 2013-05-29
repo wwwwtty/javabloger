@@ -118,16 +118,12 @@ public final class DependencyEmbedder extends AbstractDependencyFilter
 
 
     @Override
-    protected void processDependencies( Collection<Artifact> dependencies, String inline )
-    {
-        if ( null == inline || "false".equalsIgnoreCase( inline ) )
-        {
+    protected void processDependencies( Collection<Artifact> dependencies, String inline ){
+        if ( null == inline || "false".equalsIgnoreCase( inline ) ) {
             m_embeddedArtifacts.addAll( dependencies );
         }
-        else
-        {
-            for ( Iterator<Artifact> i = dependencies.iterator(); i.hasNext(); )
-            {
+        else {
+            for ( Iterator<Artifact> i = dependencies.iterator(); i.hasNext(); ) {
                 addInlinedPaths( i.next(), inline, m_inlinedPaths );
             }
         }
@@ -137,19 +133,14 @@ public final class DependencyEmbedder extends AbstractDependencyFilter
     private static void addInlinedPaths( Artifact dependency, String inline, Collection<String> inlinedPaths )
     {
         File path = dependency.getFile();
-        if ( null != path && path.exists() )
-        {
-            if ( "true".equalsIgnoreCase( inline ) || inline.length() == 0 )
-            {
+        if ( null != path && path.exists() ) {
+            if ( "true".equalsIgnoreCase( inline ) || inline.length() == 0 ) {
                 inlinedPaths.add( path.getPath() );
             }
-            else
-            {
+            else {
                 String[] filters = inline.split( "\\|" );
-                for ( int i = 0; i < filters.length; i++ )
-                {
-                    if ( filters[i].length() > 0 )
-                    {
+                for ( int i = 0; i < filters.length; i++ ) {
+                    if ( filters[i].length() > 0 ) {
                         inlinedPaths.add( path + "!/" + filters[i] );
                     }
                 }
@@ -216,19 +207,19 @@ public final class DependencyEmbedder extends AbstractDependencyFilter
 
             bundleClassPath.append( targetFilePath );
 
-//            if ( embeddedArtifacts.length() > 0 )
-//            {
-//                embeddedArtifacts.append( ',' );
-//            }
+            if ( embeddedArtifacts.length() > 0 )
+            {
+                embeddedArtifacts.append( ',' );
+            }
 
-//            embeddedArtifacts.append( targetFilePath ).append( ';' );
-//            embeddedArtifacts.append( "g=\"" ).append( dependency.getGroupId() ).append( '"' );
-//            embeddedArtifacts.append( ";a=\"" ).append( dependency.getArtifactId() ).append( '"' );
-//            embeddedArtifacts.append( ";v=\"" ).append( dependency.getBaseVersion() ).append( '"' );
-//            if ( StringUtils.isNotEmpty( dependency.getClassifier() ) )
-//            {
-//                embeddedArtifacts.append( ";c=\"" ).append( dependency.getClassifier() ).append( '"' );
-//            }
+            embeddedArtifacts.append( targetFilePath ).append( ';' );
+            embeddedArtifacts.append( "g=\"" ).append( dependency.getGroupId() ).append( '"' );
+            embeddedArtifacts.append( ";a=\"" ).append( dependency.getArtifactId() ).append( '"' );
+            embeddedArtifacts.append( ";v=\"" ).append( dependency.getBaseVersion() ).append( '"' );
+            if ( StringUtils.isNotEmpty( dependency.getClassifier() ) )
+            {
+                embeddedArtifacts.append( ";c=\"" ).append( dependency.getClassifier() ).append( '"' );
+            }
         }
     }
 
@@ -263,41 +254,32 @@ public final class DependencyEmbedder extends AbstractDependencyFilter
          * similar algorithm to {maven-resources} but default behaviour here is to append rather than override
          */
         final String instruction = analyzer.getProperty( directiveName );
-        if ( StringUtils.isNotEmpty( instruction ) )
-        {
-            if ( instruction.indexOf( MAVEN_DEPENDENCIES ) >= 0 )
-            {
+        if ( StringUtils.isNotEmpty( instruction ) )  {
+            if ( instruction.indexOf( MAVEN_DEPENDENCIES ) >= 0 )  {
                 // if there are no embeddded dependencies, we do a special treatment and replace
                 // every occurance of MAVEN_DEPENDENCIES and a following comma with an empty string
-                if ( mavenDependencies.length() == 0 )
-                {
+                if ( mavenDependencies.length() == 0 )  {
                     String cleanInstruction = BundlePlugin.removeTagFromInstruction( instruction, MAVEN_DEPENDENCIES );
                     analyzer.setProperty( directiveName, cleanInstruction );
                 }
-                else
-                {
+                else {
                     String mergedInstruction = StringUtils.replace( instruction, MAVEN_DEPENDENCIES, mavenDependencies );
                     analyzer.setProperty( directiveName, mergedInstruction );
                 }
             }
-            else if ( mavenDependencies.length() > 0 )
-            {
-                if ( Analyzer.INCLUDE_RESOURCE.equalsIgnoreCase( directiveName ) )
-                {
+            else if ( mavenDependencies.length() > 0 ) {
+                if ( Analyzer.INCLUDE_RESOURCE.equalsIgnoreCase( directiveName ) ) {
                     // dependencies should be prepended so they can be overwritten by local resources
                     analyzer.setProperty( directiveName, mavenDependencies + ',' + instruction );
                 }
-                else
-                // Analyzer.BUNDLE_CLASSPATH
-                {
+                else {// Analyzer.BUNDLE_CLASSPATH
                     // for the classpath we want dependencies to be appended after local entries
                     analyzer.setProperty( directiveName, instruction + ',' + mavenDependencies );
                 }
             }
             // otherwise leave instruction unchanged
         }
-        else if ( mavenDependencies.length() > 0 )
-        {
+        else if ( mavenDependencies.length() > 0 ) {
             analyzer.setProperty( directiveName, mavenDependencies );
         }
         // otherwise leave instruction unchanged

@@ -232,7 +232,7 @@ public class BundlePlugin extends AbstractMojo
      * @see org.apache.maven.plugin.AbstractMojo#execute()
      */
     public void execute() throws MojoExecutionException{
-    	getLog().warn("��� 1 ����������ʼִ��");
+    	getLog().warn("输出  execute1执行");
         Properties properties = new Properties();
         String projectType = getProject().getArtifact().getType();
 
@@ -289,31 +289,25 @@ public class BundlePlugin extends AbstractMojo
     }
 
 
-    protected boolean reportErrors( String prefix, Analyzer analyzer )
-    {
+    protected boolean reportErrors( String prefix, Analyzer analyzer ){
         List<String> errors = analyzer.getErrors();
         List<String> warnings = analyzer.getWarnings();
 
-        for ( Iterator<String> w = warnings.iterator(); w.hasNext(); )
-        {
+        for ( Iterator<String> w = warnings.iterator(); w.hasNext(); ){
             String msg =  w.next();
-            getLog().warn("����������Ϣ��"+ prefix + " : " + msg );
+            getLog().warn("检查警告信息"+ prefix + " : " + msg );
         }
 
         boolean hasErrors = false;
         String fileNotFound = "Input file does not exist: ";
-        for ( Iterator<String> e = errors.iterator(); e.hasNext(); )
-        {
+        for ( Iterator<String> e = errors.iterator(); e.hasNext(); ){
             String msg = e.next();
-            if ( msg.startsWith( fileNotFound ) && msg.endsWith( "~" ) )
-            {
+            if ( msg.startsWith( fileNotFound ) && msg.endsWith( "~" ) ){
                 // treat as warning; this error happens when you have duplicate entries in Include-Resource
                 String duplicate = Processor.removeDuplicateMarker( msg.substring( fileNotFound.length() ) );
-                getLog().warn("�����쳣��Ϣ1��"+ prefix + " : Duplicate path '" + duplicate + "' in Include-Resource" );
-            }
-            else
-            {
-                getLog().error("�����쳣��Ϣ2��"+ prefix + " : " + msg );
+                getLog().warn("检查异常信息1："+ prefix + " : Duplicate path '" + duplicate + "' in Include-Resource" );
+            } else{
+                getLog().error("检查异常信息2："+ prefix + " : " + msg );
                 hasErrors = true;
             }
         }
@@ -324,15 +318,16 @@ public class BundlePlugin extends AbstractMojo
     protected void execute( MavenProject currentProject, Map<String,String> originalInstructions, Properties properties,
         Jar[] classpath ) throws MojoExecutionException{
     	
-    	getLog().warn("��� 2 ����������ʼִ��");
+    	getLog().warn("输出2 execute 环境执行");
     	
         try
         {
             File jarFile = new File( getBuildDirectory(), getBundleName( currentProject ) );
             
-            getLog().warn("��� jarFile:"+jarFile.getAbsolutePath());
+            getLog().warn("输出 jarFile:"+jarFile.getAbsolutePath());
             
             Builder builder = buildOSGiBundle( currentProject, originalInstructions, properties, classpath );
+           
             boolean hasErrors = reportErrors( "Bundle " + currentProject.getArtifact(), builder );
             if ( hasErrors )
             {
@@ -351,37 +346,30 @@ public class BundlePlugin extends AbstractMojo
 
             Artifact mainArtifact = currentProject.getArtifact();
 
-            if ( "bundle".equals( mainArtifact.getType() ) )
-            {
+            if ( "bundle".equals( mainArtifact.getType() ) ){
                 // workaround for MNG-1682: force maven to install artifact using the "jar" handler
                 mainArtifact.setArtifactHandler( m_artifactHandlerManager.getArtifactHandler( "jar" ) );
             }
 
-            if ( null == classifier || classifier.trim().length() == 0 )
-            {
+            if ( null == classifier || classifier.trim().length() == 0 ){
                 mainArtifact.setFile( jarFile );
             }
-            else
-            {
+            else{
                 m_projectHelper.attachArtifact( currentProject, jarFile, classifier );
             }
 
-            if ( unpackBundle )
-            {
+            if ( unpackBundle ){
                 unpackBundle( jarFile );
             }
 
-            if ( manifestLocation != null )
-            {
+            if ( manifestLocation != null ) {
                 File outputFile = new File( manifestLocation, "MANIFEST.MF" );
 
-                try
-                {
+                try{
                     Manifest manifest = builder.getJar().getManifest();
                     ManifestPlugin.writeManifest( manifest, outputFile );
                 }
-                catch ( IOException e )
-                {
+                catch ( IOException e ){
                     getLog().error( "Error trying to write Manifest to file " + outputFile, e );
                 }
             }
@@ -389,33 +377,34 @@ public class BundlePlugin extends AbstractMojo
             // cleanup...
             builder.close();
         }
-        catch ( MojoFailureException e )
-        {
-            getLog().error( e.getLocalizedMessage() );
+        catch ( MojoFailureException e ){
+            getLog().error( e.getLocalizedMessage(),e );
             throw new MojoExecutionException( "Error(s) found in bundle configuration", e );
         }
-        catch ( Exception e )
-        {
+        catch ( Exception e ){
             getLog().error( "An internal error occurred", e );
-            throw new MojoExecutionException( "OSGI��������쳣", e );
+            throw new MojoExecutionException( "OSGI环境构建异常", e );
         }
     }
 
 
-    protected Builder getOSGiBuilder( MavenProject currentProject, Map<String,String> originalInstructions, Properties properties,
-        Jar[] classpath ) throws Exception
-    {
+    protected Builder getOSGiBuilder( MavenProject currentProject, Map<String,String> originalInstructions, Properties properties,Jar[] classpath ) throws Exception{
         properties.putAll( getDefaultProperties( currentProject ) );
         properties.putAll( transformDirectives( originalInstructions ) );
 
         Builder builder = new Builder();
         builder.setBase( getBase( currentProject ) );
         builder.setProperties( sanitize( properties ) );
-        if ( classpath != null )
-        {
+        if ( classpath != null ) {
             builder.setClasspath( classpath );
         }
 
+        List<String> errors=builder.getErrors();
+        if(null!=errors && errors.size()>0){
+        	for(String str:errors){
+        		 getLog().info("测试："+str);
+        	}
+        }
         return builder;
     }
 
@@ -494,11 +483,12 @@ public class BundlePlugin extends AbstractMojo
             // tell BND where the current project source resides
             addMavenSourcePath( currentProject, builder, getLog() );
         }
-
+        
         // update BND instructions to embed selected Maven dependencies
         Collection<Artifact> embeddableArtifacts = getEmbeddableArtifacts( currentProject, builder );
         new DependencyEmbedder( getLog(), embeddableArtifacts ).processHeaders( builder );
 
+        
         if ( dumpInstructions != null ){
             StringBuilder buf = new StringBuilder();
             getLog().debug( "BND Instructions:" + NL + dumpInstructions( builder.getProperties(), buf ) );
@@ -520,23 +510,36 @@ public class BundlePlugin extends AbstractMojo
                 FileUtils.fileWrite( dumpClasspath, "# BND classpath" + NL + buf );
             }
         }
+        
+        List<String> errors=builder.getErrors();
+        if(null!=errors && errors.size()>0){
+        	for(String str:errors){
+        		 getLog().info("测试异常："+str);
+        	}
+        }
+        
+        List<String> warns=builder.getWarnings();
+        if(null!=warns && warns.size()>0){
+        	for(String str:warns){
+        		 getLog().info("测试异常："+str);
+        	}
+        }
     }
 
 
-    protected Builder buildOSGiBundle( MavenProject currentProject, Map<String,String> originalInstructions, Properties properties,
-        Jar[] classpath ) throws Exception
+    protected Builder buildOSGiBundle( MavenProject currentProject, Map<String,String> originalInstructions, Properties properties, Jar[] classpath ) throws Exception
     {
         Builder builder = getOSGiBuilder( currentProject, originalInstructions, properties, classpath );
 
         getLog().warn("输出：buildOSGiBundle");
         addMavenInstructions( currentProject, builder );
 
-        if(builder.getErrors()!=null || builder.getWarnings()!=null){
+        if(builder.getErrors().size()>0 || builder.getWarnings().size()>0){
         	getLog().warn("输出，异常信息检查1");
         }
         builder.build();
 
-        if(builder.getErrors()!=null || builder.getWarnings()!=null){
+        if(builder.getErrors().size()>0 || builder.getWarnings().size()>0){
         	getLog().warn("输出，异常信息检查2");
         }
         mergeMavenManifest( currentProject, builder );
@@ -742,33 +745,42 @@ public class BundlePlugin extends AbstractMojo
             bundleManifest.getMainAttributes().putAll( mainMavenAttributes );
             bundleManifest.getEntries().putAll( mavenManifest.getEntries() );
 
+            jar.setManifest( bundleManifest );
+            if(null!=instructions.get("Import-Package")){
+            	bundleManifest.getMainAttributes().putValue( "Import-Package", instructions.get("Import-Package") );
+            }
+            
+            if(null!=instructions.get("Export-Package")){
+            	bundleManifest.getMainAttributes().putValue( "Export-Package", instructions.get("Export-Package") );
+            }
             getLog().info("hsc info Import-Package:"+bundleManifest.getMainAttributes().getValue( "Import-Package" ));
+            getLog().info("hsc info Export-Package:"+bundleManifest.getMainAttributes().getValue( "Export-Package" ));
             // adjust the import package attributes so that optional dependencies use
             // optional resolution.
-            String importPackages = bundleManifest.getMainAttributes().getValue( "Import-Package" );
-            if ( importPackages != null ){
-                Set<String> optionalPackages = getOptionalPackages( currentProject );
+//            String importPackages = bundleManifest.getMainAttributes().getValue( "Import-Package" );
+//            if ( importPackages != null ){
+//                Set<String> optionalPackages = getOptionalPackages( currentProject );
+//
+////                Map<String, Map<String, String>> values = new Analyzer().parseHeader( importPackages );
+//              
+//                Parameters params= new Analyzer().parseHeader( importPackages );
+//                
+//                for ( String pkg: params.keySet() )
+//                {
+////                    String pkg = entry.getKey();
+//                    Map<String, String> options = params.get(pkg);
+//                    if ( !options.containsKey( "resolution:" ) && optionalPackages.contains( pkg ) )
+//                    {
+//                        options.put( "resolution:", "optional" );
+//                    }
+//                }
+//                String result = Processor.printClauses( params );
+//                getLog().info("hsc info replace Import-Package:"+bundleManifest.getMainAttributes().getValue( "Import-Package" ));
+//                
+//                bundleManifest.getMainAttributes().putValue( "Import-Package", result );
+//            }
 
-//                Map<String, Map<String, String>> values = new Analyzer().parseHeader( importPackages );
-              
-                Parameters params= new Analyzer().parseHeader( importPackages );
-                
-                for ( String pkg: params.keySet() )
-                {
-//                    String pkg = entry.getKey();
-                    Map<String, String> options = params.get(pkg);
-                    if ( !options.containsKey( "resolution:" ) && optionalPackages.contains( pkg ) )
-                    {
-                        options.put( "resolution:", "optional" );
-                    }
-                }
-                String result = Processor.printClauses( params );
-                getLog().info("hsc info replace Import-Package:"+bundleManifest.getMainAttributes().getValue( "Import-Package" ));
-                
-                bundleManifest.getMainAttributes().putValue( "Import-Package", result );
-            }
-
-            jar.setManifest( bundleManifest );
+//            jar.setManifest( bundleManifest );
         }
         catch ( Exception e )
         {
@@ -1062,7 +1074,7 @@ public class BundlePlugin extends AbstractMojo
         if ( value == null )
             return;
 
-        if ( value instanceof Collection && ( ( Collection ) value ).isEmpty() )
+        if ( value instanceof Collection && ( ( Collection<?> ) value ).isEmpty() )
             return;
 
         properties.put( key, value.toString().replaceAll( "[\r\n]", "" ) );
@@ -1202,15 +1214,16 @@ public class BundlePlugin extends AbstractMojo
 
         properties.put( "classifier", classifier == null ? "" : classifier );
 
+        getLog().info("测试（BlueprintPlugin）");
         // Add default plugins
-        header( properties, Analyzer.PLUGIN, BlueprintPlugin.class.getName() + "," + SpringXMLType.class.getName() );
+        header( properties, Analyzer.PLUGIN, SpringXMLType.class.getName() );
+        //header( properties, Analyzer.PLUGIN, BlueprintPlugin.class.getName() + "," + SpringXMLType.class.getName() );
 
         return properties;
     }
 
 
-    protected static File getBase( MavenProject currentProject )
-    {
+    protected static File getBase( MavenProject currentProject ){
         return currentProject.getBasedir() != null ? currentProject.getBasedir() : new File( "" );
     }
 
@@ -1276,10 +1289,8 @@ public class BundlePlugin extends AbstractMojo
             }
         }
 
-        //TODO 
-        
-        getLog().warn("���.EXPORT_PACKAGE:"+analyzer.getProperty( Analyzer.EXPORT_PACKAGE ));
-        getLog().warn("���.EXPORT_CONTENTS:"+analyzer.getProperty( Analyzer.EXPORT_CONTENTS ));
+        getLog().warn("输出.EXPORT_PACKAGE:"+analyzer.getProperty( Analyzer.EXPORT_PACKAGE ));
+        getLog().warn("输出.EXPORT_CONTENTS:"+analyzer.getProperty( Analyzer.EXPORT_CONTENTS ));
         
         if ( analyzer.getProperty( Analyzer.EXPORT_PACKAGE ) == null ){
         	
@@ -1293,32 +1304,24 @@ public class BundlePlugin extends AbstractMojo
                 analyzer.setProperty( Analyzer.EXPORT_PACKAGE, "" );
             }
         }
-        else
-        {
-            String exported = analyzer.getProperty( Analyzer.EXPORT_PACKAGE );
-            if ( exported.indexOf( LOCAL_PACKAGES ) >= 0 )
-            {
-                String newExported = StringUtils.replace( exported, LOCAL_PACKAGES, exportedPkgs.toString() );
-                analyzer.setProperty( Analyzer.EXPORT_PACKAGE, newExported );
-
-            }
-        }
+//        else{
+//            String exported = analyzer.getProperty( Analyzer.EXPORT_PACKAGE );
+//            if ( exported.indexOf( LOCAL_PACKAGES ) >= 0 ){
+//                String newExported = StringUtils.replace( exported, LOCAL_PACKAGES, exportedPkgs.toString() );
+//                analyzer.setProperty( Analyzer.EXPORT_PACKAGE, newExported );
+//
+//            }
+//        }
 
         String internal = analyzer.getProperty( Analyzer.PRIVATE_PACKAGE );
-        if ( internal == null )
-        {
-            if ( privatePkgs.length() > 0 )
-            {
+        if ( internal == null ) {
+            if ( privatePkgs.length() > 0 ){
                 analyzer.setProperty( Analyzer.PRIVATE_PACKAGE, privatePkgs + ";-split-package:=merge-first" );
-            }
-            else
-            {
+            } else {
                 // if there are really no private packages then use "!*" as this will keep the Bnd Tool happy
                 analyzer.setProperty( Analyzer.PRIVATE_PACKAGE, "!*" );
             }
-        }
-        else if ( internal.indexOf( LOCAL_PACKAGES ) >= 0 )
-        {
+        } else if ( internal.indexOf( LOCAL_PACKAGES ) >= 0 ){
             String newInternal = StringUtils.replace( internal, LOCAL_PACKAGES, privatePkgs.toString() );
             analyzer.setProperty( Analyzer.PRIVATE_PACKAGE, newInternal );
         }
