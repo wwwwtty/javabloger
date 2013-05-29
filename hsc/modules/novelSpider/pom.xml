@@ -84,7 +84,6 @@
            				<Include-Resource>{maven-resources}, {maven-dependencies}</Include-Resource>
            				<Import-Package>org.hsc.novelSpide.api,org.osgi.framework</Import-Package>
             			<Export-Package>org.hsc.novelSpide</Export-Package>
-            			<exportcontents>org.hsc.novelSpide</exportcontents>
                     </instructions>
                 </configuration>
             </plugin>
